@@ -2,15 +2,17 @@
 
 Follow these rules for any UI in an app that carries the Kudagitsune brand. Paths are relative to this folder, which apps keep at `brand/`. Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth (with a usage note on each token), `tokens/tokens.css` is for the web and `tokens/tokens.ts` for React and React Native. `README.md` is the guide for people, with the background behind these rules.
 
-The brand is calm and warm gray, with one moss-green accent. Its personality, a pixel fox and a hanko stamp, lives at the edges of an app and never in the middle of a task.
+The brand is calm and warm gray. Each app has one accent color of its own and a mon (家紋, a crest) in the shared ring; Kudagitsune's own color is moss. Its personality, a pixel fox and a hanko stamp, lives at the edges of an app and never in the middle of a task.
 
 ## Color
 
 - The page background is `surface`; cards are `surface-raised` with a 1px `border`. Never pure white, cream or a gradient.
 - Text is `ink`, supporting text `ink-muted`, captions and placeholders `ink-subtle`.
-- `moss` fills at most one primary control per view, with `on-moss` text. Links and focus rings are `moss`. Moss marks what can be acted on or is selected, so using it as decoration weakens that signal.
-- Selected rows, tags and active nav use a `moss-tint` background with `moss-deep` text.
-- Success is `moss`, errors `danger` (on `danger-tint`), warnings `warning` (on `warning-tint`). No pure red, yellow or bright green.
+- Build UI with `accent`, the app's own color, never with `moss`, `shu`, `ai` or another palette color by name. On the web set `data-app="<app id>"` on `<html>` (none for Kudagitsune itself); in React Native use `appColors(app, theme)` from `tokens/tokens.ts`. The app ids are in `tokens/tokens.json` → `apps`.
+- `accent` fills at most one primary control per view, with `on-accent` text. Links and focus rings are `accent`. The accent marks what can be acted on or is selected, so using it as decoration weakens that signal.
+- Selected rows, tags and active nav use an `accent-tint` background with `accent-deep` text.
+- One app, one color: never use a second app's color in an app.
+- Success is `moss` in every app, errors `danger` (on `danger-tint`), warnings `warning` (on `warning-tint`). No pure red, yellow or bright green. In an app whose accent is `shu`, never show an error by color alone; say it in words.
 - `sage` and `blush` are illustration colors only. Never use them for text or status.
 - Dark mode comes from the tokens (the system setting, or `data-theme="dark"` on the web). Don't pick dark colors by hand.
 
@@ -25,7 +27,7 @@ The brand is calm and warm gray, with one moss-green accent. Its personality, a 
 ## Space, shape and motion
 
 - Spacing uses the `space-*` tokens (4px base): phone gutter `space-4`, card padding `space-6`, between sections `space-8`, around empty states `space-12`. When unsure, take the larger step.
-- Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars and round hanko; `radius-seal` only for the square hanko and the app icon.
+- Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars, round hanko and the mon's disc; `radius-seal` only for the square hanko.
 - No shadows except `shadow-float` on menus and popovers that float over content. Depth comes from borders and spacing.
 - Motion is 150–200ms, a fade or slide because something changed. No looping or decorative animation.
 
@@ -43,16 +45,17 @@ Without direction, models fall back on a few stock web styles that don't belong 
 
 Use the plain, token-based choice from the sections above instead.
 
-## Marks and the fox
+## Mon, marks and the fox
+
+- Mon: the app's icon and its symbol, in `mon/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a mon to another app's color, add a second color, outline, shadow or texture, or take it out of its ring except at small sizes. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `mon/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_mon.py` makes all of these; edit shapes and colors there, never the outputs.
 
 - Hanko: `marks/hanko-square.svg` for about pages, signatures and store art (at least 32px tall), `marks/hanko-round.svg` for favicons and footers (at least 20px). On dark grounds use the `-on-dark` files. Keep clear space of a quarter of the mark's width. Don't recolor, rotate, stretch or outline it, or add effects. Never retype 管狐 in a font.
 - Fox: `mascot/fox-pixel.svg` for empty states, success and the about page, `mascot/fox-pixel-shy.svg` for loading and waiting, `mascot/fox-pixel-sleeping.svg` for offline and idle. The art is 14 × 22 pixels, so show it only at whole multiples (28 × 44, 42 × 66, 56 × 88…) with `image-rendering: pixelated`.
 - At most one fox per screen, at an edge or above an empty-state message. Never over content or controls, and never with a speech bubble.
-- App icons and favicons are ready-made in `icons/`.
 
 ## Platforms
 
-Native controls stay native: iOS system navigation and sheets tinted `moss`, standard Windows window chrome, and on the web plain HTML built on `tokens/tokens.css`. In React Native or Expo, import `kudagitsune` from `tokens/tokens.ts` and use `kudagitsune.color.light` or `.dark` to match the system color scheme.
+Native controls stay native: iOS system navigation and sheets tinted with the app's `accent`, standard Windows window chrome, and on the web plain HTML built on `tokens/tokens.css`. In React Native or Expo, use `appColors(app, "light" | "dark")` from `tokens/tokens.ts` to match the system color scheme.
 
 ## Voice
 
@@ -72,7 +75,7 @@ Avoid: "Oops!! Nothing here 😢 Let's get started!!!" and "Successfully saved!"
 Check each item and say in your report what you checked:
 
 1. Search the files you changed for color literals (`#` hex values, `rgb(`, `hsl(`). Every color should come from a token; only `tokens/` holds raw values.
-2. Each view has at most one `moss`-filled control.
+2. Colors come through `accent`, not a palette color by name, and each view has at most one `accent`-filled control.
 3. Spacing, corner radii and font sizes come from tokens, and body text is 16px / 27px.
 4. Nothing from "Generic defaults to avoid" slipped in.
 5. Any fox is shown at a whole multiple of 14 × 22 with pixelated rendering, at most one per screen.

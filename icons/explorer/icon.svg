@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140">
+<title>Explorer (working name) app icon</title>
+<defs>
+<mask id="mon" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="140">
+<rect width="140" height="140" fill="#000"/>
+<circle cx="70" cy="70" r="64" fill="none" stroke="#fff" stroke-width="9"/>
+<g transform="translate(70 70) scale(0.7) translate(-70 -70)">
+<path fill="#fff" fill-rule="evenodd" d="M70 12L128 70L70 128L12 70Z M70 24L116 70L70 116L24 70Z M70 36L104 70L70 104L36 70Z M70 48L92 70L70 92L48 70Z M70 58L82 70L70 82L58 70Z"/>
+</g>
+</mask>
+</defs>
+<circle cx="70" cy="70" r="69" fill="#FBFAF7"/>
+<rect width="140" height="140" fill="#3B5878" mask="url(#mon)"/>
+</svg>
