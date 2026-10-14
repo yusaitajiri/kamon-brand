@@ -21,7 +21,7 @@ The 管狐 (kudagitsune) is a fox spirit from Japanese folklore, small enough to
 3. **Personality lives at the edges.** The working UI stays normal and native. The fox and the hanko appear in empty states, loading, success moments, the about page and the app icon — never in the middle of a task.
 4. **Made, not copied.** No imitation paper, wood, glass or metal. Surfaces are flat; depth comes from borders and spacing.
 
-What this brand is **not**: neon or glow, neumorphic soft-3D, "light show" effects (animated gradients, blur, sparkle), brutalism (raw borders, clashing color, shouting type), or skeuomorphic objects. If a choice leans toward any of these, pick the quieter option.
+What this brand is **not**: neon or glow, neumorphic soft-3D, "light show" effects (animated gradients, blur, sparkle), brutalism (raw borders, clashing color, shouting type), or skeuomorphic objects. It also skips the stock web defaults: italic accent words in headlines, numbered "01 / 02 / 03" section labels, monospace eyebrow labels and pill-shaped buttons. If a choice leans toward any of these, pick the quieter option.
 
 ## Color
 
@@ -35,7 +35,7 @@ What this brand is **not**: neon or glow, neumorphic soft-3D, "light show" effec
 
 ## Type
 
-- **Zen Kaku Gothic New** for everything in the UI, Japanese and English. It is warm, slightly rounded and has no trendy serif signal. Weights 400 and 500 only; 700 is reserved.
+- **Zen Kaku Gothic New** for everything in the UI, Japanese and English. It is warm, slightly rounded and has no trendy serif signal. Weights 400 and 500 only; 700 belongs to the hanko lettering and never appears in UI text.
 - **IBM Plex Mono** for numbers that should line up, versions and code.
 - **Zen Old Mincho** only inside hanko-style marks. Never for UI copy.
 - Body text is 16px with a 27px line height. Do not tighten it — the air is part of the brand.
@@ -82,6 +82,8 @@ Plain, calm and brief, like a considerate friend. Say what happened and what to 
 - Good: 「まだ記録がありません。最初の一行を書いてみましょう。」 / "No entries yet. Write your first line."
 - Avoid: "Oops!! Nothing here 😢 Let's get started!!!"
 
+`AGENTS.md` has more examples, for saving, errors, going offline and confirming a delete.
+
 ## Using this on each platform
 
 The brand lives in the accent color, app icon, type, empty states and words. Native controls stay native: on iOS use system navigation and sheets tinted `moss`; on Windows use standard window chrome; on the web build with these tokens directly. Never fight the platform to look "on brand".
@@ -121,6 +123,7 @@ All three are free (SIL Open Font License) on Google Fonts:
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
 | `tokens/tokens.json` | The source of truth, with a usage note on every token. |
+| `AGENTS.md` | The rules from this guide, condensed for coding agents, with more voice examples and a check to run before finishing UI work. |
 
 ## Using it in a project
 
@@ -128,4 +131,4 @@ Copy this folder into a repo as `brand/`. Then:
 
 - **Web:** `@import "brand/tokens/tokens.css";` and build with `var(--moss)`, `var(--space-6)` and so on.
 - **React Native / Expo:** `import { kudagitsune } from "./brand/tokens/tokens";` and pick `kudagitsune.color.light` or `.dark` from the system color scheme.
-- **Coding agents:** tell the agent to read `brand/README.md` before touching UI. Everything it needs — rules, tokens and assets — is in this folder.
+- **Coding agents:** put the line `@brand/AGENTS.md` in the app's root `CLAUDE.md` so Claude Code loads the rules at the start of every session. Asking an agent in words to read a file only works if it decides to open it, and a file inside `brand/` is never loaded on its own. For other agents, add "Before touching UI, read `brand/AGENTS.md`." to their instruction file. If you change a rule, change it in both this README and `AGENTS.md`.
