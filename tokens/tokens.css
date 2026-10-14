@@ -1,0 +1,95 @@
+/* Kudagitsune brand tokens. Light is default; dark follows the system or [data-theme="dark"]. */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&family=Zen+Old+Mincho:wght@700&family=IBM+Plex+Mono:wght@400&display=swap');
+
+:root {
+  --surface: #F3F1EC;
+  --surface-raised: #FBFAF7;
+  --surface-sunken: #E9E6DF;
+  --border: #DCD8CF;
+  --border-strong: #C2BDB2;
+  --ink: #2A2826;
+  --ink-muted: #5E5A53;
+  --ink-subtle: #6B665E;
+  --moss: #4E6B4F;
+  --moss-hover: #435E44;
+  --moss-deep: #3A523C;
+  --moss-tint: #DDE5D9;
+  --on-moss: #F7F6F1;
+  --sage: #C3CFBF;
+  --blush: #E3B7A6;
+  --danger: #A3473A;
+  --danger-tint: #F3E1DC;
+  --success: var(--moss);
+  --warning: #80591A;
+  --warning-tint: #F4EAD6;
+  --shadow-float: 0 4px 16px rgba(42,40,38,0.08);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-seal: 14px;
+  --radius-full: 9999px;
+  --font-sans: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
+  --font-seal: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+  --surface: #1C1E1B;
+  --surface-raised: #252824;
+  --surface-sunken: #151714;
+  --border: #363A34;
+  --border-strong: #4A4F47;
+  --ink: #ECE9E2;
+  --ink-muted: #B0ABA1;
+  --ink-subtle: #99948A;
+  --moss: #8FB08F;
+  --moss-hover: #A2BFA1;
+  --moss-deep: #B5CDB3;
+  --moss-tint: #2C382C;
+  --on-moss: #172016;
+  --sage: #4C5C4A;
+  --blush: #C99A8A;
+  --danger: #E39A8C;
+  --danger-tint: #3A2622;
+  --success: var(--moss);
+  --warning: #D9B46A;
+  --warning-tint: #3A311F;
+  --shadow-float: 0 4px 16px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+}
+
+:root[data-theme="dark"] {
+  --surface: #1C1E1B;
+  --surface-raised: #252824;
+  --surface-sunken: #151714;
+  --border: #363A34;
+  --border-strong: #4A4F47;
+  --ink: #ECE9E2;
+  --ink-muted: #B0ABA1;
+  --ink-subtle: #99948A;
+  --moss: #8FB08F;
+  --moss-hover: #A2BFA1;
+  --moss-deep: #B5CDB3;
+  --moss-tint: #2C382C;
+  --on-moss: #172016;
+  --sage: #4C5C4A;
+  --blush: #C99A8A;
+  --danger: #E39A8C;
+  --danger-tint: #3A2622;
+  --success: var(--moss);
+  --warning: #D9B46A;
+  --warning-tint: #3A311F;
+  --shadow-float: 0 4px 16px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
