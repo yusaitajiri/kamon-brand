@@ -16,6 +16,31 @@ export const kudagitsune = {
       "moss-deep": "#3A523C",
       "moss-tint": "#DDE5D9",
       "on-moss": "#F7F6F1",
+      "shu": "#B0501F",
+      "shu-hover": "#9A451A",
+      "shu-deep": "#7F3A16",
+      "shu-tint": "#F5E0D3",
+      "on-shu": "#F7F6F1",
+      "ai": "#3B5878",
+      "ai-hover": "#324B66",
+      "ai-deep": "#2C4460",
+      "ai-tint": "#DCE3EC",
+      "on-ai": "#F7F6F1",
+      "budo": "#6E4C6E",
+      "budo-hover": "#5F415F",
+      "budo-deep": "#553A55",
+      "budo-tint": "#E8DEE7",
+      "on-budo": "#F7F6F1",
+      "tetsu": "#2F6265",
+      "tetsu-hover": "#285457",
+      "tetsu-deep": "#224A4C",
+      "tetsu-tint": "#D7E6E5",
+      "on-tetsu": "#F7F6F1",
+      "accent": "#4E6B4F",
+      "accent-hover": "#435E44",
+      "accent-deep": "#3A523C",
+      "accent-tint": "#DDE5D9",
+      "on-accent": "#F7F6F1",
       "sage": "#C3CFBF",
       "blush": "#E3B7A6",
       "danger": "#A3473A",
@@ -38,6 +63,31 @@ export const kudagitsune = {
       "moss-deep": "#B5CDB3",
       "moss-tint": "#2C382C",
       "on-moss": "#172016",
+      "shu": "#EBA57E",
+      "shu-hover": "#F0B796",
+      "shu-deep": "#F4C9AF",
+      "shu-tint": "#3B2A20",
+      "on-shu": "#1F140D",
+      "ai": "#93AACB",
+      "ai-hover": "#A6BAD6",
+      "ai-deep": "#BACAE0",
+      "ai-tint": "#26303B",
+      "on-ai": "#141A22",
+      "budo": "#C29FC2",
+      "budo-hover": "#CDB0CD",
+      "budo-deep": "#D8C1D8",
+      "budo-tint": "#33293A",
+      "on-budo": "#1E161E",
+      "tetsu": "#86B7B5",
+      "tetsu-hover": "#9AC4C2",
+      "tetsu-deep": "#AED1CF",
+      "tetsu-tint": "#223434",
+      "on-tetsu": "#122020",
+      "accent": "#8FB08F",
+      "accent-hover": "#A2BFA1",
+      "accent-deep": "#B5CDB3",
+      "accent-tint": "#2C382C",
+      "on-accent": "#172016",
       "sage": "#4C5C4A",
       "blush": "#C99A8A",
       "danger": "#E39A8C",
@@ -64,6 +114,11 @@ export const kudagitsune = {
     "seal": 14,
     "full": 9999
   },
+  "apps": {
+    "kudagitsune": { "color": "moss", "mon": "mon/kudagitsune.svg" },
+    "kikitori": { "color": "shu", "mon": "mon/kikitori.svg" },
+    "explorer": { "color": "ai", "mon": "mon/explorer.svg" }
+  },
   "font": {
     "sans": "Zen Kaku Gothic New",
     "mono": "IBM Plex Mono",
@@ -72,3 +127,18 @@ export const kudagitsune = {
 } as const;
 
 export type ThemeName = keyof typeof kudagitsune.color;
+export type AppName = keyof typeof kudagitsune.apps;
+
+/** The theme's colors with accent set to the app's own color. */
+export function appColors(app: AppName, theme: ThemeName) {
+  const c = kudagitsune.color[theme];
+  const k = kudagitsune.apps[app].color;
+  return {
+    ...c,
+    accent: c[k],
+    "accent-hover": c[`${k}-hover`],
+    "accent-deep": c[`${k}-deep`],
+    "accent-tint": c[`${k}-tint`],
+    "on-accent": c[`on-${k}`],
+  };
+}

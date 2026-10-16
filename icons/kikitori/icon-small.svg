@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140">
+<title>Kikitori app icon, small</title>
+<defs>
+<mask id="mon" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="140">
+<rect width="140" height="140" fill="#000"/>
+<circle cx="70" cy="70" r="62" fill="none" stroke="#fff" stroke-width="14"/>
+<g transform="translate(70 70) scale(0.66) translate(-70 -70)">
+<g transform="translate(66 52) scale(0.5)">
+  <path d="M-83 -36.9L-11.84 -52.71A54 54 0 1 1 -47.14 26.57Z" fill="#fff"/>
+  <path d="M47.94 0.82L78.47 -19.6L41.93 -23.29Z" fill="#fff"/>
+</g>
+<path d="M16 104C28 90 42 90 52 104C62 118 76 118 88 104C98 92 112 92 124 104" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round"/>
+</g>
+</mask>
+</defs>
+<circle cx="70" cy="70" r="69" fill="#FBFAF7"/>
+<rect width="140" height="140" fill="#B0501F" mask="url(#mon)"/>
+</svg>
