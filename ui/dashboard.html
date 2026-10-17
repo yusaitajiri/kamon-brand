@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project board</title>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="ui.css">
+<style>
+  /* Sample layout only: a project board like GitHub Projects, on the brand's own page, so accent is moss.
+     The kamon is the logo, the one primary button (New item) and the empty column's mark; everything else is plain. */
+  body { margin: 0; }
+  img { display: block; }
+  main { max-width: 1200px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-16); }
+
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+  .brand-repo { font: var(--text-mono); color: var(--ink-subtle); }
+
+  .head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-8); }
+  h1 { margin: 0; font: var(--text-title); }
+  .summary { margin: var(--space-1) 0 0; color: var(--ink-muted); }
+  .summary .num { font: var(--text-mono); color: var(--ink); }
+
+  .views { display: flex; gap: var(--space-1); margin: var(--space-6) 0 0; padding: 0 0 var(--space-2); border-bottom: 1px solid var(--border); list-style: none; }
+  .view { padding: var(--space-1) var(--space-3); border-radius: var(--radius-md); color: var(--ink-muted); font: var(--text-label); cursor: pointer; transition: background-color 150ms; }
+  .view:hover { background: var(--surface-sunken); }
+  .view[aria-selected="true"] { background: var(--accent-tint); color: var(--accent-deep); }
+  .view:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+  .tools .input { flex: 1 1 240px; width: auto; }
+  .tools .tags { display: flex; gap: var(--space-2); }
+  .tools .tag { cursor: pointer; }
+
+  /* Board: columns wrap below each other on narrow screens instead of scrolling the page sideways. */
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-6); margin-top: var(--space-8); }
+  .column-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-3); }
+  h2 { margin: 0; font: var(--text-heading); }
+  .count { font: var(--text-mono); color: var(--ink-subtle); }
+  .items { display: flex; flex-direction: column; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+
+  .item { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); cursor: pointer; transition: background-color 150ms, border-color 150ms; }
+  .item:hover { border-color: var(--border-strong); }
+  .item[aria-selected="true"] { border-color: var(--accent-tint); background: var(--accent-tint); color: var(--accent-deep); }
+  .item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .item-ref { font: var(--text-mono); color: var(--ink-subtle); }
+  .item[aria-selected="true"] .item-ref { color: var(--accent-deep); }
+  .item-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .labels { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+  .labels .tag { padding: 0 var(--space-2); font: var(--text-caption); }
+  .tag-warning { border-color: var(--warning-tint); background: var(--warning-tint); color: var(--warning); }
+
+  .avatar { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--surface-sunken); color: var(--ink-muted); font: var(--text-caption); font-weight: 500; }
+
+  .column .card.empty { padding: var(--space-12) var(--space-6); }
+
+  /* Table view. */
+  .table-wrap { margin-top: var(--space-8); padding: 0; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); color: var(--ink-muted); font: var(--text-label); text-align: left; white-space: nowrap; }
+  td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  td.mono { font: var(--text-mono); color: var(--ink-subtle); white-space: nowrap; }
+  .who { display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="ui">
+<main>
+  <div class="bar">
+    <span class="brand">
+      <picture><source srcset="../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/yusai-tajiri.svg" width="32" height="32" alt=""></picture>
+      Yusai Tajiri <span class="brand-repo">/ my-brand</span>
+    </span>
+    <button class="button button-quiet">Settings</button>
+  </div>
+
+  <div class="head">
+    <div>
+      <h1>Brand kit</h1>
+      <p class="summary"><span class="num">4</span> of <span class="num">10</span> items done, last updated today.</p>
+    </div>
+    <button class="button button-primary">New item</button>
+  </div>
+
+  <ul class="views" role="tablist">
+    <li class="view" role="tab" tabindex="0" aria-selected="true" data-view="board">Board</li>
+    <li class="view" role="tab" tabindex="0" aria-selected="false" data-view="table">Table</li>
+  </ul>
+
+  <div class="tools">
+    <input class="input" placeholder="Filter by title, label or assignee" aria-label="Filter items">
+    <div class="tags">
+      <span class="tag" aria-pressed="true">All</span>
+      <span class="tag">Mine</span>
+      <span class="tag">Blocked</span>
+    </div>
+  </div>
+
+  <section class="board" data-panel="board">
+    <div class="column">
+      <div class="column-head"><h2>Todo</h2><span class="count">3</span></div>
+      <ul class="items">
+        <li class="card item" tabindex="0">
+          <span class="item-ref">my-brand #14</span>
+          <span>Pick a motif for the next app</span>
+          <span class="item-foot"><span class="labels"><span class="tag">logo</span></span><span class="avatar" title="Yusai Tajiri">YT</span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">my-brand #15</span>
+          <span>Add tetsu and budo to the sample screens</span>
+          <span class="item-foot"><span class="labels"><span class="tag">ui</span><span class="tag">color</span></span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">kikitori #8</span>
+          <span>Bundle the fonts in the iOS build</span>
+          <span class="item-foot"><span class="labels"><span class="tag">ios</span></span><span class="avatar" title="Yusai Tajiri">YT</span></span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="column">
+      <div class="column-head"><h2>In progress</h2><span class="count">3</span></div>
+      <ul class="items">
+        <li class="card item" tabindex="0" aria-selected="true">
+          <span class="item-ref">my-brand #12</span>
+          <span>Project board sample page</span>
+          <span class="item-foot"><span class="labels"><span class="tag">ui</span></span><span class="avatar" title="Yusai Tajiri">YT</span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">explorer #21</span>
+          <span>Tray icon on light Windows taskbars</span>
+          <span class="item-foot"><span class="labels"><span class="tag">windows</span></span><span class="avatar" title="Mika Ono">MO</span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">kikitori #9</span>
+          <span>Offline message for sync</span>
+          <span class="item-foot"><span class="labels"><span class="tag tag-warning">Blocked: waiting on copy</span></span></span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="column">
+      <div class="column-head"><h2>In review</h2><span class="count">0</span></div>
+      <div class="card empty">
+        <picture><source srcset="../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/yusai-tajiri.svg" width="48" height="48" alt=""></picture>
+        Nothing waiting for review.
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="column-head"><h2>Done</h2><span class="count">4</span></div>
+      <ul class="items">
+        <li class="card item" tabindex="0">
+          <span class="item-ref">my-brand #6</span>
+          <span>Kamon notch on the primary button</span>
+          <span class="item-foot"><span class="labels"><span class="tag">ui</span></span><span class="avatar" title="Yusai Tajiri">YT</span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">my-brand #5</span>
+          <span>Migrate every logo to the 木瓜 frame</span>
+          <span class="item-foot"><span class="labels"><span class="tag">logo</span></span><span class="avatar" title="Yusai Tajiri">YT</span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">my-brand #4</span>
+          <span>Dark-mode values for every app color</span>
+          <span class="item-foot"><span class="labels"><span class="tag">color</span></span></span>
+        </li>
+        <li class="card item" tabindex="0">
+          <span class="item-ref">my-brand #2</span>
+          <span>Type tokens for web and React Native</span>
+          <span class="item-foot"><span class="labels"><span class="tag">type</span></span><span class="avatar" title="Mika Ono">MO</span></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card table-wrap" data-panel="table" hidden>
+    <table>
+      <thead><tr><th>Item</th><th>Title</th><th>Status</th><th>Assignee</th><th>Updated</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">my-brand #12</td><td>Project board sample page</td><td>In progress</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">10:42</td></tr>
+        <tr><td class="mono">explorer #21</td><td>Tray icon on light Windows taskbars</td><td>In progress</td><td><span class="who"><span class="avatar">MO</span>Mika Ono</span></td><td class="mono">09:15</td></tr>
+        <tr><td class="mono">kikitori #9</td><td>Offline message for sync</td><td><span class="tag tag-warning">Blocked</span></td><td></td><td class="mono">Oct 15</td></tr>
+        <tr><td class="mono">my-brand #14</td><td>Pick a motif for the next app</td><td>Todo</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 14</td></tr>
+        <tr><td class="mono">my-brand #15</td><td>Add tetsu and budo to the sample screens</td><td>Todo</td><td></td><td class="mono">Oct 14</td></tr>
+        <tr><td class="mono">kikitori #8</td><td>Bundle the fonts in the iOS build</td><td>Todo</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 12</td></tr>
+        <tr><td class="mono">my-brand #6</td><td>Kamon notch on the primary button</td><td>Done</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 17</td></tr>
+        <tr><td class="mono">my-brand #5</td><td>Migrate every logo to the 木瓜 frame</td><td>Done</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 16</td></tr>
+        <tr><td class="mono">my-brand #4</td><td>Dark-mode values for every app color</td><td>Done</td><td></td><td class="mono">Oct 10</td></tr>
+        <tr><td class="mono">my-brand #2</td><td>Type tokens for web and React Native</td><td>Done</td><td><span class="who"><span class="avatar">MO</span>Mika Ono</span></td><td class="mono">Oct 3</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+<script>
+  // Mock behavior only: switch views and select a card.
+  document.querySelectorAll(".view").forEach((tab) => {
+    const show = () => {
+      document.querySelectorAll(".view").forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+      document.querySelectorAll("[data-panel]").forEach((p) => { p.hidden = p.dataset.panel !== tab.dataset.view; });
+    };
+    tab.addEventListener("click", show);
+    tab.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(); } });
+  });
+  document.querySelectorAll(".item").forEach((item) => {
+    item.addEventListener("click", () => {
+      document.querySelectorAll(".item").forEach((i) => i.removeAttribute("aria-selected"));
+      item.setAttribute("aria-selected", "true");
+    });
+  });
+</script>
+</body>
+</html>

@@ -126,7 +126,7 @@ Both are free (SIL Open Font License) on Google Fonts:
 | --- | --- |
 | `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the brand logo for the brand's own pages. |
-| `ui/` | UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state), with the kamon primary button. `elements.html` shows every element and `sample.html` a sample screen; `screens/` has both in light and dark. |
+| `ui/` | UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state), with the kamon primary button. `elements.html` shows every element, `sample.html` a sample phone screen and `dashboard.html` a project board like GitHub Projects (board and table views); `screens/` has them in light and dark. |
 | `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_logo.py`). |
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
