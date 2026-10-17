@@ -47,9 +47,9 @@ iOS and Android mask app icons to a rounded square or circle, so on phones the f
 
 ## What the drawings show
 
-Steps 1 and 2 are drawn: `tools/explore_frames.py` writes every candidate to `docs/kamon-frames/`, and `index.html` there is the comparison sheet (screenshots: `sheet-light.png`, `sheet-dark.png`). Each mark is one filled path on the logos' 140 grid: a 9-unit ring with the motif fitted at least 7 units inside it, and for 24px and down a heavier 14-unit ring, a 9-unit gap and the motif without cut-outs.
+Steps 1 and 2 are drawn: `tools/explore_frames.py` writes every candidate to `docs/kamon-frames/`, and that first round's comparison sheet is kept as `candidates-light.png` and `candidates-dark.png`. Each mark is one filled path on the logos' 140 grid: a 9-unit ring with the motif fitted at least 7 units inside it, and for 24px and down a heavier 14-unit ring, a 9-unit gap and the motif without cut-outs.
 
-![The three frames with each motif, at app-icon size and 16px, and next to the hexagons to avoid](kamon-frames/sheet-light.png)
+![The three frames with each motif, at app-icon size and 16px, and next to the hexagons to avoid](kamon-frames/candidates-light.png)
 
 - **Wide hex** stays a hexagon down to 16px. Next to the dev-tool, sticker and crypto stand-ins the flat top and the motif keep it apart, but at 16px it is the closest of the three to them.
 - **Four lobes** is the most like a real kamon and looks like no app frame at full size. Below 24px the notches close up and it reads as a soft rounded square, which is still distinct but loses what makes it special.
@@ -60,6 +60,20 @@ Steps 1 and 2 are drawn: `tools/explore_frames.py` writes every candidate to `do
 Lean: the wide hex for the calmest, most legible family, or four lobes if being unmistakably kamon matters more than the 16px shape. The inset hex is the weakest at small sizes.
 
 **Chosen: four lobes (木瓜).** Four is the standard 木瓜 crest. Five lobes (五瓜, as in 織田木瓜) reads as a plum or cherry blossom inside a frame, and three as a clover or a playing-card club, so both lose the plain-frame quality the family needs.
+
+## The 木瓜 frame
+
+The frame is four circles of radius 33, set so the whole is 128 wide and 120 tall on the 140 grid. That puts the notches 46 from the centre: deep enough to read as lobes, and still leaving the motif room. The notches are rounded to 3. `tools/explore_frames.py` now draws only this frame, and `docs/kamon-frames/index.html` compares the ways to draw its line (screenshots: `sheet-light.png`, `sheet-dark.png`):
+
+![The 木瓜 frame without the inner line, with a thin inner line, with a split band and with an outer ring](kamon-frames/sheet-light.png)
+
+- **Without the inner line:** one 9-unit band. The motif gets the most room.
+- **With a thin inner line:** a 6-unit band, a 4-unit gap and a 3-unit line. This is the double outline of the classic crest. The line is under a pixel at 32px.
+- **With a split band:** 7, 3 and 6. Still a double outline, but it reads as one strong frame.
+- **With an outer ring (丸に木瓜):** a real variant, for reference only. It turns the icon back into a circle.
+- **At 16px** every style uses one 14-unit band, so this choice only shows at 32px and up.
+
+The inner line is the authentic detail: classic 木瓜 is drawn as a double outline, while a line outside is the separate 丸に variant. Still open: which line, if any.
 
 ## Next steps
 

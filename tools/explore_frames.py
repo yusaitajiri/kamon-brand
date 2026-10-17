@@ -1,17 +1,18 @@
-"""Draw the candidate kamon frames from docs/direction-kamon-frame.md, with each app's motif inside.
+"""Draw the 木瓜 frame from docs/direction-kamon-frame.md, with each app's motif inside.
 
 Run from the repo root:  pip install skia-pathops resvg-py pillow && python tools/explore_frames.py
 
 This is exploration, not the live kit: it writes only to docs/kamon-frames/, and build_logo.py still
 draws the logos in logo/ and icons/. Every mark is on the same 140 x 140 grid as the logos and comes
-out as one filled path: the frame as a ring with the motif inside it. The small mark, for 24px and
-down, has a heavier ring, a wider gap and the motif without its cut-outs. Colors come from
-tokens/tokens.json.
+out as one filled path: the four-lobed frame drawn as bands, with the motif fitted inside. Each style
+below is a different set of bands. The small mark, for 24px and down, is one heavier band with a wider
+gap and the motif without its cut-outs, whatever the style. Colors come from tokens/tokens.json.
+
+The first round, which compared three frames, is kept as candidates-light.png and candidates-dark.png.
 """
 
 import io
 import json
-import math
 from pathlib import Path
 
 import pathops
@@ -27,9 +28,13 @@ TOKENS = json.loads((ROOT / "tokens" / "tokens.json").read_text(encoding="utf-8"
 COLORS = {t["name"]: t["value"] for t in TOKENS["color"]["tokens"]}
 APPS = {a["id"]: a for a in TOKENS["apps"]["list"]}
 
-RING = 9  # the frame's stroke on the grid, about 2px at 32px
-GAP = 7  # the least space between the motif and the ring
-SMALL_RING, SMALL_GAP = 14, 9  # at 16px: a 1.6px ring and a 1px gap
+# The frame: four circles of radius `lobe`, set so the whole is 2 * half_w wide and 2 * half_h tall,
+# a little wider than tall. A smaller lobe digs the notches deeper; 33 puts them 46 from the centre,
+# deep enough to read as lobes while leaving the motif room. The notches are rounded by `notch`.
+FRAME = dict(half_w=64, half_h=60, lobe=33, notch=3)
+
+GAP = 7  # the least space between the motif and the innermost band
+SMALL_BANDS, SMALL_GAP = (14,), 9  # at 16px: a 1.6px band and a 1px gap
 
 
 # ---------------------------------------------------------------- shape helpers
@@ -52,15 +57,6 @@ def rounded(path, convex=0.0, concave=0.0):
     return smooth(path)
 
 
-def polygon(points):
-    p = pathops.Path()
-    p.moveTo(*points[0])
-    for q in points[1:]:
-        p.lineTo(*q)
-    p.close()
-    return p
-
-
 def even_odd(d):
     p = parse(d)
     p.fillType = pathops.FillType.EVEN_ODD
@@ -71,50 +67,48 @@ def empty(path):
     return path.area < 0.5
 
 
-# ---------------------------------------------------------------- the frames
+# ---------------------------------------------------------------- the frame
 
-# Both hexagons share one set of corners: flat on top, 132 wide and 112 tall, a little wider than a
-# regular hexagon (114), so it sits like a nut rather than a cell.
-HEX = [(4, 70), (37, 14), (103, 14), (136, 70), (103, 126), (37, 126)]
-
-
-def wide_hex():
-    """亀甲: the tortoise-shell hexagon, with soft corners."""
-    return rounded(polygon(HEX), convex=10)
+def four_lobes(half_w, half_h, lobe, notch):
+    """木瓜: four lobes, wider than tall, meeting in rounded notches."""
+    dx, dy = half_w - lobe, half_h - lobe
+    lobes = union(circle(70 - dx, 70, lobe), circle(70 + dx, 70, lobe),
+                  circle(70, 70 - dy, lobe), circle(70, 70 + dy, lobe))
+    return rounded(lobes, concave=notch)
 
 
-def four_lobes():
-    """木瓜: four lobes, wider than tall, meeting in shallow notches."""
-    lobes = union(circle(43, 70, 37), circle(97, 70, 37), circle(70, 47, 37), circle(70, 93, 37))
-    return rounded(lobes, concave=3)
+def bands(outer, widths):
+    """Alternate filled and open bands inward from `outer`. Returns the bands and the space left inside."""
+    shape, edge = pathops.Path(), outer
+    for i, w in enumerate(widths):
+        inner = shrink(edge, w)
+        if i % 2 == 0:
+            shape = union(shape, minus(edge, inner))
+        edge = inner
+    return shape, edge
 
 
-def inset_hex(sag=8):
-    """The same hexagon with every side bowed inward by `sag`."""
-    p = pathops.Path()
-    p.moveTo(*HEX[0])
-    for a, b in zip(HEX, HEX[1:] + HEX[:1]):
-        mid = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
-        towards = (70 - mid[0], 70 - mid[1])
-        k = 2 * sag / math.hypot(*towards)
-        q = (mid[0] + towards[0] * k, mid[1] + towards[1] * k)  # control point of a quadratic
-        c1 = (a[0] + 2 / 3 * (q[0] - a[0]), a[1] + 2 / 3 * (q[1] - a[1]))
-        c2 = (b[0] + 2 / 3 * (q[0] - b[0]), b[1] + 2 / 3 * (q[1] - b[1]))
-        p.cubicTo(*c1, *c2, *b)
-    p.close()
-    return rounded(pathops.simplify(p, fix_winding=True), convex=7)
+def maru_ring():
+    """丸に木瓜's plain ring, drawn around the frame scaled down to 0.8."""
+    return minus(circle(70, 70, 66), circle(70, 70, 58))
 
 
-FRAMES = {
-    "wide-hex": dict(name="Wide hex (亀甲)", draw=wide_hex,
-                     note="Calm and steady, and still a hexagon at 16px. The flat top and wider shape keep it "
-                          "apart from the pointy-topped hexagons of dev tools and crypto."),
-    "four-lobes": dict(name="Four lobes (木瓜)", draw=four_lobes,
-                       note="The most like a real kamon and unlike any app frame. Below 24px the notches close up "
-                            "and it reads as a soft rounded square."),
-    "inset-hex": dict(name="Inset hex", draw=inset_hex,
-                      note="The most striking: the bowed sides read as a seal or a badge more than a ninja star. "
-                           "At 16px the bow is gone and it falls back to a plain hexagon."),
+# Bands from the outside in, filled first. The inner-line styles are the classic double outline of 木瓜.
+STYLES = {
+    "plain": dict(name="Without the inner line", bands=(9,),
+                  note="One band. The motif gets the most room, and the lobes alone carry the crest."),
+    "inner-line": dict(name="With a thin inner line", bands=(6, 4, 3),
+                       note="A band, a gap and a thin second line that follows the lobes. The lightest double "
+                            "outline, closest to the line drawings in crest books. The line is under a pixel "
+                            "at 32px, so it blurs there."),
+    "split-band": dict(name="With a split band", bands=(7, 3, 6),
+                       note="Two bands nearly as heavy as each other with a thin opening between them. Still a "
+                            "double outline, but it reads as one strong frame, and it holds a little better at "
+                            "32px."),
+    "maru": dict(name="With an outer ring (丸に木瓜)", bands=None,
+                 note="The other way to add a line: a plain circle around the whole crest. A common real "
+                      "variant, but the circle is what the icon looks like at a glance, which the direction "
+                      "ruled out, and everything inside gets smaller."),
 }
 
 
@@ -146,13 +140,9 @@ def plover(small):
 def boxes(small):
     """入れ子枡: three boxes inside each other; two at 16px."""
     rings = ("M0 -60L60 0L0 60L-60 0Z M0 -44L44 0L0 44L-44 0Z M0 -30L30 0L0 30L-30 0Z "
-             "M0 -16L16 0L0 16L-16 0Z M0 -4L4 0L0 4L-4 0Z") if not small else \
+             "M0 -16L16 0L0 16L-16 0Z") if not small else \
         "M0 -60L60 0L0 60L-60 0Z M0 -36L36 0L0 36L-36 0Z M0 -16L16 0L0 16L-16 0Z"
-    if not small:
-        # The innermost box is solid: drop the tiny hole at its centre.
-        rings = rings.rsplit(" M", 1)[0]
-    nested = rounded(even_odd(rings), convex=3)
-    return nested, None
+    return rounded(even_odd(rings), convex=3), None
 
 
 MOTIFS = {"yusai-tajiri": fox, "kikitori": plover, "explorer": boxes}
@@ -182,44 +172,18 @@ def fit(path, room, gap):
     return transformed(path, matrix(70, 70, 0, lo, 70, 70))
 
 
-def mark(frame, app, small=False):
-    """The frame as a ring with the motif fitted inside it."""
-    ring, gap = (SMALL_RING, SMALL_GAP) if small else (RING, GAP)
-    outer = FRAMES[frame]["draw"]()
-    inner = shrink(outer, ring)
-    return smooth(union(minus(outer, inner), fit(motif_shape(app, small), inner, gap)))
-
-
-# ---------------------------------------------------------------- the lookalikes, for step 2
-# Plain stand-ins for the shapes the doc wants to steer clear of, drawn from geometry, not traced
-# from anyone's logo.
-
-def pointy_hex(r=66):
-    return polygon([(70 + r * math.cos(math.radians(a)), 70 + r * math.sin(math.radians(a)))
-                    for a in range(-90, 270, 60)])
-
-
-def lookalike_dev():
-    """A solid pointy-topped hexagon with soft corners: dev-tool logos (Node.js, GraphQL)."""
-    return rounded(pointy_hex(), convex=8)
-
-
-def lookalike_sticker():
-    """A pointy-topped hexagon with a border band: a hex sticker (R packages, laptop stickers)."""
-    outer = pointy_hex()
-    return union(minus(outer, pointy_hex(58)), pointy_hex(50))
-
-
-def lookalike_crypto():
-    """A thick pointy-topped hexagon outline with sharp corners: crypto tokens (Chainlink and others)."""
-    return minus(pointy_hex(), pointy_hex(46))
-
-
-LOOKALIKES = {
-    "dev-tool": dict(name="Dev-tool hex", draw=lookalike_dev),
-    "sticker": dict(name="Hex sticker", draw=lookalike_sticker),
-    "crypto": dict(name="Crypto hex", draw=lookalike_crypto),
-}
+def mark(style, app, small=False):
+    """The frame's bands with the motif fitted inside the innermost one."""
+    outer = four_lobes(**FRAME)
+    if small:
+        widths, gap = SMALL_BANDS, SMALL_GAP
+    elif STYLES[style]["bands"] is None:
+        shape, room = bands(transformed(outer, matrix(70, 70, 0, 0.8, 70, 70)), (8,))
+        return smooth(union(maru_ring(), shape, fit(motif_shape(app, False), room, GAP)))
+    else:
+        widths, gap = STYLES[style]["bands"], GAP
+    shape, room = bands(outer, widths)
+    return smooth(union(shape, fit(motif_shape(app, small), room, gap)))
 
 
 # ---------------------------------------------------------------- files
@@ -250,27 +214,26 @@ def save_mark(stem, title, path, light, dark, sizes):
             png(markup, size).save(OUT / f"{stem}{suffix}-{size}.png")
 
 
-def phone_tile(frame, app, theme):
+def phone_tile(style, app, theme):
     """The mark inside an iOS-style rounded square on the warm ground, as the phone masks it."""
     ground = COLORS["surface"][theme]
     color = COLORS[APPS[app]["color"]][theme]
     tile = f'<rect width="140" height="140" rx="31.5" fill="{ground}"/>\n'
-    path = transformed(mark(frame, app), matrix(70, 70, 0, 0.74, 70, 70))
-    return svg(f"{FRAMES[frame]['name']} on a phone", path, color, tile)
+    path = transformed(mark(style, app), matrix(70, 70, 0, 0.74, 70, 70))
+    return svg(f"{STYLES[style]['name']} on a phone", path, color, tile)
 
 
 def build():
-    for frame, f in FRAMES.items():
-        for app, info in APPS.items():
-            light, dark = COLORS[info["color"]]["light"], COLORS[info["color"]]["dark"]
-            title = f"{info['name']} in the {f['name']} frame"
-            save_mark(f"{frame}-{app}", title, mark(frame, app), light, dark, ())
-            save_mark(f"{frame}-{app}-small", f"{title}, small", mark(frame, app, small=True), light, dark, (16,))
-        write(OUT / f"{frame}-phone.svg", phone_tile(frame, "yusai-tajiri", "light"))
-        write(OUT / f"{frame}-phone-on-dark.svg", phone_tile(frame, "yusai-tajiri", "dark"))
-    for key, l in LOOKALIKES.items():
-        light, dark = COLORS["ink-muted"]["light"], COLORS["ink-muted"]["dark"]
-        save_mark(f"lookalike-{key}", l["name"], l["draw"](), light, dark, (16,))
+    for app, info in APPS.items():
+        light, dark = COLORS[info["color"]]["light"], COLORS[info["color"]]["dark"]
+        for style, s in STYLES.items():
+            title = f"{info['name']} in the 木瓜 frame, {s['name'].lower()}"
+            save_mark(f"{style}-{app}", title, mark(style, app), light, dark, (32,))
+        save_mark(f"small-{app}", f"{info['name']} in the 木瓜 frame, small", mark(None, app, small=True),
+                  light, dark, (16,))
+    for style in STYLES:
+        write(OUT / f"{style}-phone.svg", phone_tile(style, "yusai-tajiri", "light"))
+        write(OUT / f"{style}-phone-on-dark.svg", phone_tile(style, "yusai-tajiri", "dark"))
     write(OUT / "index.html", sheet())
 
 
@@ -284,9 +247,10 @@ def font(name):
     return f"font-size: {s['fontSize']}; line-height: {s['lineHeight']}; font-weight: {s['fontWeight']};"
 
 
-def picture(stem, size, alt, pixelated=False):
-    """The light file, swapped for the -on-dark one when the system is dark."""
-    ext = "-16.png" if pixelated or size == 16 else ".svg"
+def picture(stem, size, alt, raster=None, pixelated=False):
+    """The light file, swapped for the -on-dark one when the system is dark. `raster` picks a PNG
+    rendered at that size, so small sizes show what the renderer really makes of them."""
+    ext = f"-{raster}.png" if raster else ".svg"
     cls = ' class="zoom"' if pixelated else ""
     return (f'<picture><source srcset="{stem}-on-dark{ext}" media="(prefers-color-scheme: dark)">'
             f'<img{cls} src="{stem}{ext}" width="{size}" height="{size}" alt="{alt}"></picture>')
@@ -298,40 +262,37 @@ def figure(content, caption):
 
 def sheet():
     cards = []
-    for frame, f in FRAMES.items():
-        large = "".join(figure(picture(f"{frame}-{app}", 128, f"{info['name']} in the {f['name']} frame"),
+    for style, s in STYLES.items():
+        large = "".join(figure(picture(f"{style}-{app}", 128, f"{info['name']}, {s['name'].lower()}"),
                                f"{info['name']}<br>{info['motif'].split(':')[0]}")
                         for app, info in APPS.items())
-        sizes = "".join(figure(picture(f"{frame}-{app}", 32, "") + picture(f"{frame}-{app}-small", 16, "")
-                               + picture(f"{frame}-{app}-small", 64, "", pixelated=True),
-                               "32px, 16px, 16px enlarged") for app in APPS)
-        phone = figure(picture(f"{frame}-phone", 96, f"The brand mark in the {f['name']} frame on a phone"),
+        sizes = "".join(figure(picture(f"{style}-{app}", 32, "", raster=32)
+                               + picture(f"{style}-{app}", 64, "", raster=32, pixelated=True),
+                               "32px and enlarged") for app in APPS)
+        phone = figure(picture(f"{style}-phone", 96, f"The brand mark {s['name'].lower()}, on a phone"),
                        "On a phone")
         cards.append(f"""<section class="card">
-<h2>{f['name']}</h2>
-<p>{f['note']}</p>
+<h2>{s['name']}</h2>
+<p>{s['note']}</p>
 <div class="row">{large}</div>
 <div class="row">{sizes}{phone}</div>
 </section>""")
-    marks = [(f"{frame}-yusai-tajiri", f["name"]) for frame, f in FRAMES.items()]
-    others = [(f"lookalike-{key}", l["name"]) for key, l in LOOKALIKES.items()]
-    side = lambda size, small: "".join(
-        figure(picture(stem + ("-small" if small and not stem.startswith("lookalike") else ""), size, name,
-                       pixelated=small), name) for stem, name in marks + others)
+    small = "".join(figure(picture(f"small-{app}", 16, "", raster=16)
+                           + picture(f"small-{app}", 64, f"{info['name']} at 16px, enlarged", raster=16,
+                                     pixelated=True), info["name"])
+                    for app, info in APPS.items())
     cards.append(f"""<section class="card">
-<h2>Next to the hexagons to avoid</h2>
-<p>The three frames with the brand's fox, then plain stand-ins for the shapes the direction steers clear of,
-drawn from geometry rather than traced from anyone's logo: a solid pointy-topped hexagon as in dev-tool logos,
-a hex sticker as on R packages and laptops, and a thick sharp outline as on crypto tokens.</p>
-<div class="row">{side(96, False)}</div>
-<div class="row">{side(64, True)}</div>
+<h2>At 16px</h2>
+<p>Every style uses the same small mark: one heavier band and the motif without its cut-outs.
+An inner line or an outer ring would be under a pixel here.</p>
+<div class="row">{small}</div>
 </section>""")
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kamon frame candidates</title>
+<title>木瓜 frame study</title>
 <link rel="stylesheet" href="../../tokens/tokens.css">
 <style>
 body {{ margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans); {font("body")} }}
@@ -351,10 +312,10 @@ img.zoom {{ image-rendering: pixelated; }}
 </head>
 <body>
 <main>
-<h1>Kamon frame candidates</h1>
-<p>Step one and two of docs/direction-kamon-frame.md: each frame with Kikitori, Explorer and the brand's own motif,
-at app-icon size and at 16px, and the brand mark next to the hexagons it should not be mistaken for.
-The page follows the system's light or dark setting. Built by tools/explore_frames.py.</p>
+<h1>木瓜 frame study</h1>
+<p>The four-lobed frame chosen in docs/direction-kamon-frame.md, with and without the inner line of the
+classic crest, and with the outer ring of 丸に木瓜 for reference. The page follows the system's light or
+dark setting. Built by tools/explore_frames.py.</p>
 {chr(10).join(cards)}
 </main>
 </body>
