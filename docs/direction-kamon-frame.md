@@ -63,23 +63,30 @@ Lean: the wide hex for the calmest, most legible family, or four lobes if being 
 
 ## The 木瓜 frame
 
-The frame is four circles of radius 33, set so the whole is 128 wide and 120 tall on the 140 grid. That puts the notches 46 from the centre: deep enough to read as lobes, and still leaving the motif room. The notches are rounded to 3. `tools/explore_frames.py` now draws only this frame, and `docs/kamon-frames/index.html` compares the ways to draw its line (screenshots: `sheet-light.png`, `sheet-dark.png`):
+**Chosen: a thin inner line, kept slim for the motif.** The frame is four circles of radius 35, set so the whole is 128 wide and 120 tall on the 140 grid, with the notches 48 from the centre and rounded to 3. From the outside in it is a 6-unit band, a 3-unit gap and a 3-unit line that follows the lobes, and the motif sits at least 5 inside that line. For 24px and down it drops to one 14-unit band with a 9-unit gap and the motif without cut-outs.
 
-![The 木瓜 frame without the inner line, with a thin inner line, with a split band and with an outer ring](kamon-frames/sheet-light.png)
+`tools/explore_frames.py` draws this frame, and `docs/kamon-frames/index.html` keeps the other ways to draw its line for comparison (screenshots: `sheet-light.png`, `sheet-dark.png`):
 
-- **Without the inner line:** one 9-unit band. The motif gets the most room.
-- **With a thin inner line:** a 6-unit band, a 4-unit gap and a 3-unit line. This is the double outline of the classic crest. The line is under a pixel at 32px.
-- **With a split band:** 7, 3 and 6. Still a double outline, but it reads as one strong frame.
-- **With an outer ring (丸に木瓜):** a real variant, for reference only. It turns the icon back into a circle.
-- **At 16px** every style uses one 14-unit band, so this choice only shows at 32px and up.
+![The 木瓜 frame with a thin inner line, without it, with a split band and with an outer ring](kamon-frames/sheet-light.png)
 
-The inner line is the authentic detail: classic 木瓜 is drawn as a double outline, while a line outside is the separate 丸に variant. Still open: which line, if any.
+How big each motif can be on the 140 grid, its longest side:
+
+| Line | Fox | Plover | Boxes |
+|---|---|---|---|
+| No inner line (one 8-unit band) | 54 | 81 | 94 |
+| **Thin inner line (6, 3, 3), chosen** | 48 | 71 | 86 |
+| Split band (7, 3, 6) | 42 | 60 | 77 |
+| Outer ring (丸に木瓜) | smaller still: the whole crest shrinks to 0.8 | | |
+
+- The inner line is the authentic detail: classic 木瓜 is drawn as a double outline. A line outside is the separate 丸に木瓜 variant, which makes the icon read as a circle, so it is out.
+- Rounder lobes give the motif more room, because its corners run into the notches; deeper notches cost it. Radius 35 is the balance.
+- At 32px the inner line is under a pixel and softens. At 16px no line shows either way.
 
 ## Next steps
 
 1. ~~Draw the three candidate frames with Kikitori, Explorer and the brand motif inside, at app-icon size and at 16px, in light and dark.~~ Done, see above.
 2. ~~Put them next to Node.js, an R hex sticker and a crypto hex logo to make sure the winner reads as none of them.~~ Done with plain stand-ins drawn from geometry, see above.
-3. ~~Pick one frame~~ (four lobes) and fix its proportions, corner radius and stroke weight.
+3. ~~Pick one frame and fix its proportions, corner radius and stroke weight.~~ Four lobes with a thin inner line, see above.
 4. Then update `tools/build_logo.py`, the logos and icons, `tokens/tokens.json` → `apps` (motif notes) and the logo rules in `AGENTS.md` and `README.md`.
 
 The snake pose lab lives on the `snake-sim` branch and is not part of this direction.

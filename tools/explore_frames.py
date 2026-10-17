@@ -29,11 +29,12 @@ COLORS = {t["name"]: t["value"] for t in TOKENS["color"]["tokens"]}
 APPS = {a["id"]: a for a in TOKENS["apps"]["list"]}
 
 # The frame: four circles of radius `lobe`, set so the whole is 2 * half_w wide and 2 * half_h tall,
-# a little wider than tall. A smaller lobe digs the notches deeper; 33 puts them 46 from the centre,
-# deep enough to read as lobes while leaving the motif room. The notches are rounded by `notch`.
-FRAME = dict(half_w=64, half_h=60, lobe=33, notch=3)
+# a little wider than tall. A smaller lobe digs the notches deeper but squeezes the motif, whose
+# corners run into them; 35 puts them 48 from the centre, still clearly lobed. The notches are
+# rounded by `notch`. The chosen style is the thin inner line, kept slim to leave the motif room.
+FRAME = dict(half_w=64, half_h=60, lobe=35, notch=3)
 
-GAP = 7  # the least space between the motif and the innermost band
+GAP = 5  # the least space between the motif and the innermost band, about 1px at 32px
 SMALL_BANDS, SMALL_GAP = (14,), 9  # at 16px: a 1.6px band and a 1px gap
 
 
@@ -95,12 +96,12 @@ def maru_ring():
 
 # Bands from the outside in, filled first. The inner-line styles are the classic double outline of 木瓜.
 STYLES = {
-    "plain": dict(name="Without the inner line", bands=(9,),
+    "inner-line": dict(name="With a thin inner line (chosen)", bands=(6, 3, 3),
+                       note="A band, a gap and a thin second line that follows the lobes: the double outline of "
+                            "the classic crest, kept slim so the motif loses little room. The line is under a "
+                            "pixel at 32px, so it softens there."),
+    "plain": dict(name="Without the inner line", bands=(8,),
                   note="One band. The motif gets the most room, and the lobes alone carry the crest."),
-    "inner-line": dict(name="With a thin inner line", bands=(6, 4, 3),
-                       note="A band, a gap and a thin second line that follows the lobes. The lightest double "
-                            "outline, closest to the line drawings in crest books. The line is under a pixel "
-                            "at 32px, so it blurs there."),
     "split-band": dict(name="With a split band", bands=(7, 3, 6),
                        note="Two bands nearly as heavy as each other with a thin opening between them. Still a "
                             "double outline, but it reads as one strong frame, and it holds a little better at "
