@@ -29,6 +29,7 @@ The brand is calm and warm gray. Each app has one accent color of its own and a 
 - Spacing uses the `space-*` tokens (4px base): phone gutter `space-4`, card padding `space-6`, between sections `space-8`, around empty states `space-12`. When unsure, take the larger step.
 - Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars.
 - No shadows except `shadow-float` on menus and popovers that float over content. Depth comes from borders and spacing.
+- The kamon reaches into the UI in one place: the primary button, the one `accent`-filled control per view, has the 木瓜 notch at its corners (two outward quarter circles meeting at an inward point, never a scooped corner) and a thin inner line. On the web it comes with `.button-primary` in `ui/ui.css`. Nothing else takes it: secondary buttons, inputs, cards, tags, checkboxes and switches stay plain. Empty states may show the app's logo at 48px above their one sentence.
 - Motion is 150–200ms, a fade or slide because something changed. No looping or decorative animation.
 
 ## Generic defaults to avoid
@@ -51,7 +52,7 @@ Use the plain, token-based choice from the sections above instead.
 
 ## Platforms
 
-Native controls stay native: iOS system navigation and sheets tinted with the app's `accent`, standard Windows window chrome, and on the web plain HTML built on `tokens/tokens.css`. In React Native or Expo, use `appColors(app, "light" | "dark")` from `tokens/tokens.ts` to match the system color scheme.
+Native controls stay native: iOS system navigation and sheets tinted with the app's `accent`, standard Windows window chrome, and on the web plain HTML built on `tokens/tokens.css` and the elements in `ui/ui.css`. A native primary button is the platform's own, tinted with `accent`; the kamon button is for the web and the brand's own desktop UI. In React Native or Expo, use `appColors(app, "light" | "dark")` from `tokens/tokens.ts` to match the system color scheme.
 
 ## Voice
 
@@ -71,7 +72,7 @@ Avoid: "Oops!! Nothing here 😢 Let's get started!!!" and "Successfully saved!"
 Check each item and say in your report what you checked:
 
 1. Search the files you changed for color literals (`#` hex values, `rgb(`, `hsl(`). Every color should come from a token; only `tokens/` holds raw values.
-2. Colors come through `accent`, not a palette color by name, and each view has at most one `accent`-filled control.
+2. Colors come through `accent`, not a palette color by name, and each view has at most one `accent`-filled control, which is the only element with the kamon notch and inner line.
 3. Spacing, corner radii and font sizes come from tokens, and body text is 16px / 27px.
 4. Nothing from "Generic defaults to avoid" slipped in.
 5. Any logo is the file from `logo/` or `icons/`, unchanged: the app's own, in its own color, `-small` below 32px.

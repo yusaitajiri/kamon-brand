@@ -1,7 +1,7 @@
 /* Yusai Tajiri UI elements, built only on tokens/tokens.css.
    Import after the tokens:  @import "../tokens/tokens.css"; @import "ui.css";
-   The plain elements are the default. The kamon touches at the end are opt-in modifiers, still being
-   tried out for density (see docs/direction-kamon-ui.md). */
+   Everything is plain except the primary button, the one place an element carries the kamon
+   (see the end of this file and docs/direction-kamon-ui.md). */
 
 /* ---------------------------------------------------------------- base */
 
@@ -322,45 +322,99 @@
   text-wrap: balance;
 }
 
-/* ---------------------------------------------------------------- kamon touches (opt-in, being tried) */
-/* Two details of the 木瓜 logo, carried into elements:
-   - .kamon-corners: corners scooped inward, like the notches between the frame's lobes. Browsers without
-     corner-shape (Safari and Firefox for now) show the ordinary rounded corners instead.
-   - .kamon-line: a thin second line just inside the edge, like the frame's inner line. */
+/* ---------------------------------------------------------------- the kamon primary button */
+/* The one primary action in a view carries the kamon; nothing else does. Its outline is the 木瓜 frame's
+   notch: at each corner two outward quarter circles, the ends of two lobes, meet at an inward point,
+   as where a wide and a tall rounded rectangle overlap. A thin line follows the same outline just
+   inside the edge, like the frame's inner line. Both are clip-path shapes behind the label, so the
+   focus ring is untouched. Browsers without shape() keep the plain primary button above. */
 
-.kamon-corners {
-  corner-shape: scoop;
-}
+@supports (clip-path: shape(from 0 0, line to 1px 1px)) {
+  .button-primary {
+    --notch: calc(var(--radius-md) / 2);
+    position: relative;
+    isolation: isolate;
+    border-color: transparent;
+    background: transparent;
+  }
 
-.button.kamon-corners,
-.input.kamon-corners,
-.select.kamon-corners {
-  border-radius: var(--radius-md);
-}
+  .button-primary:hover,
+  .button-primary:disabled:hover {
+    border-color: transparent;
+    background: transparent;
+  }
 
-.card.kamon-corners {
-  border-radius: var(--radius-lg);
-}
+  .button-primary::before,
+  .button-primary::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+  }
 
-.tag.kamon-corners,
-.check .kamon-corners {
-  border-radius: var(--radius-sm);
-}
+  /* The fill, out to the border's edge. */
+  .button-primary::before {
+    inset: -1px;
+    background: var(--accent);
+    transition: background-color 150ms;
+    clip-path: shape(
+      from calc(2 * var(--notch)) 0,
+      hline to calc(100% - 2 * var(--notch)),
+      arc to calc(100% - var(--notch)) var(--notch) of var(--notch) cw,
+      arc to 100% calc(2 * var(--notch)) of var(--notch) cw,
+      vline to calc(100% - 2 * var(--notch)),
+      arc to calc(100% - var(--notch)) calc(100% - var(--notch)) of var(--notch) cw,
+      arc to calc(100% - 2 * var(--notch)) 100% of var(--notch) cw,
+      hline to calc(2 * var(--notch)),
+      arc to var(--notch) calc(100% - var(--notch)) of var(--notch) cw,
+      arc to 0 calc(100% - 2 * var(--notch)) of var(--notch) cw,
+      vline to calc(2 * var(--notch)),
+      arc to var(--notch) var(--notch) of var(--notch) cw,
+      arc to calc(2 * var(--notch)) 0 of var(--notch) cw,
+      close
+    );
+  }
 
-.button-primary.kamon-line {
-  box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0 4px var(--on-accent);
-}
+  .button-primary:hover::before {
+    background: var(--accent-hover);
+  }
 
-.button-primary.kamon-line:hover {
-  box-shadow: inset 0 0 0 3px var(--accent-hover), inset 0 0 0 4px var(--on-accent);
-}
+  .button-primary:disabled:hover::before {
+    background: var(--accent);
+  }
 
-.button.kamon-line:not(.button-primary),
-.card.kamon-line {
-  box-shadow: inset 0 0 0 3px var(--surface-raised), inset 0 0 0 4px var(--border);
-}
-
-.input.kamon-line,
-.select.kamon-line {
-  box-shadow: inset 0 0 0 3px var(--surface-sunken), inset 0 0 0 4px var(--border);
+  /* The inner line: 1px wide, 3px inside the edge. */
+  .button-primary::after {
+    inset: 2px;
+    background: var(--on-accent);
+    clip-path: shape(evenodd
+      from calc(2 * var(--notch)) 0,
+      hline to calc(100% - 2 * var(--notch)),
+      arc to calc(100% - var(--notch)) var(--notch) of var(--notch) cw,
+      arc to 100% calc(2 * var(--notch)) of var(--notch) cw,
+      vline to calc(100% - 2 * var(--notch)),
+      arc to calc(100% - var(--notch)) calc(100% - var(--notch)) of var(--notch) cw,
+      arc to calc(100% - 2 * var(--notch)) 100% of var(--notch) cw,
+      hline to calc(2 * var(--notch)),
+      arc to var(--notch) calc(100% - var(--notch)) of var(--notch) cw,
+      arc to 0 calc(100% - 2 * var(--notch)) of var(--notch) cw,
+      vline to calc(2 * var(--notch)),
+      arc to var(--notch) var(--notch) of var(--notch) cw,
+      arc to calc(2 * var(--notch)) 0 of var(--notch) cw,
+      close,
+      move to calc(1px + 2 * var(--notch)) 1px,
+      hline to calc(100% - 1px - 2 * var(--notch)),
+      arc to calc(100% - 1px - var(--notch)) calc(1px + var(--notch)) of var(--notch) cw,
+      arc to calc(100% - 1px) calc(1px + 2 * var(--notch)) of var(--notch) cw,
+      vline to calc(100% - 1px - 2 * var(--notch)),
+      arc to calc(100% - 1px - var(--notch)) calc(100% - 1px - var(--notch)) of var(--notch) cw,
+      arc to calc(100% - 1px - 2 * var(--notch)) calc(100% - 1px) of var(--notch) cw,
+      hline to calc(1px + 2 * var(--notch)),
+      arc to calc(1px + var(--notch)) calc(100% - 1px - var(--notch)) of var(--notch) cw,
+      arc to 1px calc(100% - 1px - 2 * var(--notch)) of var(--notch) cw,
+      vline to calc(1px + 2 * var(--notch)),
+      arc to calc(1px + var(--notch)) calc(1px + var(--notch)) of var(--notch) cw,
+      arc to calc(1px + 2 * var(--notch)) 1px of var(--notch) cw,
+      close
+    );
+  }
 }

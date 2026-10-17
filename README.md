@@ -61,6 +61,7 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 - 4px base: `space-1` (4) through `space-16` (64). Phone gutters are `space-4`; card padding `space-6`; sections `space-8`. When unsure, add space.
 - Corners: `radius-md` (8px) for controls, `radius-lg` (12px) for cards, `radius-sm` (6px) for chips and tags. `radius-full` only for avatars.
 - No shadows except `shadow-float` on menus that float over content. Borders are 1px `border`.
+- **The kamon in the UI.** A crest marks one thing, so the kamon reaches into the interface in one place: the primary button, the one action per view. Its corners have the 木瓜 notch, two outward quarter circles meeting at an inward point where two lobes would meet, and a thin line runs just inside its edge like the frame's inner line, so it sits on the page like a seal. Every other element stays plain, and empty states may show the app's logo above their sentence. `docs/direction-kamon-ui.md` has the study behind this.
 - Motion is short (150–200ms) and functional: things fade or slide because they changed. No looping or decorative animation.
 
 ## The logos (app icons)
@@ -125,7 +126,7 @@ Both are free (SIL Open Font License) on Google Fonts:
 | --- | --- |
 | `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the brand logo for the brand's own pages. |
-| `ui/` | Plain UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state) with a specimen page, `elements.html`. `mock.html` is a study of how much of the kamon to carry into elements; its kamon touches are not adopted yet (see `docs/direction-kamon-ui.md`). |
+| `ui/` | UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state), with the kamon primary button. `elements.html` shows every element and `sample.html` a sample screen; `screens/` has both in light and dark. |
 | `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_logo.py`). |
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
