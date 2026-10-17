@@ -1,11 +1,11 @@
-"""Build every mon SVG and app icon in this kit from the shapes below.
+"""Build every logo SVG and app icon in this kit from the shapes below.
 
-Run from the repo root:  pip install skia-pathops resvg-py pillow && python tools/build_mon.py
+Run from the repo root:  pip install skia-pathops resvg-py pillow && python tools/build_logo.py
 
-Every mon is the same long body, lying in one ring on the ground with its neck rising from the
-ring's front in an S, and the app's own head on top. Everything is on a 140 x 140 grid, and each
-mon comes out as one filled path whose cut-outs are transparent. Change a shape, a proportion or a
-color here and rebuild; never edit the generated files by hand. monkit.py holds the geometry.
+Every logo is the same long body, lying in one ring on the ground with its neck rising from the
+ring's front in a gentle S, and the app's own head on top. Everything is on a 140 x 140 grid, and each
+logo comes out as one filled path whose cut-outs are transparent. Change a shape, a proportion or a
+color here and rebuild; never edit the generated files by hand. logokit.py holds the geometry.
 """
 
 import io
@@ -16,7 +16,7 @@ import pathops
 import resvg_py
 from PIL import Image
 
-from monkit import (Body, Centerline, circle, ease, grow, hobby_path, matrix, minus, parse, polylines,
+from logokit import (Body, Centerline, circle, ease, grow, hobby_path, matrix, minus, parse, polylines,
                     segments, smooth, to_svg, transformed, union)
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -86,12 +86,12 @@ HEADS = {
 # `sweep` degrees back round the ring and the body tapers to it over `tail`; the neck narrows
 # to neck_end of the body's width. Wherever the body passes in front of itself, a cut `gap` wide
 # separates the two.
-BODY = dict(ring=(70, 116.5, 48, 14.5), width=13.5, gap=3.6, base=70, low=48, mid=((63, 84), (87, 73)),
+BODY = dict(ring=(70, 116.5, 48, 14.5), width=13.5, gap=3.6, base=70, low=58, mid=((66, 86), (80, 75)),
             chin=(70, 67), joint=10, sweep=330, tail=28, neck_end=0.8)
 
 # 24 px and down: a heavier body, wider cuts, a rounder ring and a simpler neck, with the tail
 # tucked under the neck, so it holds together at a few pixels. The heads drop their cut-outs.
-SMALL_BODY = dict(BODY, ring=(70, 113, 47, 16.5), width=18, gap=6, low=46, mid=((80, 70),), chin=(70, 66),
+SMALL_BODY = dict(BODY, ring=(70, 113, 47, 16.5), width=18, gap=6, low=52, mid=((76, 73),), chin=(70, 66),
                   joint=16, sweep=345, tail=20)
 
 
@@ -133,8 +133,8 @@ def head(app, p, small):
     return transformed(outline, m), (transformed(holes, m) if holes is not None else None)
 
 
-def mon(app, small=False):
-    """The mon as one path: the body with the app's head on top."""
+def logo(app, small=False):
+    """The logo as one path: the body with the app's head on top."""
     p = SMALL_BODY if small else BODY
     pts, neck = centerline(p)
     body = Body(pts, widths(pts, neck, p))
@@ -206,15 +206,15 @@ def write(path: Path, text: str) -> None:
 
 def build_app(app: str) -> None:
     info = APPS[app]
-    full, small = mon(app), mon(app, small=True)
-    mon_dir = ROOT / "mon"
+    full, small = logo(app), logo(app, small=True)
+    logo_dir = ROOT / "logo"
 
     for suffix, color in (("", info["light"]), ("-on-dark", info["dark"]), ("-ink", INK)):
-        write(mon_dir / f"{app}{suffix}.svg", svg(f"{info['name']} mon", full, color))
-        write(mon_dir / f"{app}-small{suffix}.svg", svg(f"{info['name']} mon, small", small, color))
+        write(logo_dir / f"{app}{suffix}.svg", svg(f"{info['name']} logo", full, color))
+        write(logo_dir / f"{app}-small{suffix}.svg", svg(f"{info['name']} logo, small", small, color))
 
-    # The app icon is the mon on a paper disc, so it reads on light and dark taskbars alike. The
-    # mon reaches past the disc, so it is scaled down to sit inside it.
+    # The app icon is the logo on a paper disc, so it reads on light and dark taskbars alike. The
+    # logo reaches past the disc, so it is scaled down to sit inside it.
     disc = f'<circle cx="70" cy="70" r="69" fill="{PAPER}"/>\n'
     on_disc = lambda path: fitted(path, min(1.0, 63 / reach(path)))
     icon = svg(f"{info['name']} app icon", on_disc(full), info["light"], disc)
@@ -235,13 +235,13 @@ def build_app(app: str) -> None:
         append_images=[frames[s] for s in ico_sizes if s != 256],
     )
 
-    # Stores and iOS want an opaque square: the mon on the warm ground.
+    # Stores and iOS want an opaque square: the logo on the warm ground.
     ground = f'<rect width="140" height="140" fill="{SURFACE}"/>\n'
     store = svg(f"{info['name']} store icon", fitted(full, 0.78), info["light"], ground)
     png(store, 1024).convert("RGB").save(icon_dir / "app-icon-1024.png")
 
     if app == "kudagitsune":
-        # The brand's own site icons are the 管狐 mon.
+        # The brand's own site icons are the 管狐 logo.
         icons = ROOT / "icons"
         png(icon, 32).save(icons / "favicon-32.png")
         png(icon, 192).save(icons / "favicon-192.png")

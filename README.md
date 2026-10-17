@@ -1,6 +1,6 @@
 # Kudagitsune
 
-The personal brand for every app Yusai Tajiri makes. A calm, warm-gray interface, signed with a hanko and kept company by a tiny fox that lives in a bamboo tube. Each app wears its own 家紋 (mon, a family crest) in its own color, so a row of them reads as one family and each one is easy to find.
+The personal brand for every app Yusai Tajiri makes. A calm, warm-gray interface, signed with a hanko and kept company by a tiny fox that lives in a bamboo tube. Each app wears its own logo in its own color, so a row of them reads as one family and each one is easy to find.
 
 The 管狐 (kudagitsune) is a fox spirit from Japanese folklore, small enough to live inside a bamboo tube and carried around by its owner as a helper. That is the idea of the brand: the apps are ordinary, well-made tools, and each one has a little spirit living at its edges.
 
@@ -15,18 +15,18 @@ The 管狐 (kudagitsune) is a fox spirit from Japanese folklore, small enough to
 </p>
 
 <p>
-  <img src="mon/kudagitsune.svg" height="96" alt="Kudagitsune mon: a long body coiled in a ring, its neck rising in an S to a fox's head, in moss">
+  <img src="logo/kudagitsune.svg" height="96" alt="Kudagitsune logo: a long body coiled in a ring, its neck rising in a gentle S to a fox's head, in moss">
   &nbsp;&nbsp;
-  <img src="mon/kikitori.svg" height="96" alt="Kikitori mon: the same coiled body with a plover for its head, in vermilion">
+  <img src="logo/kikitori.svg" height="96" alt="Kikitori logo: the same coiled body with a plover for its head, in vermilion">
   &nbsp;&nbsp;
-  <img src="mon/explorer.svg" height="96" alt="File manager mon: the same coiled body with nested measuring boxes for its head, in indigo">
+  <img src="logo/explorer.svg" height="96" alt="File manager logo: the same coiled body with nested measuring boxes for its head, in indigo">
 </p>
 
 ## Principles
 
 1. **Calm first.** Generous spacing, a warm gray ground, plain words. Nothing in the UI competes for attention.
 2. **One color per app, used with intent.** Moss is the brand's own color. Each app brings one color of its own and uses it the way the brand uses moss: to mark what you can act on and what is selected — not decoration. Everything else is shared.
-3. **Personality lives at the edges.** The working UI stays normal and native. The fox and the hanko appear in empty states, loading, success moments and the about page, and the mon is the app icon — never in the middle of a task.
+3. **Personality lives at the edges.** The working UI stays normal and native. The fox and the hanko appear in empty states, loading, success moments and the about page, and the logo is the app icon — never in the middle of a task.
 4. **Made, not copied.** No imitation paper, wood, glass or metal. Surfaces are flat; depth comes from borders and spacing.
 
 What this brand is **not**: neon or glow, neumorphic soft-3D, "light show" effects (animated gradients, blur, sparkle), brutalism (raw borders, clashing color, shouting type), or skeuomorphic objects. It also skips the stock web defaults: italic accent words in headlines, numbered "01 / 02 / 03" section labels, monospace eyebrow labels and pill-shaped buttons. If a choice leans toward any of these, pick the quieter option.
@@ -37,7 +37,7 @@ What this brand is **not**: neon or glow, neumorphic soft-3D, "light show" effec
 - Text is `ink`; supporting text `ink-muted`; captions `ink-subtle`. All pass 4.5:1 on `surface` and `surface-raised` in both themes.
 - UI is built with `accent`, the app's own color (see *App colors* below). `accent` fills at most one primary control per view; text on it is `on-accent`. Links and focus rings are `accent`.
 - Selected rows, tags and active nav use `accent-tint` with `accent-deep` text.
-- `moss` itself is the brand's color: the hanko ink, the 管狐 mon and Kudagitsune's own pages. In Kudagitsune, and in any app without a color of its own, `accent` is moss.
+- `moss` itself is the brand's color: the hanko ink, the 管狐 logo and Kudagitsune's own pages. In Kudagitsune, and in any app without a color of its own, `accent` is moss.
 - `sage` and `blush` are illustration colors only (the tube, the fox's cheeks, pixel trim). Never use them for text or status.
 - Success is `moss` in every app. Errors are a muted brick (`danger`), warnings a dry ochre (`warning`). No pure red, yellow or bright green anywhere.
 - Dark mode is a warm, slightly green near-black (`surface` `#1C1E1B`) with a lighter moss (`#8FB08F`). It should feel like the same room at night, not a different app. Every app color has a lighter dark-mode value too.
@@ -85,23 +85,23 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 - Don't recolor it to anything but the two moss inks, don't rotate, stretch or outline it, don't add shadows, glow or texture, and don't put it on a busy photo.
 - The kanji 管狐 are drawn as shapes inside the square hanko; never retype them in another font.
 
-## The mon (app icons)
+## The logos (app icons)
 
-Every app has a 家紋, a mon, drawn in one color the way a Japanese family crest is. All of them share one body, long and slender like a spirit that lives in a bamboo tube: it lies in a ring on the ground and raises its neck from the front in an S. Only the head on top changes from app to app. The shared body makes the apps one family; the head and the color tell them apart. Mons have no letters or kanji, so they read the same in any language.
+Every app has a logo drawn in one flat color. All of them share one body, long and slender like a spirit that lives in a bamboo tube: it lies in a ring on the ground and raises its neck from the front in a gentle S. Only the head on top changes from app to app. The shared body makes the apps one family; the head and the color tell them apart. The logos have no letters or kanji, so they read the same in any language.
 
-| App | Mon | Color | Files |
+| App | Head | Color | Files |
 | --- | --- | --- | --- |
-| Kudagitsune | 管狐 — the fox's head from the hanko | 苔 moss | `mon/kudagitsune*.svg`, `icons/kudagitsune/` |
-| Kikitori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `mon/kikitori*.svg`, `icons/kikitori/` |
-| File manager (working name *Explorer*) | 入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `mon/explorer*.svg`, `icons/explorer/` |
+| Kudagitsune | 管狐 — the fox's head from the hanko | 苔 moss | `logo/kudagitsune*.svg`, `icons/kudagitsune/` |
+| Kikitori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `logo/kikitori*.svg`, `icons/kikitori/` |
+| File manager (working name *Explorer*) | 入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `logo/explorer*.svg`, `icons/explorer/` |
 
-- **Files.** `mon/<app>.svg` is the mon in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Each is one filled path and its cut-outs are transparent. Below 32px use the `-small` files: the same mon with a heavier body, wider cuts and a simpler neck, without the cut-outs too fine to see.
-- **App icons.** `icons/<app>/` holds the mon on a paper disc, scaled to sit inside it, so it reads on light and dark taskbars alike: `icon.svg`, PNGs from 16 to 1024px (24px and down use the small drawing), a Windows `icon.ico` with every size drawn for its size, and `app-icon-1024.png`, an opaque square on the warm ground for stores and iOS.
-- **Tray and menu bar.** Use `mon/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones.
-- **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate, mirror or stretch a mon, and don't redraw the body for one app: every app shares it.
-- **Black-and-white test.** Every mon must be recognisable in solid black at 16px and must not be confused with any other app's mon. Check this before adding one.
-- **A new app's mon** is a new head on the same body: a traditional motif or the app's own idea, as a filled shape with cut-outs instead of lines, about as big as the fox's head and sitting on the same chin point. No letters. Add it to `HEADS` in `tools/build_mon.py`, run it, and add the app to `tokens/tokens.json` → `apps`.
-- `tools/build_mon.py` draws every mon file and icon; change shapes or colors there and rebuild, never edit the outputs by hand.
+- **Files.** `logo/<app>.svg` is the logo in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Each is one filled path and its cut-outs are transparent. Below 32px use the `-small` files: the same logo with a heavier body, wider cuts and a simpler neck, without the cut-outs too fine to see.
+- **App icons.** `icons/<app>/` holds the logo on a paper disc, scaled to sit inside it, so it reads on light and dark taskbars alike: `icon.svg`, PNGs from 16 to 1024px (24px and down use the small drawing), a Windows `icon.ico` with every size drawn for its size, and `app-icon-1024.png`, an opaque square on the warm ground for stores and iOS.
+- **Tray and menu bar.** Use `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones.
+- **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate, mirror or stretch a logo, and don't redraw the body for one app: every app shares it.
+- **Black-and-white test.** Every logo must be recognisable in solid black at 16px and must not be confused with any other app's logo. Check this before adding one.
+- **A new app's logo** is a new head on the same body: a traditional motif or the app's own idea, as a filled shape with cut-outs instead of lines, about as big as the fox's head and sitting on the same chin point. No letters. Add it to `HEADS` in `tools/build_logo.py`, run it, and add the app to `tokens/tokens.json` → `apps`.
+- `tools/build_logo.py` draws every logo file and icon; change shapes or colors there and rebuild, never edit the outputs by hand.
 
 ## The fox (mascot)
 
@@ -129,7 +129,7 @@ Plain, calm and brief, like a considerate friend. Say what happened and what to 
 
 ## Using this on each platform
 
-The brand lives in the accent color, the mon, type, empty states and words. Native controls stay native: on iOS use system navigation and sheets tinted with the app's `accent`; on Windows use standard window chrome; on the web build with these tokens directly. Never fight the platform to look "on brand".
+The brand lives in the accent color, the logo, type, empty states and words. Native controls stay native: on iOS use system navigation and sheets tinted with the app's `accent`; on Windows use standard window chrome; on the web build with these tokens directly. Never fight the platform to look "on brand".
 
 ## Colors at a glance
 
@@ -163,9 +163,9 @@ All three are free (SIL Open Font License) on Google Fonts:
 | --- | --- |
 | `marks/` | Both hanko as SVG (use these whenever you can) and PNG at 64, 256 and 1024px tall, in moss ink and the `-on-dark` lighter ink. Cut-outs are transparent. |
 | `mascot/` | The pixel fox in three poses as SVG, plus crisp PNGs at 2×, 3×, 4× and 8×. |
-| `mon/` | Each app's mon as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
-| `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the 管狐 mon for the brand's own pages. |
-| `tools/` | `build_mon.py` draws every file in `mon/` and `icons/` from one set of shapes, with the geometry in `monkit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_mon.py`). |
+| `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
+| `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the 管狐 logo for the brand's own pages. |
+| `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_logo.py`). |
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
 | `tokens/tokens.json` | The source of truth, with a usage note on every token. |

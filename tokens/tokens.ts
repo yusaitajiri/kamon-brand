@@ -115,9 +115,9 @@ export const kudagitsune = {
     "full": 9999
   },
   "apps": {
-    "kudagitsune": { "color": "moss", "mon": "mon/kudagitsune.svg" },
-    "kikitori": { "color": "shu", "mon": "mon/kikitori.svg" },
-    "explorer": { "color": "ai", "mon": "mon/explorer.svg" }
+    "kudagitsune": { "color": "moss", "logo": "logo/kudagitsune.svg" },
+    "kikitori": { "color": "shu", "logo": "logo/kikitori.svg" },
+    "explorer": { "color": "ai", "logo": "logo/explorer.svg" }
   },
   "font": {
     "sans": "Zen Kaku Gothic New",

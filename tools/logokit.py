@@ -1,9 +1,9 @@
-"""Geometry for drawing the mon as real outlines instead of painted strokes.
+"""Geometry for drawing the logos as real outlines instead of painted strokes.
 
 A body is a centre line with a width along it. Its outline is computed from the normals of the
 centre line, then fitted with a few cubic curves. Skia's path engine (skia-pathops) does the
-unions and the cuts, so a whole mon comes out as one filled path that any vector editor can open.
-tools/build_mon.py holds the shapes; this file only holds the geometry.
+unions and the cuts, so a whole logo comes out as one filled path that any vector editor can open.
+tools/build_logo.py holds the shapes; this file only holds the geometry.
 """
 import math
 import re
