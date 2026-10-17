@@ -1,14 +1,14 @@
-# Kudagitsune brand rules for coding agents
+# Yusai Tajiri brand rules for coding agents
 
-Follow these rules for any UI in an app that carries the Kudagitsune brand. Paths are relative to this folder, which apps keep at `brand/`. Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth (with a usage note on each token), `tokens/tokens.css` is for the web and `tokens/tokens.ts` for React and React Native. `README.md` is the guide for people, with the background behind these rules.
+Follow these rules for any UI in an app that carries the Yusai Tajiri brand. Paths are relative to this folder, which apps keep at `brand/`. Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth (with a usage note on each token), `tokens/tokens.css` is for the web and `tokens/tokens.ts` for React and React Native. `README.md` is the guide for people, with the background behind these rules.
 
-The brand is calm and warm gray. Each app has one accent color of its own and a logo: the family's shared body, coiled in a ring with its neck raised, wearing the app's own head. Kudagitsune's own color is moss. Its personality, a pixel fox and a hanko stamp, lives at the edges of an app and never in the middle of a task.
+The brand is calm and warm gray. Each app has one accent color of its own and a logo: the same snake in every app, coiled in a ring with its neck raised, wearing the app's own head, an animal or an object. The brand's own color is moss and its own logo is the snake with a fox's head. Its personality lives at the edges of an app and never in the middle of a task.
 
 ## Color
 
 - The page background is `surface`; cards are `surface-raised` with a 1px `border`. Never pure white, cream or a gradient.
 - Text is `ink`, supporting text `ink-muted`, captions and placeholders `ink-subtle`.
-- Build UI with `accent`, the app's own color, never with `moss`, `shu`, `ai` or another palette color by name. On the web set `data-app="<app id>"` on `<html>` (none for Kudagitsune itself); in React Native use `appColors(app, theme)` from `tokens/tokens.ts`. The app ids are in `tokens/tokens.json` → `apps`.
+- Build UI with `accent`, the app's own color, never with `moss`, `shu`, `ai` or another palette color by name. On the web set `data-app="<app id>"` on `<html>` (none for the brand's own pages); in React Native use `appColors(app, theme)` from `tokens/tokens.ts`. The app ids are in `tokens/tokens.json` → `apps`.
 - `accent` fills at most one primary control per view, with `on-accent` text. Links and focus rings are `accent`. The accent marks what can be acted on or is selected, so using it as decoration weakens that signal.
 - Selected rows, tags and active nav use an `accent-tint` background with `accent-deep` text.
 - One app, one color: never use a second app's color in an app.
@@ -18,16 +18,15 @@ The brand is calm and warm gray. Each app has one accent color of its own and a 
 
 ## Type
 
-- `font-sans` (Zen Kaku Gothic New) for all UI text, Japanese and English, at weights 400 and 500 only. Weight 700 belongs to the hanko lettering and never appears in UI text.
+- `font-sans` (Zen Kaku Gothic New) for all UI text, Japanese and English, at weights 400 and 500 only.
 - `font-mono` (IBM Plex Mono) only for numbers that should line up, versions and code.
-- `font-seal` (Zen Old Mincho) only inside hanko-style marks.
 - Body text is 16px with a 27px line height. Don't tighten it.
 - Sentence case everywhere. Japanese-first apps write Japanese UI and don't mix in English labels for style.
 
 ## Space, shape and motion
 
 - Spacing uses the `space-*` tokens (4px base): phone gutter `space-4`, card padding `space-6`, between sections `space-8`, around empty states `space-12`. When unsure, take the larger step.
-- Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars, round hanko and the app icon's disc; `radius-seal` only for the square hanko.
+- Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars and the app icon's disc.
 - No shadows except `shadow-float` on menus and popovers that float over content. Depth comes from borders and spacing.
 - Motion is 150–200ms, a fade or slide because something changed. No looping or decorative animation.
 
@@ -45,13 +44,9 @@ Without direction, models fall back on a few stock web styles that don't belong 
 
 Use the plain, token-based choice from the sections above instead.
 
-## Logos, marks and the fox
+## Logos
 
-- Logo: the app's icon and its symbol, in `logo/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a logo to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the shared body for one app. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_logo.py` makes all of these; edit shapes and colors there, never the outputs.
-
-- Hanko: `marks/hanko-square.svg` for about pages, signatures and store art (at least 32px tall), `marks/hanko-round.svg` for favicons and footers (at least 20px). On dark grounds use the `-on-dark` files. Keep clear space of a quarter of the mark's width. Don't recolor, rotate, stretch or outline it, or add effects. Never retype 管狐 in a font.
-- Fox: `mascot/fox-pixel.svg` for empty states, success and the about page, `mascot/fox-pixel-shy.svg` for loading and waiting, `mascot/fox-pixel-sleeping.svg` for offline and idle. The art is 14 × 22 pixels, so show it only at whole multiples (28 × 44, 42 × 66, 56 × 88…) with `image-rendering: pixelated`.
-- At most one fox per screen, at an edge or above an empty-state message. Never over content or controls, and never with a speech bubble.
+- Logo: the app's icon and its symbol, in `logo/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a logo to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the snake body for one app. The brand's own pages use `logo/yusai-tajiri.svg`. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_logo.py` makes all of these; edit shapes and colors there, never the outputs.
 
 ## Platforms
 
@@ -78,6 +73,6 @@ Check each item and say in your report what you checked:
 2. Colors come through `accent`, not a palette color by name, and each view has at most one `accent`-filled control.
 3. Spacing, corner radii and font sizes come from tokens, and body text is 16px / 27px.
 4. Nothing from "Generic defaults to avoid" slipped in.
-5. Any fox is shown at a whole multiple of 14 × 22 with pixelated rendering, at most one per screen.
+5. Any logo is the file from `logo/` or `icons/`, unchanged: the app's own, in its own color, `-small` below 32px.
 6. Copy follows the voice rules above.
 7. If you can run the app, screenshot the changed screens in light and dark mode and compare them with these rules.

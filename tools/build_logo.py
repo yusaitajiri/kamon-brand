@@ -2,7 +2,7 @@
 
 Run from the repo root:  pip install skia-pathops resvg-py pillow && python tools/build_logo.py
 
-Every logo is the same long body, lying in one ring on the ground with its neck rising from the
+Every logo is the same snake, lying in one ring on the ground with its neck rising from the
 ring's front in a gentle S, and the app's own head on top. Everything is on a 140 x 140 grid, and each
 logo comes out as one filled path whose cut-outs are transparent. Change a shape, a proportion or a
 color here and rebuild; never edit the generated files by hand. logokit.py holds the geometry.
@@ -27,7 +27,7 @@ SURFACE = "#F3F1EC"
 
 # Each app's accent, light and dark. These must match tokens/tokens.json.
 APPS = {
-    "kudagitsune": {"name": "Kudagitsune", "color": "moss", "light": "#4E6B4F", "dark": "#8FB08F"},
+    "yusai-tajiri": {"name": "Yusai Tajiri", "color": "moss", "light": "#4E6B4F", "dark": "#8FB08F"},
     "kikitori": {"name": "Kikitori", "color": "shu", "light": "#B0501F", "dark": "#EBA57E"},
     "explorer": {"name": "Explorer (working name)", "color": "ai", "light": "#3B5878", "dark": "#93AACB"},
 }
@@ -72,14 +72,14 @@ def boxes(small):
 # Each head in its own drawing's units: its lowest point (the chin, where every head sits on the
 # body) and its size on the grid.
 HEADS = {
-    "kudagitsune": dict(draw=fox, chin=(0, 26), scale=0.9),
+    "yusai-tajiri": dict(draw=fox, chin=(0, 26), scale=0.9),
     "kikitori": dict(draw=plover, chin=(-8, 53.4), scale=0.459),
     "explorer": dict(draw=boxes, chin=(70, 128), scale=0.54),
 }
 
 # ---------------------------------------------------------------- the body
 
-# The body is the same in every app. Its centre line lies on an ellipse, the ring on the ground
+# The snake's body is the same in every app. Its centre line lies on an ellipse, the ring on the ground
 # seen from the front: ring = (cx, cy, rx, ry). The neck leaves the ring's front at x = base,
 # crosses the ring's far side upright at x = low, swings through the mid points and meets the
 # head's lower right edge square on, `joint` along that edge from the chin. The tail tip lies
@@ -240,8 +240,8 @@ def build_app(app: str) -> None:
     store = svg(f"{info['name']} store icon", fitted(full, 0.78), info["light"], ground)
     png(store, 1024).convert("RGB").save(icon_dir / "app-icon-1024.png")
 
-    if app == "kudagitsune":
-        # The brand's own site icons are the 管狐 logo.
+    if app == "yusai-tajiri":
+        # The brand's own site icons are the brand logo.
         icons = ROOT / "icons"
         png(icon, 32).save(icons / "favicon-32.png")
         png(icon, 192).save(icons / "favicon-192.png")

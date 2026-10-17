@@ -1,6 +1,6 @@
-// Kudagitsune brand tokens — plain values for React / React Native / Expo.
+// Yusai Tajiri brand tokens — plain values for React / React Native / Expo.
 // Numbers are px. See ../README.md for when to use each token.
-export const kudagitsune = {
+export const brand = {
   "color": {
     "light": {
       "surface": "#F3F1EC",
@@ -111,28 +111,26 @@ export const kudagitsune = {
     "sm": 6,
     "md": 8,
     "lg": 12,
-    "seal": 14,
     "full": 9999
   },
   "apps": {
-    "kudagitsune": { "color": "moss", "logo": "logo/kudagitsune.svg" },
+    "yusai-tajiri": { "color": "moss", "logo": "logo/yusai-tajiri.svg" },
     "kikitori": { "color": "shu", "logo": "logo/kikitori.svg" },
     "explorer": { "color": "ai", "logo": "logo/explorer.svg" }
   },
   "font": {
     "sans": "Zen Kaku Gothic New",
-    "mono": "IBM Plex Mono",
-    "seal": "Zen Old Mincho"
+    "mono": "IBM Plex Mono"
   }
 } as const;
 
-export type ThemeName = keyof typeof kudagitsune.color;
-export type AppName = keyof typeof kudagitsune.apps;
+export type ThemeName = keyof typeof brand.color;
+export type AppName = keyof typeof brand.apps;
 
 /** The theme's colors with accent set to the app's own color. */
 export function appColors(app: AppName, theme: ThemeName) {
-  const c = kudagitsune.color[theme];
-  const k = kudagitsune.apps[app].color;
+  const c = brand.color[theme];
+  const k = brand.apps[app].color;
   return {
     ...c,
     accent: c[k],
