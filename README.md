@@ -1,15 +1,15 @@
 # Yusai Tajiri
 
-The personal brand for every app Yusai Tajiri makes: a calm, warm-gray interface and a family of logos. Every logo is the same snake, coiled on the ground with its neck raised, wearing a different head for each app: an animal or an object that says what the app is for. Each app's logo is in its own color, so a row of them reads as one family and each one is easy to find.
+The personal brand for every app Yusai Tajiri makes: a calm, warm-gray interface and a family of logos. Every logo is a kamon (家紋), a Japanese family crest: the same four-lobed 木瓜 frame in every app, with a different motif inside for each one, an animal or an object that says what the app is for. Each app's logo is in its own color, so a row of them reads as one family and each one is easy to find.
 
-That is the idea of the brand: the apps are ordinary, well-made tools that share one body, and each one shows its own face.
+That is the idea of the brand: the apps are ordinary, well-made tools that share one frame, and each one shows its own face.
 
 <p>
-  <img src="logo/yusai-tajiri.svg" height="96" alt="Brand logo: a snake coiled in a ring, its neck rising in a gentle S to a fox's head, in moss">
+  <img src="logo/yusai-tajiri.svg" height="96" alt="Brand logo: a fox's head inside a four-lobed crest frame, in moss">
   &nbsp;&nbsp;
-  <img src="logo/kikitori.svg" height="96" alt="Kikitori logo: the same snake with a plover for its head, in vermilion">
+  <img src="logo/kikitori.svg" height="96" alt="Kikitori logo: a plover inside the same frame, in vermilion">
   &nbsp;&nbsp;
-  <img src="logo/explorer.svg" height="96" alt="File manager logo: the same snake with nested measuring boxes for its head, in indigo">
+  <img src="logo/explorer.svg" height="96" alt="File manager logo: nested measuring boxes inside the same frame, in indigo">
 </p>
 
 ## Principles
@@ -58,27 +58,27 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 ## Space and shape
 
 - 4px base: `space-1` (4) through `space-16` (64). Phone gutters are `space-4`; card padding `space-6`; sections `space-8`. When unsure, add space.
-- Corners: `radius-md` (8px) for controls, `radius-lg` (12px) for cards, `radius-sm` (6px) for chips and tags. `radius-full` only for avatars and the app icon's disc.
+- Corners: `radius-md` (8px) for controls, `radius-lg` (12px) for cards, `radius-sm` (6px) for chips and tags. `radius-full` only for avatars.
 - No shadows except `shadow-float` on menus that float over content. Borders are 1px `border`.
 - Motion is short (150–200ms) and functional: things fade or slide because they changed. No looping or decorative animation.
 
 ## The logos (app icons)
 
-Every app has a logo drawn in one flat color. All of them are the same snake: it lies in a ring on the ground and raises its neck from the front in a gentle S. Only the head on top changes from app to app, an animal or an object. The shared body makes the apps one family; the head and the color tell them apart. The logos have no letters or kanji, so they read the same in any language.
+Every app has a logo drawn in one flat color, built like a kamon (家紋): a simple motif inside a frame. The frame is the same in every app: 木瓜, four lobes a little wider than tall, drawn as a band with a thin line inside it, the double outline of the classic crest. Only the motif inside changes from app to app, an animal or an object reduced to a few simple shapes. The shared frame makes the apps one family; the motif and the color tell them apart. The logos have no letters or kanji, so they read the same in any language.
 
-| App | Head | Color | Files |
+| App | Motif | Color | Files |
 | --- | --- | --- | --- |
 | The brand itself | 狐 — a fox's head, for the brand's own pages and anything without an app of its own | 苔 moss | `logo/yusai-tajiri*.svg`, `icons/yusai-tajiri/` |
 | Kikitori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `logo/kikitori*.svg`, `icons/kikitori/` |
 | File manager (working name *Explorer*) | 入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `logo/explorer*.svg`, `icons/explorer/` |
 
-- **Files.** `logo/<app>.svg` is the logo in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Each is one filled path and its cut-outs are transparent. Below 32px use the `-small` files: the same logo with a heavier body, wider cuts and a simpler neck, without the cut-outs too fine to see.
-- **App icons.** `icons/<app>/` holds the logo on a paper disc, scaled to sit inside it, so it reads on light and dark taskbars alike: `icon.svg`, PNGs from 16 to 1024px (24px and down use the small drawing), a Windows `icon.ico` with every size drawn for its size, and `app-icon-1024.png`, an opaque square on the warm ground for stores and iOS.
+- **Files.** `logo/<app>.svg` is the logo in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Each is one filled path and its cut-outs are transparent. Below 32px use the `-small` files: the same logo with one heavier band instead of the band and inner line, a wider gap and the motif without the cut-outs too fine to see.
+- **App icons.** `icons/<app>/` holds the logo with its frame filled with paper, so it reads on light and dark taskbars alike and keeps the frame's own outline: `icon.svg`, PNGs from 16 to 1024px (24px and down use the small drawing), a Windows `icon.ico` with every size drawn for its size, and `app-icon-1024.png`, an opaque square on the warm ground for stores and iOS.
 - **Tray and menu bar.** Use `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones.
-- **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate, mirror or stretch a logo, and don't redraw the body for one app: every app shares it.
+- **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate, mirror or stretch a logo, and don't redraw the frame for one app or put it in a circle (丸に木瓜): every app shares it as it is. On iOS and Android the system masks the icon to a rounded square or circle; the store icon already sits the frame inside that on the warm ground.
 - **Black-and-white test.** Every logo must be recognisable in solid black at 16px and must not be confused with any other app's logo. Check this before adding one.
-- **A new app's logo** is a new head on the same snake: an animal or an object, from a traditional motif or the app's own idea, as a filled shape with cut-outs instead of lines, about as big as the fox's head and sitting on the same chin point. No letters. Add it to `HEADS` in `tools/build_logo.py`, run it, and add the app to `tokens/tokens.json` → `apps`.
-- `tools/build_logo.py` draws every logo file and icon; change shapes or colors there and rebuild, never edit the outputs by hand.
+- **A new app's logo** is a new motif in the same frame: an animal or an object, from a traditional crest or the app's own idea, as 3–5 simple filled shapes with rounded corners and cut-outs instead of thin lines. No letters. Add it to `MOTIFS` in `tools/build_logo.py`, which sizes it to fill the frame, run it, and add the app to `tokens/tokens.json` → `apps`.
+- `tools/build_logo.py` draws every logo file and icon, taking the colors from `tokens/tokens.json`. Change shapes there and colors in the tokens, then rebuild; never edit the outputs by hand.
 
 ## Voice
 

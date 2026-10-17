@@ -1,6 +1,6 @@
 # Direction: a kamon-inspired frame for every app
 
-Status: exploring, not adopted. Written 2026-10-17; candidates drawn the same day. Nothing in `tokens/`, `logo/`, `icons/` or `AGENTS.md` has changed yet; the snake system is still the live one.
+Status: adopted 2026-10-17. Every logo and icon in the kit is now the 木瓜 frame with the app's motif inside, drawn by `tools/build_logo.py`; the snake system is retired. This page is the record of how the frame was chosen.
 
 ## What I want
 
@@ -47,7 +47,7 @@ iOS and Android mask app icons to a rounded square or circle, so on phones the f
 
 ## What the drawings show
 
-Steps 1 and 2 are drawn: `tools/explore_frames.py` writes every candidate to `docs/kamon-frames/`, and that first round's comparison sheet is kept as `candidates-light.png` and `candidates-dark.png`. Each mark is one filled path on the logos' 140 grid: a 9-unit ring with the motif fitted at least 7 units inside it, and for 24px and down a heavier 14-unit ring, a 9-unit gap and the motif without cut-outs.
+Steps 1 and 2 were drawn with an exploration script, `tools/explore_frames.py`, since retired (it is in the git history). The first round's comparison sheet is kept as `docs/kamon-frames/candidates-light.png` and `candidates-dark.png`. Each mark is one filled path on the logos' 140 grid: a 9-unit ring with the motif fitted at least 7 units inside it, and for 24px and down a heavier 14-unit ring, a 9-unit gap and the motif without cut-outs.
 
 ![The three frames with each motif, at app-icon size and 16px, and next to the hexagons to avoid](kamon-frames/candidates-light.png)
 
@@ -65,9 +65,9 @@ Lean: the wide hex for the calmest, most legible family, or four lobes if being 
 
 **Chosen: a thin inner line, kept slim for the motif.** The frame is four circles of radius 35, set so the whole is 128 wide and 120 tall on the 140 grid, with the notches 48 from the centre and rounded to 3. From the outside in it is a 6-unit band, a 3-unit gap and a 3-unit line that follows the lobes, and the motif sits at least 5 inside that line. For 24px and down it drops to one 14-unit band with a 9-unit gap and the motif without cut-outs.
 
-`tools/explore_frames.py` draws this frame, and `docs/kamon-frames/index.html` keeps the other ways to draw its line for comparison (screenshots: `sheet-light.png`, `sheet-dark.png`):
+The ways to draw its line were compared on one sheet, kept as `docs/kamon-frames/line-styles-light.png` and `line-styles-dark.png`:
 
-![The 木瓜 frame with a thin inner line, without it, with a split band and with an outer ring](kamon-frames/sheet-light.png)
+![The 木瓜 frame with a thin inner line, without it, with a split band and with an outer ring](kamon-frames/line-styles-light.png)
 
 How big each motif can be on the 140 grid, its longest side:
 
@@ -87,6 +87,6 @@ How big each motif can be on the 140 grid, its longest side:
 1. ~~Draw the three candidate frames with Kikitori, Explorer and the brand motif inside, at app-icon size and at 16px, in light and dark.~~ Done, see above.
 2. ~~Put them next to Node.js, an R hex sticker and a crypto hex logo to make sure the winner reads as none of them.~~ Done with plain stand-ins drawn from geometry, see above.
 3. ~~Pick one frame and fix its proportions, corner radius and stroke weight.~~ Four lobes with a thin inner line, see above.
-4. Then update `tools/build_logo.py`, the logos and icons, `tokens/tokens.json` → `apps` (motif notes) and the logo rules in `AGENTS.md` and `README.md`.
+4. ~~Then update `tools/build_logo.py`, the logos and icons, `tokens/tokens.json` → `apps` (motif notes) and the logo rules in `AGENTS.md` and `README.md`.~~ Done. The app icons fill the frame with paper instead of sitting on a paper disc, so `radius-full` is now for avatars only.
 
 The snake pose lab lives on the `snake-sim` branch and is not part of this direction.

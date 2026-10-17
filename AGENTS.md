@@ -2,7 +2,7 @@
 
 Follow these rules for any UI in an app that carries the Yusai Tajiri brand. Paths are relative to this folder, which apps keep at `brand/`. Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth (with a usage note on each token), `tokens/tokens.css` is for the web and `tokens/tokens.ts` for React and React Native. `README.md` is the guide for people, with the background behind these rules.
 
-The brand is calm and warm gray. Each app has one accent color of its own and a logo: the same snake in every app, coiled in a ring with its neck raised, wearing the app's own head, an animal or an object. The brand's own color is moss and its own logo is the snake with a fox's head. Its personality lives at the edges of an app and never in the middle of a task.
+The brand is calm and warm gray. Each app has one accent color of its own and a logo: a kamon (家紋), the same four-lobed 木瓜 frame in every app with the app's own motif inside, an animal or an object. The brand's own color is moss and its own logo is the frame with a fox's head. Its personality lives at the edges of an app and never in the middle of a task.
 
 ## Color
 
@@ -26,7 +26,7 @@ The brand is calm and warm gray. Each app has one accent color of its own and a 
 ## Space, shape and motion
 
 - Spacing uses the `space-*` tokens (4px base): phone gutter `space-4`, card padding `space-6`, between sections `space-8`, around empty states `space-12`. When unsure, take the larger step.
-- Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars and the app icon's disc.
+- Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars.
 - No shadows except `shadow-float` on menus and popovers that float over content. Depth comes from borders and spacing.
 - Motion is 150–200ms, a fade or slide because something changed. No looping or decorative animation.
 
@@ -46,7 +46,7 @@ Use the plain, token-based choice from the sections above instead.
 
 ## Logos
 
-- Logo: the app's icon and its symbol, in `logo/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a logo to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the snake body for one app. The brand's own pages use `logo/yusai-tajiri.svg`. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_logo.py` makes all of these; edit shapes and colors there, never the outputs.
+- Logo: the app's icon and its symbol, in `logo/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a logo to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the frame for one app or put it in a circle. The brand's own pages use `logo/yusai-tajiri.svg`. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_logo.py` makes all of these from the shapes in it and the colors in `tokens/tokens.json`; edit those and rebuild, never the outputs.
 
 ## Platforms
 

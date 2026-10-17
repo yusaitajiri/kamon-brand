@@ -1,15 +1,14 @@
 """Geometry for drawing the logos as real outlines instead of painted strokes.
 
-A body is a centre line with a width along it. Its outline is computed from the normals of the
-centre line, then fitted with a few cubic curves. Skia's path engine (skia-pathops) does the
-unions and the cuts, so a whole logo comes out as one filled path that any vector editor can open.
-tools/build_logo.py holds the shapes; this file only holds the geometry.
+Shapes are grown, shrunk and rounded as outlines, then fitted with a few cubic curves. Skia's path
+engine (skia-pathops) does the unions and the cuts, so a whole logo comes out as one filled path that
+any vector editor can open. tools/build_logo.py holds the shapes; this file only holds the geometry.
 """
 import math
 import re
 
 import pathops
-from pathops import Path, PathOp, FillType, LineCap, LineJoin
+from pathops import Path, PathOp, LineCap, LineJoin
 
 # ---------------------------------------------------------------- small vector helpers
 
@@ -23,65 +22,6 @@ def length(a): return math.hypot(a[0], a[1])
 def unit(a):
     d = length(a)
     return (a[0] / d, a[1] / d) if d > 1e-12 else (0.0, 0.0)
-
-
-# ---------------------------------------------------------------- centre lines
-
-class Centerline:
-    """A centre line drawn like a turtle: ellipse arcs, cubic curves and straight runs, sampled
-    finely. Headings are in degrees on the SVG grid (0 = right, 90 = down)."""
-
-    STEP = 0.2
-
-    def __init__(self, x, y, heading):
-        self.pts = [(x, y)]
-        self.h = math.radians(heading)
-
-    @property
-    def end(self):
-        return self.pts[-1]
-
-    @property
-    def heading(self):
-        return math.degrees(self.h)
-
-    def line(self, d):
-        x, y = self.end
-        n = max(1, int(abs(d) / self.STEP))
-        for i in range(1, n + 1):
-            t = d * i / n
-            self.pts.append((x + t * math.cos(self.h), y + t * math.sin(self.h)))
-        return self
-
-    def cubic(self, c1, c2, p3):
-        p0 = self.end
-        n = 400
-        for i in range(1, n + 1):
-            t = i / n
-            u = 1 - t
-            self.pts.append((u**3 * p0[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t**3 * p3[0],
-                             u**3 * p0[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t**3 * p3[1]))
-        d = sub(p3, c2) if length(sub(p3, c2)) > 1e-9 else sub(p3, c1)
-        self.h = math.atan2(d[1], d[0])
-        return self
-
-    @classmethod
-    def ellipse(cls, cx, cy, rx, ry, th0, th1):
-        """Start a centre line on an ellipse arc, from angle th0 to th1 (degrees)."""
-        a0, a1 = math.radians(th0), math.radians(th1)
-        c = cls(cx + rx * math.cos(a0), cy + ry * math.sin(a0), 0)
-        c.ellipse_to(cx, cy, rx, ry, a0, a1)
-        return c
-
-    def ellipse_to(self, cx, cy, rx, ry, a0, a1):
-        perim = math.pi * (3 * (rx + ry) - math.sqrt((3 * rx + ry) * (rx + 3 * ry)))
-        n = max(8, int(abs(a1 - a0) / (2 * math.pi) * perim / self.STEP))
-        for i in range(1, n + 1):
-            t = a0 + (a1 - a0) * i / n
-            self.pts.append((cx + rx * math.cos(t), cy + ry * math.sin(t)))
-        s = 1 if a1 > a0 else -1
-        self.h = math.atan2(s * ry * math.cos(a1), -s * rx * math.sin(a1))
-        return self
 
 
 # ---------------------------------------------------------------- outlines
@@ -382,13 +322,32 @@ def minus(a, *bs):
     return out
 
 
-def grow(path, d):
-    """The shape grown outward by d (round corners), for making clear cuts around it."""
+def _band(path, d):
+    """The strip d either side of the shape's outline, with round corners."""
     band = Path()
     band.addPath(path)
     band.stroke(2 * d, LineCap.ROUND_CAP, LineJoin.ROUND_JOIN, 4)
     band.convertConicsToQuads()
-    return union(path, pathops.simplify(band, fix_winding=True))
+    return pathops.simplify(band, fix_winding=True)
+
+
+def grow(path, d):
+    """The shape grown outward by d (round corners), for making clear cuts around it."""
+    return union(path, _band(path, d))
+
+
+def shrink(path, d):
+    """The shape pulled inward by d; its inward corners come out round."""
+    return minus(path, _band(path, d))
+
+
+def rounded(path, convex=0.0, concave=0.0):
+    """The shape with its outward corners rounded to `convex` and its inward corners to `concave`."""
+    if concave:
+        path = shrink(grow(path, concave), concave)
+    if convex:
+        path = grow(shrink(path, convex), convex)
+    return smooth(path)
 
 
 # ---------------------------------------------------------------- SVG path in and out
@@ -544,138 +503,3 @@ def to_svg(path, nd=2):
         else:
             out.append(seg[0] + " ".join(f(c) for p in seg[1:] for c in p))
     return "".join(out).replace(" -", "-")
-
-
-# ---------------------------------------------------------------- a body with layers
-
-class Body:
-    """One continuous body: centre-line samples and the full width at each. Pieces of it are
-    built from the same edge points, so neighbouring pieces meet exactly."""
-
-    def __init__(self, pts, widths):
-        self.pts, self.widths = pts, widths
-        n = len(pts)
-        self.L, self.R, self.T = [], [], []
-        for i in range(n):
-            a, b = pts[max(0, i - 2)], pts[min(n - 1, i + 2)]
-            t = unit(sub(b, a))
-            nx, ny = -t[1], t[0]
-            w = widths[i] / 2
-            x, y = pts[i]
-            self.T.append(t)
-            self.L.append((x + nx * w, y + ny * w))
-            self.R.append((x - nx * w, y - ny * w))
-
-    def _cap(self, i, r, start):
-        x, y = self.pts[i]
-        t = self.T[i]
-        base = math.atan2(t[1], t[0])
-        a0, a1 = (base - math.pi / 2, base - 3 * math.pi / 2) if start else (base + math.pi / 2, base - math.pi / 2)
-        m = 48
-        return [(x + r * math.cos(a0 + (a1 - a0) * k / m), y + r * math.sin(a0 + (a1 - a0) * k / m)) for k in range(1, m)]
-
-    def piece(self, i0, i1, caps=("none", "none"), grow=0.0, inset=None):
-        """Polygon of the body between samples i0 and i1, optionally grown by `grow` all round.
-        `inset(i)` narrows the piece at sample i (each side), so a piece can end strictly inside
-        a neighbouring one and the two never share an edge."""
-        i0, i1 = max(0, i0), min(len(self.pts) - 1, i1)
-        if grow or inset:
-            L, R = [], []
-            for i in range(i0, i1 + 1):
-                t = self.T[i]
-                nx, ny = -t[1], t[0]
-                w = self.widths[i] / 2 + grow - (inset(i) if inset else 0)
-                x, y = self.pts[i]
-                L.append((x + nx * w, y + ny * w))
-                R.append((x - nx * w, y - ny * w))
-        else:
-            L, R = self.L[i0:i1 + 1], self.R[i0:i1 + 1]
-        ring = list(L)
-        if caps[1] == "round":
-            ring += self._cap(i1, self.widths[i1] / 2 + grow, False)
-        ring += R[::-1]
-        if caps[0] == "round":
-            ring += self._cap(i0, self.widths[i0] / 2 + grow, True)
-        p = Path()
-        p.fillType = FillType.WINDING
-        p.moveTo(*ring[0])
-        for q in ring[1:]:
-            p.lineTo(*q)
-        p.close()
-        return pathops.simplify(p, fix_winding=True)
-
-
-def ease(t):
-    """Smooth 0..1 ramp."""
-    t = max(0.0, min(1.0, t))
-    return t * t * (3 - 2 * t)
-
-
-# ---------------------------------------------------------------- Hobby's curves through knots
-
-def _rho(a, b):
-    """Hobby's velocity: how long a handle should be for tangent angles a, b off the chord."""
-    sa, sb, ca, cb = math.sin(a), math.sin(b), math.cos(a), math.cos(b)
-    num = 2 + math.sqrt(2) * (sa - sb / 16) * (sb - sa / 16) * (ca - cb)
-    den = 1 + (math.sqrt(5) - 1) / 2 * ca + (3 - math.sqrt(5)) / 2 * cb
-    return num / den
-
-
-def _hobby_run(pts, h_start, h_end):
-    """Hobby's open curve through pts with given end directions; interior directions are solved
-    so curvature runs on smoothly (METAFONT's 'mock curvature' equations, tension 1)."""
-    n = len(pts) - 1
-    d = [math.dist(pts[k], pts[k + 1]) for k in range(n)]
-    ch = [math.atan2(pts[k + 1][1] - pts[k][1], pts[k + 1][0] - pts[k][0]) for k in range(n)]
-    wrap = lambda a: math.atan2(math.sin(a), math.cos(a))
-    psi = [0.0] + [wrap(ch[k] - ch[k - 1]) for k in range(1, n)] + [0.0]
-    th0 = wrap(math.radians(h_start) - ch[0])
-    phn = wrap(ch[n - 1] - math.radians(h_end))
-    if n == 1:
-        th, ph = [th0], [None, phn]
-    else:
-        # tridiagonal system in theta_1..theta_{n-1}
-        a, b, c, r = [], [], [], []
-        for k in range(1, n):
-            A, B, C, D = 1 / d[k - 1], 2 / d[k - 1], 2 / d[k], 1 / d[k]
-            rhs = -B * psi[k] - D * psi[k + 1]
-            lo, mid, hi = A, B + C, D
-            if k == 1:
-                rhs -= A * th0
-                lo = 0.0
-            if k == n - 1:
-                rhs -= D * (-phn)
-                hi = 0.0
-            a.append(lo); b.append(mid); c.append(hi); r.append(rhs)
-        m = len(b)
-        for i in range(1, m):  # Thomas algorithm
-            w = a[i] / b[i - 1]
-            b[i] -= w * c[i - 1]
-            r[i] -= w * r[i - 1]
-        x = [0.0] * m
-        x[-1] = r[-1] / b[-1]
-        for i in range(m - 2, -1, -1):
-            x[i] = (r[i] - c[i] * x[i + 1]) / b[i]
-        th = [th0] + x
-        ph = [None] + [-psi[k] - th[k] for k in range(1, n)] + [phn]
-    segs = []
-    for k in range(n):
-        t, f = th[k], ph[k + 1]
-        ra, rb = _rho(t, f) / 3 * d[k], _rho(f, t) / 3 * d[k]
-        a0, a1 = ch[k] + t, ch[k] - f
-        c1 = (pts[k][0] + ra * math.cos(a0), pts[k][1] + ra * math.sin(a0))
-        c2 = (pts[k + 1][0] - rb * math.cos(a1), pts[k + 1][1] - rb * math.sin(a1))
-        segs.append((c1, c2, pts[k + 1]))
-    return segs
-
-
-def hobby_path(knots):
-    """Knots (x, y, heading or None). Headings are kept where given (always at both ends);
-    elsewhere Hobby's equations choose them, so the curve bends evenly."""
-    segs, start = [], 0
-    for i in range(1, len(knots)):
-        if knots[i][2] is not None or i == len(knots) - 1:
-            run = knots[start:i + 1]
-            segs += _hobby_run([(k[0], k[1]) for k in run], run[0][2], run[-1][2])
-            start = i
-    return segs
