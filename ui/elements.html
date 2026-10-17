@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI elements</title>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="ui.css">
+<style>
+  /* Specimen layout only. .is-focus shows the focus state without a keyboard. */
+  body { margin: 0; }
+  main { max-width: 960px; margin: 0 auto; padding: var(--space-12) var(--space-4); }
+  h1 { margin: 0; font: var(--text-title); }
+  h2 { margin: 0; font: var(--text-heading); }
+  p { margin: var(--space-2) 0 0; max-width: 640px; color: var(--ink-muted); }
+  section.card { margin-top: var(--space-8); }
+  .variant { margin-top: var(--space-6); }
+  .variant-name { font: var(--text-caption); color: var(--ink-subtle); }
+  .row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-4); margin-top: var(--space-2); }
+  .row .field { width: 220px; }
+  .button.is-focus, .check .is-focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .enlarged { align-items: center; gap: var(--space-16); }
+  .zoom { zoom: 4; }
+  .input.is-focus { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 0; }
+</style>
+</head>
+<body class="ui">
+<main>
+<h1>UI elements</h1>
+<p>Every element is plain except the primary button, the one action per view, which carries the kamon: corners
+notched like the 木瓜 frame, where two lobes meet, and a thin inner line like the frame's own.</p>
+
+<section class="card">
+  <h2>Button</h2>
+  <div class="variant">
+    <div class="variant-name">Primary, secondary, quiet, focused, disabled</div>
+    <div class="row">
+      <button class="button button-primary">Save</button>
+      <button class="button">Cancel</button>
+      <button class="button button-quiet">Edit</button>
+      <button class="button is-focus">Focused</button>
+      <button class="button button-primary" disabled>Save</button>
+    </div>
+  </div>
+  <div class="variant">
+    <div class="variant-name">The primary button's corner, enlarged four times, beside the logo it comes from</div>
+    <div class="row enlarged">
+      <div class="zoom"><button class="button button-primary">Save</button></div>
+      <picture><source srcset="../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/yusai-tajiri.svg" width="140" height="140" alt="The brand logo"></picture>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Text box</h2>
+  <div class="variant">
+    <div class="variant-name">Empty, filled, focused, error, disabled</div>
+    <div class="row">
+      <label class="field"><span class="field-label">Title</span><input class="input" placeholder="Untitled"></label>
+      <label class="field"><span class="field-label">Title</span><input class="input" value="Weekly notes"><span class="field-help">Shown at the top of the entry.</span></label>
+      <label class="field"><span class="field-label">Title</span><input class="input is-focus" value="Weekly notes"></label>
+      <label class="field"><span class="field-label">Email</span><input class="input" value="yusai@" aria-invalid="true"><span class="field-error">Enter a full email address.</span></label>
+      <label class="field"><span class="field-label">Title</span><input class="input" value="Weekly notes" disabled></label>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Select</h2>
+  <div class="variant">
+    <div class="variant-name">Closed</div>
+    <div class="row">
+      <label class="field"><span class="field-label">Kind</span><span class="select-wrap"><select class="select"><option>Memo</option><option>Task</option></select></span></label>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Checkbox and switch</h2>
+  <div class="variant">
+    <div class="variant-name">Off, on, focused, disabled</div>
+    <div class="row">
+      <label class="check"><input type="checkbox">Save as draft</label>
+      <label class="check"><input type="checkbox" checked>Save as draft</label>
+      <label class="check"><input type="checkbox" class="is-focus">Save as draft</label>
+      <label class="check"><input type="checkbox" disabled>Save as draft</label>
+    </div>
+    <div class="row">
+      <label class="switch">Reminder<input type="checkbox" role="switch"></label>
+      <label class="switch">Reminder<input type="checkbox" role="switch" checked></label>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Tag, list and empty state</h2>
+  <div class="variant">
+    <div class="variant-name">Tags, a list with one row selected, an empty state</div>
+    <div class="row">
+      <span class="tag" aria-pressed="true">All</span>
+      <span class="tag">Work</span>
+      <span class="tag">Memo</span>
+    </div>
+    <ul class="list" style="margin-top: var(--space-4); max-width: 420px;">
+      <li class="list-row" aria-selected="true"><span>Weekly notes</span><span class="list-meta">10:42</span></li>
+      <li class="list-row"><span>Interview, part two</span><span class="list-meta">09:15</span></li>
+    </ul>
+    <div class="empty">No entries yet. Write your first line.</div>
+  </div>
+</section>
+</main>
+</body>
+</html>

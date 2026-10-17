@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja" data-app="kikitori">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample screen</title>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="ui.css">
+<style>
+  /* Sample layout only: one phone-width screen in Kikitori's color. The kamon is the logo, the one
+     primary button and the empty state's mark; everything else is plain. */
+  body { margin: 0; }
+  main { max-width: 360px; margin: 0 auto; padding: var(--space-4); }
+  .bar { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+  img { display: block; }
+  h1 { margin: var(--space-6) 0 var(--space-4); font: var(--text-title); }
+  h2 { margin: var(--space-8) 0 var(--space-3); font: var(--text-heading); }
+  .tags { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+  .card { padding: var(--space-4); }
+  .list-row { padding: var(--space-2); }
+  .form { display: flex; flex-direction: column; gap: var(--space-4); }
+  .actions { display: flex; gap: var(--space-3); }
+  .card .empty { padding: var(--space-8) var(--space-4); }
+</style>
+</head>
+<body class="ui">
+<main>
+  <div class="bar">
+    <span class="brand"><picture><source srcset="../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/kikitori.svg" width="32" height="32" alt=""></picture>Kikitori</span>
+    <button class="button button-quiet">設定</button>
+  </div>
+  <h1>記録</h1>
+  <input class="input" placeholder="記録を検索" aria-label="記録を検索">
+  <div class="tags">
+    <span class="tag" aria-pressed="true">すべて</span>
+    <span class="tag">仕事</span>
+    <span class="tag">メモ</span>
+  </div>
+
+  <h2>最近の記録</h2>
+  <div class="card">
+    <ul class="list">
+      <li class="list-row" aria-selected="true"><span>週次ミーティング</span><span class="list-meta">10:42</span></li>
+      <li class="list-row"><span>インタビュー 後半</span><span class="list-meta">09:15</span></li>
+      <li class="list-row"><span>読書メモ</span><span class="list-meta">昨日</span></li>
+    </ul>
+  </div>
+
+  <h2>新しい記録</h2>
+  <div class="card form">
+    <label class="field"><span class="field-label">タイトル</span><input class="input" value="週次ミーティング"></label>
+    <label class="field"><span class="field-label">種類</span><span class="select-wrap"><select class="select"><option>メモ</option><option>タスク</option></select></span></label>
+    <label class="switch">リマインダー<input type="checkbox" role="switch" checked></label>
+    <label class="check"><input type="checkbox">下書きとして保存</label>
+    <div class="actions">
+      <button class="button button-primary">保存</button>
+      <button class="button">キャンセル</button>
+    </div>
+  </div>
+
+  <h2>アーカイブ</h2>
+  <div class="card">
+    <div class="empty">
+      <picture><source srcset="../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/kikitori.svg" width="48" height="48" alt=""></picture>
+      まだ記録がありません。最初の一行を書いてみましょう。
+    </div>
+  </div>
+</main>
+</body>
+</html>
