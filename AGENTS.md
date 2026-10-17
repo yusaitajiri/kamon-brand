@@ -2,7 +2,7 @@
 
 Follow these rules for any UI in an app that carries the Kudagitsune brand. Paths are relative to this folder, which apps keep at `brand/`. Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth (with a usage note on each token), `tokens/tokens.css` is for the web and `tokens/tokens.ts` for React and React Native. `README.md` is the guide for people, with the background behind these rules.
 
-The brand is calm and warm gray. Each app has one accent color of its own and a mon (家紋, a crest) in the shared ring; Kudagitsune's own color is moss. Its personality, a pixel fox and a hanko stamp, lives at the edges of an app and never in the middle of a task.
+The brand is calm and warm gray. Each app has one accent color of its own and a mon (家紋, a crest): the family's shared body, coiled in a ring with its neck raised, wearing the app's own head. Kudagitsune's own color is moss. Its personality, a pixel fox and a hanko stamp, lives at the edges of an app and never in the middle of a task.
 
 ## Color
 
@@ -47,7 +47,7 @@ Use the plain, token-based choice from the sections above instead.
 
 ## Mon, marks and the fox
 
-- Mon: the app's icon and its symbol, in `mon/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a mon to another app's color, add a second color, outline, shadow or texture, or take it out of its ring except at small sizes. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `mon/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_mon.py` makes all of these; edit shapes and colors there, never the outputs.
+- Mon: the app's icon and its symbol, in `mon/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a mon to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the shared body for one app. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `mon/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_mon.py` makes all of these; edit shapes and colors there, never the outputs.
 
 - Hanko: `marks/hanko-square.svg` for about pages, signatures and store art (at least 32px tall), `marks/hanko-round.svg` for favicons and footers (at least 20px). On dark grounds use the `-on-dark` files. Keep clear space of a quarter of the mark's width. Don't recolor, rotate, stretch or outline it, or add effects. Never retype 管狐 in a font.
 - Fox: `mascot/fox-pixel.svg` for empty states, success and the about page, `mascot/fox-pixel-shy.svg` for loading and waiting, `mascot/fox-pixel-sleeping.svg` for offline and idle. The art is 14 × 22 pixels, so show it only at whole multiples (28 × 44, 42 × 66, 56 × 88…) with `image-rendering: pixelated`.
