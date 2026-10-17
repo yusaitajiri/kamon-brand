@@ -1,6 +1,6 @@
-/* Kudagitsune brand tokens. Light is default; dark follows the system or [data-theme="dark"].
-   Build with --accent; an app brings its own color with data-app on <html> (Kudagitsune itself stays moss). */
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&family=Zen+Old+Mincho:wght@700&family=IBM+Plex+Mono:wght@400&display=swap');
+/* Yusai Tajiri brand tokens. Light is default; dark follows the system or [data-theme="dark"].
+   Build with --accent; an app brings its own color with data-app on <html> (the brand's own pages stay moss). */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap');
 
 :root {
   --surface: #F3F1EC;
@@ -60,10 +60,8 @@
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
-  --radius-seal: 14px;
   --radius-full: 9999px;
   --font-sans: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
-  --font-seal: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
   color-scheme: light;
 }
