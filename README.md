@@ -15,11 +15,11 @@ The 管狐 (kudagitsune) is a fox spirit from Japanese folklore, small enough to
 </p>
 
 <p>
-  <img src="mon/kudagitsune.svg" height="96" alt="Kudagitsune mon: in a ring, the fox looking out of its bamboo tube, in moss">
+  <img src="mon/kudagitsune.svg" height="96" alt="Kudagitsune mon: a long body coiled in a ring, its neck rising in an S to a fox's head, in moss">
   &nbsp;&nbsp;
-  <img src="mon/kikitori.svg" height="96" alt="Kikitori mon: in a ring, a plover over a wave, in vermilion">
+  <img src="mon/kikitori.svg" height="96" alt="Kikitori mon: the same coiled body with a plover for its head, in vermilion">
   &nbsp;&nbsp;
-  <img src="mon/explorer.svg" height="96" alt="File manager mon: in a ring, nested measuring boxes, in indigo">
+  <img src="mon/explorer.svg" height="96" alt="File manager mon: the same coiled body with nested measuring boxes for its head, in indigo">
 </p>
 
 ## Principles
@@ -87,20 +87,20 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 
 ## The mon (app icons)
 
-Every app has a 家紋, a mon: one shape in one color inside the shared ring, the way a Japanese family crest is drawn. The ring and the drawing style make the apps one family; the shape and the color tell them apart. Mons have no letters or kanji, so they read the same in any language.
+Every app has a 家紋, a mon, drawn in one color the way a Japanese family crest is. All of them share one body, long and slender like a spirit that lives in a bamboo tube: it lies in a ring on the ground and raises its neck from the front in an S. Only the head on top changes from app to app. The shared body makes the apps one family; the head and the color tell them apart. Mons have no letters or kanji, so they read the same in any language.
 
 | App | Mon | Color | Files |
 | --- | --- | --- | --- |
-| Kudagitsune | 丸に管狐 — the fox looking out of its bamboo tube, as on the hanko | 苔 moss | `mon/kudagitsune*.svg`, `icons/kudagitsune/` |
-| Kikitori | 丸に波に千鳥 — a plover over a wave; the wave is Kikitori's recording line | 朱 shu | `mon/kikitori*.svg`, `icons/kikitori/` |
-| File manager (working name *Explorer*) | 丸に入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `mon/explorer*.svg`, `icons/explorer/` |
+| Kudagitsune | 管狐 — the fox's head from the hanko | 苔 moss | `mon/kudagitsune*.svg`, `icons/kudagitsune/` |
+| Kikitori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `mon/kikitori*.svg`, `icons/kikitori/` |
+| File manager (working name *Explorer*) | 入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `mon/explorer*.svg`, `icons/explorer/` |
 
-- **Files.** `mon/<app>.svg` is the mon in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Cut-outs are transparent. Below 32px use the `-small` files: the same outline with a heavier ring and without the cut-outs too fine to see.
-- **App icons.** `icons/<app>/` holds the mon on a paper disc, so it reads on light and dark taskbars alike: `icon.svg`, PNGs from 16 to 1024px (24px and down use the small drawing), a Windows `icon.ico` with every size drawn for its size, and `app-icon-1024.png`, an opaque square on the warm ground for stores and iOS.
+- **Files.** `mon/<app>.svg` is the mon in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Each is one filled path and its cut-outs are transparent. Below 32px use the `-small` files: the same mon with a heavier body, wider cuts and a simpler neck, without the cut-outs too fine to see.
+- **App icons.** `icons/<app>/` holds the mon on a paper disc, scaled to sit inside it, so it reads on light and dark taskbars alike: `icon.svg`, PNGs from 16 to 1024px (24px and down use the small drawing), a Windows `icon.ico` with every size drawn for its size, and `app-icon-1024.png`, an opaque square on the warm ground for stores and iOS.
 - **Tray and menu bar.** Use `mon/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones.
-- **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate or stretch a mon, and don't take it out of its ring except at small sizes.
+- **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate, mirror or stretch a mon, and don't redraw the body for one app: every app shares it.
 - **Black-and-white test.** Every mon must be recognisable in solid black at 16px and must not be confused with any other app's mon. Check this before adding one.
-- **A new app's mon** is a traditional motif, or the app's own idea drawn the same way: filled shapes, cut-outs instead of lines, about 70% of the ring's width. No letters. Add it to `tools/build_mon.py`, run it, and add the app to `tokens/tokens.json` → `apps`.
+- **A new app's mon** is a new head on the same body: a traditional motif or the app's own idea, as a filled shape with cut-outs instead of lines, about as big as the fox's head and sitting on the same chin point. No letters. Add it to `HEADS` in `tools/build_mon.py`, run it, and add the app to `tokens/tokens.json` → `apps`.
 - `tools/build_mon.py` draws every mon file and icon; change shapes or colors there and rebuild, never edit the outputs by hand.
 
 ## The fox (mascot)
@@ -163,9 +163,9 @@ All three are free (SIL Open Font License) on Google Fonts:
 | --- | --- |
 | `marks/` | Both hanko as SVG (use these whenever you can) and PNG at 64, 256 and 1024px tall, in moss ink and the `-on-dark` lighter ink. Cut-outs are transparent. |
 | `mascot/` | The pixel fox in three poses as SVG, plus crisp PNGs at 2×, 3×, 4× and 8×. |
-| `mon/` | Each app's mon as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Cut-outs are transparent. |
+| `mon/` | Each app's mon as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the 管狐 mon for the brand's own pages. |
-| `tools/build_mon.py` | Draws every file in `mon/` and `icons/` from one set of shapes (`pip install resvg-py pillow`, then `python tools/build_mon.py`). |
+| `tools/` | `build_mon.py` draws every file in `mon/` and `icons/` from one set of shapes, with the geometry in `monkit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_mon.py`). |
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
 | `tokens/tokens.json` | The source of truth, with a usage note on every token. |
