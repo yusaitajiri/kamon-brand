@@ -1,6 +1,6 @@
 # Direction: a kamon-inspired frame for every app
 
-Status: exploring, not adopted. Written 2026-10-17. Nothing in `tokens/`, `logo/`, `icons/` or `AGENTS.md` has changed yet; the snake system is still the live one.
+Status: exploring, not adopted. Written 2026-10-17; candidates drawn the same day. Nothing in `tokens/`, `logo/`, `icons/` or `AGENTS.md` has changed yet; the snake system is still the live one.
 
 ## What I want
 
@@ -45,10 +45,24 @@ No consumer app family owns the hexagon, but it carries two associations: develo
 
 iOS and Android mask app icons to a rounded square or circle, so on phones the frame sits inside that mask on `surface` or a tint. Windows, macOS, the web and in-app marks can show the frame on its own.
 
+## What the drawings show
+
+Steps 1 and 2 are drawn: `tools/explore_frames.py` writes every candidate to `docs/kamon-frames/`, and `index.html` there is the comparison sheet (screenshots: `sheet-light.png`, `sheet-dark.png`). Each mark is one filled path on the logos' 140 grid: a 9-unit ring with the motif fitted at least 7 units inside it, and for 24px and down a heavier 14-unit ring, a 9-unit gap and the motif without cut-outs.
+
+![The three frames with each motif, at app-icon size and 16px, and next to the hexagons to avoid](kamon-frames/sheet-light.png)
+
+- **Wide hex** stays a hexagon down to 16px. Next to the dev-tool, sticker and crypto stand-ins the flat top and the motif keep it apart, but at 16px it is the closest of the three to them.
+- **Four lobes** is the most like a real kamon and looks like no app frame at full size. Below 24px the notches close up and it reads as a soft rounded square, which is still distinct but loses what makes it special.
+- **Inset hex** reads more as a seal or a bottle cap than a ninja star or a token. At 16px the bow disappears and it becomes a plain hexagon, so it costs the most and keeps the least at small sizes.
+- **The motifs.** The fox and the boxes carry over as they are. The plover's wing line had to go: inside a frame it sat under the eye like a smile. 入れ子枡 stays turned 45°, and in the hexagons that makes it the smallest motif, because its corners point at the flat sides.
+- **At 16px the frame does most of the work.** The motif is about 5px and reads as a blob of the app's color, so telling apps apart there rests on color, as it already does with the snake.
+
+Lean: the wide hex for the calmest, most legible family, or four lobes if being unmistakably kamon matters more than the 16px shape. The inset hex is the weakest at small sizes.
+
 ## Next steps
 
-1. Draw the three candidate frames with Kikitori, Explorer and the brand motif inside, at app-icon size and at 16px, in light and dark.
-2. Put them next to Node.js, an R hex sticker and a crypto hex logo to make sure the winner reads as none of them.
+1. ~~Draw the three candidate frames with Kikitori, Explorer and the brand motif inside, at app-icon size and at 16px, in light and dark.~~ Done, see above.
+2. ~~Put them next to Node.js, an R hex sticker and a crypto hex logo to make sure the winner reads as none of them.~~ Done with plain stand-ins drawn from geometry, see above.
 3. Pick one frame and fix its proportions, corner radius and stroke weight.
 4. Then update `tools/build_logo.py`, the logos and icons, `tokens/tokens.json` → `apps` (motif notes) and the logo rules in `AGENTS.md` and `README.md`.
 
