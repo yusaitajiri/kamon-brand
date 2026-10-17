@@ -325,13 +325,15 @@
 /* ---------------------------------------------------------------- the kamon primary button */
 /* The one primary action in a view carries the kamon; nothing else does. Its outline is the 木瓜 frame's
    notch: at each corner two outward quarter circles, the ends of two lobes, meet at an inward point,
-   as where a wide and a tall rounded rectangle overlap. A thin line follows the same outline just
-   inside the edge, like the frame's inner line. Both are clip-path shapes behind the label, so the
-   focus ring is untouched. Browsers without shape() keep the plain primary button above. */
+   as where a wide and a tall rounded rectangle overlap. A thin line runs parallel to that outline just
+   inside the edge, like the frame's inner line: its lobes share the outline's centres with a smaller
+   radius, and it rounds each notch with a small arc about the notch's point, so the strip outside it
+   and the line itself keep one width all the way round. Both are clip-path shapes behind the label, so
+   the focus ring is untouched. Browsers without shape() keep the plain primary button above. */
 
 @supports (clip-path: shape(from 0 0, line to 1px 1px)) {
   .button-primary {
-    --notch: calc(var(--radius-md) / 2);
+    --notch: var(--radius-md); /* each lobe's radius; it must stay over 4px for the line inside it */
     position: relative;
     isolation: isolate;
     border-color: transparent;
@@ -344,16 +346,17 @@
     background: transparent;
   }
 
+  /* Both layers cover the button out to its border's edge. */
   .button-primary::before,
   .button-primary::after {
     content: "";
     position: absolute;
+    inset: -1px;
     z-index: -1;
   }
 
-  /* The fill, out to the border's edge. */
+  /* The fill. */
   .button-primary::before {
-    inset: -1px;
     background: var(--accent);
     transition: background-color 150ms;
     clip-path: shape(
@@ -382,38 +385,45 @@
     background: var(--accent);
   }
 
-  /* The inner line: 1px wide, 3px inside the edge. */
+  /* The inner line: the outline offset 3px and 4px inward, filled between the two. */
   .button-primary::after {
-    inset: 2px;
     background: var(--on-accent);
     clip-path: shape(evenodd
-      from calc(2 * var(--notch)) 0,
+      from calc(2 * var(--notch)) 3px,
       hline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch)) var(--notch) of var(--notch) cw,
-      arc to 100% calc(2 * var(--notch)) of var(--notch) cw,
+      arc to calc(100% - var(--notch) - 3px) var(--notch) of calc(var(--notch) - 3px) cw,
+      arc to calc(100% - var(--notch)) calc(var(--notch) + 3px) of 3px ccw,
+      arc to calc(100% - 3px) calc(2 * var(--notch)) of calc(var(--notch) - 3px) cw,
       vline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch)) calc(100% - var(--notch)) of var(--notch) cw,
-      arc to calc(100% - 2 * var(--notch)) 100% of var(--notch) cw,
+      arc to calc(100% - var(--notch)) calc(100% - var(--notch) - 3px) of calc(var(--notch) - 3px) cw,
+      arc to calc(100% - var(--notch) - 3px) calc(100% - var(--notch)) of 3px ccw,
+      arc to calc(100% - 2 * var(--notch)) calc(100% - 3px) of calc(var(--notch) - 3px) cw,
       hline to calc(2 * var(--notch)),
-      arc to var(--notch) calc(100% - var(--notch)) of var(--notch) cw,
-      arc to 0 calc(100% - 2 * var(--notch)) of var(--notch) cw,
+      arc to calc(var(--notch) + 3px) calc(100% - var(--notch)) of calc(var(--notch) - 3px) cw,
+      arc to var(--notch) calc(100% - var(--notch) - 3px) of 3px ccw,
+      arc to 3px calc(100% - 2 * var(--notch)) of calc(var(--notch) - 3px) cw,
       vline to calc(2 * var(--notch)),
-      arc to var(--notch) var(--notch) of var(--notch) cw,
-      arc to calc(2 * var(--notch)) 0 of var(--notch) cw,
+      arc to var(--notch) calc(var(--notch) + 3px) of calc(var(--notch) - 3px) cw,
+      arc to calc(var(--notch) + 3px) var(--notch) of 3px ccw,
+      arc to calc(2 * var(--notch)) 3px of calc(var(--notch) - 3px) cw,
       close,
-      move to calc(1px + 2 * var(--notch)) 1px,
-      hline to calc(100% - 1px - 2 * var(--notch)),
-      arc to calc(100% - 1px - var(--notch)) calc(1px + var(--notch)) of var(--notch) cw,
-      arc to calc(100% - 1px) calc(1px + 2 * var(--notch)) of var(--notch) cw,
-      vline to calc(100% - 1px - 2 * var(--notch)),
-      arc to calc(100% - 1px - var(--notch)) calc(100% - 1px - var(--notch)) of var(--notch) cw,
-      arc to calc(100% - 1px - 2 * var(--notch)) calc(100% - 1px) of var(--notch) cw,
-      hline to calc(1px + 2 * var(--notch)),
-      arc to calc(1px + var(--notch)) calc(100% - 1px - var(--notch)) of var(--notch) cw,
-      arc to 1px calc(100% - 1px - 2 * var(--notch)) of var(--notch) cw,
-      vline to calc(1px + 2 * var(--notch)),
-      arc to calc(1px + var(--notch)) calc(1px + var(--notch)) of var(--notch) cw,
-      arc to calc(1px + 2 * var(--notch)) 1px of var(--notch) cw,
+      move to calc(2 * var(--notch)) 4px,
+      hline to calc(100% - 2 * var(--notch)),
+      arc to calc(100% - var(--notch) - 4px) var(--notch) of calc(var(--notch) - 4px) cw,
+      arc to calc(100% - var(--notch)) calc(var(--notch) + 4px) of 4px ccw,
+      arc to calc(100% - 4px) calc(2 * var(--notch)) of calc(var(--notch) - 4px) cw,
+      vline to calc(100% - 2 * var(--notch)),
+      arc to calc(100% - var(--notch)) calc(100% - var(--notch) - 4px) of calc(var(--notch) - 4px) cw,
+      arc to calc(100% - var(--notch) - 4px) calc(100% - var(--notch)) of 4px ccw,
+      arc to calc(100% - 2 * var(--notch)) calc(100% - 4px) of calc(var(--notch) - 4px) cw,
+      hline to calc(2 * var(--notch)),
+      arc to calc(var(--notch) + 4px) calc(100% - var(--notch)) of calc(var(--notch) - 4px) cw,
+      arc to var(--notch) calc(100% - var(--notch) - 4px) of 4px ccw,
+      arc to 4px calc(100% - 2 * var(--notch)) of calc(var(--notch) - 4px) cw,
+      vline to calc(2 * var(--notch)),
+      arc to var(--notch) calc(var(--notch) + 4px) of calc(var(--notch) - 4px) cw,
+      arc to calc(var(--notch) + 4px) var(--notch) of 4px ccw,
+      arc to calc(2 * var(--notch)) 4px of calc(var(--notch) - 4px) cw,
       close
     );
   }

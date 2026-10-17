@@ -30,7 +30,9 @@ The study put one sample screen in Kikitori's color at four densities (`docs/kam
 
 The first attempt used CSS `corner-shape: scoop`: one concave arc cut into each corner. That is a ticket stub's corner, not the crest's, and it is a large part of why the denser screens looked like tickets (`docs/kamon-ui/scooped-elements-light.png`). The 木瓜 notch is the opposite: two convex quarter circles meeting at an inward point.
 
-The adopted button draws that outline with `clip-path: shape()`, which follows the button at any size. The fill and the inner line are two layers behind the label, so the focus ring is untouched and no shadow is involved. `shape()` works in current Chrome, Edge and Safari; a browser without it shows the plain primary button.
+The adopted button draws that outline with `clip-path: shape()`, which follows the button at any size. Each lobe has a radius of 8px (`radius-md`): at 4px the lobes were too small to see and the button read as a clipped label, and from 10px the side lobes start to meet and the button turns into a cloud.
+
+The inner line runs parallel to the outline, 3px inside it and 1px wide. Its lobes share the outline's centres with a smaller radius, and at each notch it curves around the notch's point in a small arc, so the strip outside it and the line itself keep one width all the way round. (A first version copied the outline at a smaller size instead: same radius, shifted centres, and a strip that pinched at the corners.) The fill and the inner line are two layers behind the label, so the focus ring is untouched and no shadow is involved. `shape()` works in current Chrome, Edge and Safari; a browser without it shows the plain primary button.
 
 ![The primary button's corner enlarged beside the logo](../ui/screens/elements-light.png)
 
