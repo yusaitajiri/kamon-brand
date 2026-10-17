@@ -53,6 +53,7 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 - **Zen Kaku Gothic New** for everything in the UI, Japanese and English. It is warm, slightly rounded and has no trendy serif signal. Weights 400 and 500 only.
 - **IBM Plex Mono** for numbers that should line up, versions and code.
 - Body text is 16px with a 27px line height. Do not tighten it — the air is part of the brand.
+- Each type style is a token: on the web `font: var(--text-body)` (also `display`, `title`, `heading`, `body-small`, `label`, `caption`, `mono`), in React Native `brand.type.body` from `tokens.ts`.
 - Sentence case everywhere. Japanese-first apps write Japanese UI; English labels are not mixed in for style.
 
 ## Space and shape
@@ -124,6 +125,7 @@ Both are free (SIL Open Font License) on Google Fonts:
 | --- | --- |
 | `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the brand logo for the brand's own pages. |
+| `ui/` | Plain UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state) with a specimen page, `elements.html`. `mock.html` is a study of how much of the kamon to carry into elements; its kamon touches are not adopted yet (see `docs/direction-kamon-ui.md`). |
 | `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_logo.py`). |
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |

@@ -118,6 +118,16 @@ export const brand = {
     "kikitori": { "color": "shu", "logo": "logo/kikitori.svg" },
     "explorer": { "color": "ai", "logo": "logo/explorer.svg" }
   },
+  "type": {
+    "display": { "size": 40, "lineHeight": 48, "weight": 500 },
+    "title": { "size": 28, "lineHeight": 36, "weight": 500 },
+    "heading": { "size": 20, "lineHeight": 28, "weight": 500 },
+    "body": { "size": 16, "lineHeight": 27, "weight": 400 },
+    "body-small": { "size": 14, "lineHeight": 22, "weight": 400 },
+    "label": { "size": 14, "lineHeight": 20, "weight": 500 },
+    "caption": { "size": 12, "lineHeight": 18, "weight": 400 },
+    "mono": { "size": 13, "lineHeight": 20, "weight": 400 }
+  },
   "font": {
     "sans": "Zen Kaku Gothic New",
     "mono": "IBM Plex Mono"

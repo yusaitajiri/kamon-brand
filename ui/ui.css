@@ -1,0 +1,366 @@
+/* Yusai Tajiri UI elements, built only on tokens/tokens.css.
+   Import after the tokens:  @import "../tokens/tokens.css"; @import "ui.css";
+   The plain elements are the default. The kamon touches at the end are opt-in modifiers, still being
+   tried out for density (see docs/direction-kamon-ui.md). */
+
+/* ---------------------------------------------------------------- base */
+
+.ui {
+  font: var(--text-body);
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.ui *,
+.ui *::before,
+.ui *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------- button */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font: var(--text-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+
+.button:hover {
+  background: var(--surface-sunken);
+}
+
+/* The one primary action in a view. */
+.button-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button-primary:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+/* Actions that should stay out of the way: in toolbars, beside a primary, inside rows. */
+.button-quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent-deep);
+}
+
+.button-quiet:hover {
+  background: var(--accent-tint);
+}
+
+.button:focus-visible,
+.input:focus-visible,
+.select:focus-visible,
+.check input:focus-visible,
+.switch input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.button:disabled,
+.input:disabled,
+.select:disabled,
+.check input:disabled,
+.switch input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background: var(--surface-raised);
+}
+
+.button-primary:disabled:hover {
+  background: var(--accent);
+}
+
+/* ---------------------------------------------------------------- text box */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.field-label {
+  font: var(--text-label);
+  color: var(--ink);
+}
+
+.field-help {
+  font: var(--text-body-small);
+  color: var(--ink-muted);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--ink);
+  font: var(--text-body);
+  transition: border-color 150ms;
+}
+
+.input::placeholder {
+  color: var(--ink-subtle);
+}
+
+.input:hover,
+.select:hover {
+  border-color: var(--border-strong);
+}
+
+.input:focus-visible,
+.select:focus-visible {
+  border-color: var(--accent);
+  outline-offset: 0;
+}
+
+/* An error always says what went wrong in words, never by color alone. */
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.field-error {
+  font: var(--text-body-small);
+  color: var(--danger);
+}
+
+/* ---------------------------------------------------------------- select */
+
+.select-wrap {
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  padding-right: var(--space-8);
+  cursor: pointer;
+}
+
+.select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ink-muted);
+  border-bottom: 1.5px solid var(--ink-muted);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- checkbox */
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.check input {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+
+.check input:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.check input:checked::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 11px;
+  border-right: 2px solid var(--on-accent);
+  border-bottom: 2px solid var(--on-accent);
+  transform: rotate(45deg);
+}
+
+/* ---------------------------------------------------------------- switch */
+/* A squared track, not a pill: radius-full is only for avatars. */
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  cursor: pointer;
+}
+
+.switch input {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 24px;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  background: var(--border-strong);
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.switch input::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: var(--surface-raised);
+  transition: transform 150ms;
+}
+
+.switch input:checked {
+  background: var(--accent);
+}
+
+.switch input:checked::before {
+  transform: translateX(16px);
+}
+
+/* ---------------------------------------------------------------- card, list, tag, empty state */
+
+.card {
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.list-row[aria-selected="true"] {
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+
+.list-meta {
+  font: var(--text-mono);
+  color: var(--ink-subtle);
+}
+
+.list-row[aria-selected="true"] .list-meta {
+  color: var(--accent-deep);
+}
+
+.tag {
+  display: inline-flex;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--ink-muted);
+  font: var(--text-body-small);
+}
+
+.tag[aria-pressed="true"] {
+  border-color: var(--accent-tint);
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-6);
+  color: var(--ink-muted);
+  text-align: center;
+  /* Break Japanese between phrases, not inside them, and even out the lines. */
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+
+/* ---------------------------------------------------------------- kamon touches (opt-in, being tried) */
+/* Two details of the 木瓜 logo, carried into elements:
+   - .kamon-corners: corners scooped inward, like the notches between the frame's lobes. Browsers without
+     corner-shape (Safari and Firefox for now) show the ordinary rounded corners instead.
+   - .kamon-line: a thin second line just inside the edge, like the frame's inner line. */
+
+.kamon-corners {
+  corner-shape: scoop;
+}
+
+.button.kamon-corners,
+.input.kamon-corners,
+.select.kamon-corners {
+  border-radius: var(--radius-md);
+}
+
+.card.kamon-corners {
+  border-radius: var(--radius-lg);
+}
+
+.tag.kamon-corners,
+.check .kamon-corners {
+  border-radius: var(--radius-sm);
+}
+
+.button-primary.kamon-line {
+  box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0 4px var(--on-accent);
+}
+
+.button-primary.kamon-line:hover {
+  box-shadow: inset 0 0 0 3px var(--accent-hover), inset 0 0 0 4px var(--on-accent);
+}
+
+.button.kamon-line:not(.button-primary),
+.card.kamon-line {
+  box-shadow: inset 0 0 0 3px var(--surface-raised), inset 0 0 0 4px var(--border);
+}
+
+.input.kamon-line,
+.select.kamon-line {
+  box-shadow: inset 0 0 0 3px var(--surface-sunken), inset 0 0 0 4px var(--border);
+}

@@ -21,6 +21,7 @@ The brand is calm and warm gray. Each app has one accent color of its own and a 
 - `font-sans` (Zen Kaku Gothic New) for all UI text, Japanese and English, at weights 400 and 500 only.
 - `font-mono` (IBM Plex Mono) only for numbers that should line up, versions and code.
 - Body text is 16px with a 27px line height. Don't tighten it.
+- Set type with the type tokens: `font: var(--text-body)` on the web (`--text-title`, `--text-label` and so on), `brand.type` in React Native.
 - Sentence case everywhere. Japanese-first apps write Japanese UI and don't mix in English labels for style.
 
 ## Space, shape and motion

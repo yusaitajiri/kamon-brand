@@ -63,6 +63,15 @@
   --radius-full: 9999px;
   --font-sans: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* Type styles for the font shorthand: font: var(--text-body). */
+  --text-display: 500 40px/48px var(--font-sans);
+  --text-title: 500 28px/36px var(--font-sans);
+  --text-heading: 500 20px/28px var(--font-sans);
+  --text-body: 400 16px/27px var(--font-sans);
+  --text-body-small: 400 14px/22px var(--font-sans);
+  --text-label: 500 14px/20px var(--font-sans);
+  --text-caption: 400 12px/18px var(--font-sans);
+  --text-mono: 400 13px/20px var(--font-mono);
   color-scheme: light;
 }
 

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-app="kikitori">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kamon density</title>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="ui.css">
+<style>
+  /* Study layout only: the same sample screen four times, each with more of the kamon. */
+  body { margin: 0; }
+  main { padding: var(--space-12) var(--space-8); }
+  h1 { margin: 0; font: var(--text-title); }
+  .intro { margin: var(--space-2) 0 0; max-width: 720px; color: var(--ink-muted); }
+  .screens { display: flex; gap: var(--space-8); margin-top: var(--space-8); align-items: flex-start; }
+  .column { width: 360px; flex: none; }
+  .column h2 { margin: 0; font: var(--text-heading); }
+  .column > p { margin: var(--space-1) 0 var(--space-4); min-height: 66px; font: var(--text-body-small); color: var(--ink-muted); }
+
+  .phone { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+  .bar { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+  .brand img { display: block; }
+  .screen-title { margin: var(--space-6) 0 var(--space-4); font: var(--text-title); }
+  .tags { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+  .section-title { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-8) 0 var(--space-3); font: var(--text-heading); }
+  .section-title img { display: block; }
+  .phone .card { padding: var(--space-4); }
+  .phone .list-row { padding: var(--space-2); }
+  .form { display: flex; flex-direction: column; gap: var(--space-4); }
+  .actions { display: flex; gap: var(--space-3); }
+  .phone .empty { padding: var(--space-8) var(--space-4); }
+  .empty img { display: block; }
+</style>
+</head>
+<body class="ui">
+<main>
+<h1>Kamon density</h1>
+<p class="intro">One sample screen in Kikitori's color, four times, each with more of the kamon. The logo is the same in
+all four; what changes is how many elements take the scooped corners and the inner line of the 木瓜 frame.</p>
+<div class="screens" id="screens"></div>
+</main>
+
+<script>
+  const DENSITIES = [
+    { name: "Logo only", note: "The kamon is the logo in the header and nothing else. Every element is plain.",
+      primary: "", controls: "", cards: "", emptyMark: false, sectionMarks: false },
+    { name: "At the edges", note: "The logo, the one primary button per view, and the empty state's mark. Everything you work in stays plain.",
+      primary: "kamon-corners kamon-line", controls: "", cards: "", emptyMark: true, sectionMarks: false },
+    { name: "Shape language", note: "Scooped corners on every button, input, tag and card, the inner line on the primary only.",
+      primary: "kamon-corners kamon-line", controls: "kamon-corners", cards: "kamon-corners", emptyMark: true, sectionMarks: false },
+    { name: "Everywhere", note: "Corners and inner lines on everything, and a small kamon beside every section title.",
+      primary: "kamon-corners kamon-line", controls: "kamon-corners kamon-line", cards: "kamon-corners kamon-line", emptyMark: true, sectionMarks: true },
+  ];
+
+  const logo = (size, small) => {
+    const name = small ? "kikitori-small" : "kikitori";
+    return `<picture><source srcset="../logo/${name}-on-dark.svg" media="(prefers-color-scheme: dark)">` +
+      `<img src="../logo/${name}.svg" width="${size}" height="${size}" alt=""></picture>`;
+  };
+
+  const section = (d, title) =>
+    `<h3 class="section-title">${d.sectionMarks ? logo(16, true) : ""}${title}</h3>`;
+
+  const screen = (d) => `
+    <div class="phone" lang="ja">
+      <div class="bar">
+        <span class="brand">${logo(32)}Kikitori</span>
+        <button class="button button-quiet ${d.controls}">設定</button>
+      </div>
+      <div class="screen-title">記録</div>
+      <input class="input ${d.controls}" placeholder="記録を検索" aria-label="記録を検索">
+      <div class="tags">
+        <span class="tag ${d.controls}" aria-pressed="true">すべて</span>
+        <span class="tag ${d.controls}">仕事</span>
+        <span class="tag ${d.controls}">メモ</span>
+      </div>
+
+      ${section(d, "最近の記録")}
+      <div class="card ${d.cards}">
+        <ul class="list">
+          <li class="list-row" aria-selected="true"><span>週次ミーティング</span><span class="list-meta">10:42</span></li>
+          <li class="list-row"><span>インタビュー 後半</span><span class="list-meta">09:15</span></li>
+          <li class="list-row"><span>読書メモ</span><span class="list-meta">昨日</span></li>
+        </ul>
+      </div>
+
+      ${section(d, "新しい記録")}
+      <div class="card form ${d.cards}">
+        <label class="field"><span class="field-label">タイトル</span><input class="input ${d.controls}" value="週次ミーティング"></label>
+        <label class="field"><span class="field-label">種類</span><span class="select-wrap"><select class="select ${d.controls}"><option>メモ</option><option>タスク</option></select></span></label>
+        <label class="switch">リマインダー<input type="checkbox" role="switch" checked></label>
+        <label class="check"><input type="checkbox">下書きとして保存</label>
+        <div class="actions">
+          <button class="button button-primary ${d.primary}">保存</button>
+          <button class="button ${d.controls}">キャンセル</button>
+        </div>
+      </div>
+
+      ${section(d, "アーカイブ")}
+      <div class="card ${d.cards}">
+        <div class="empty">${d.emptyMark ? logo(48) : ""}まだ記録がありません。最初の一行を書いてみましょう。</div>
+      </div>
+    </div>`;
+
+  document.getElementById("screens").innerHTML = DENSITIES.map((d) =>
+    `<div class="column"><h2>${d.name}</h2><p>${d.note}</p>${screen(d)}</div>`).join("");
+</script>
+</body>
+</html>
