@@ -59,11 +59,13 @@ Steps 1 and 2 are drawn: `tools/explore_frames.py` writes every candidate to `do
 
 Lean: the wide hex for the calmest, most legible family, or four lobes if being unmistakably kamon matters more than the 16px shape. The inset hex is the weakest at small sizes.
 
+**Chosen: four lobes (木瓜).** Four is the standard 木瓜 crest. Five lobes (五瓜, as in 織田木瓜) reads as a plum or cherry blossom inside a frame, and three as a clover or a playing-card club, so both lose the plain-frame quality the family needs.
+
 ## Next steps
 
 1. ~~Draw the three candidate frames with Kikitori, Explorer and the brand motif inside, at app-icon size and at 16px, in light and dark.~~ Done, see above.
 2. ~~Put them next to Node.js, an R hex sticker and a crypto hex logo to make sure the winner reads as none of them.~~ Done with plain stand-ins drawn from geometry, see above.
-3. Pick one frame and fix its proportions, corner radius and stroke weight.
+3. ~~Pick one frame~~ (four lobes) and fix its proportions, corner radius and stroke weight.
 4. Then update `tools/build_logo.py`, the logos and icons, `tokens/tokens.json` → `apps` (motif notes) and the logo rules in `AGENTS.md` and `README.md`.
 
 The snake pose lab lives on the `snake-sim` branch and is not part of this direction.
