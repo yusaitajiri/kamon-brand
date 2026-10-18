@@ -9,10 +9,8 @@ The following are not licensed for reuse:
 
 - the files in logo/ and icons/;
 - the logo drawings in tools/ (the 木瓜 frame and every motif drawn inside it);
-- those logos and icons wherever else they appear, including the images
-  in docs/ and ui/screens/;
-- the names "Yusai Tajiri" and "Kikitori", and the names of other Yusai
-  Tajiri apps.
+- those logos and icons wherever else they appear;
+- the names of Yusai Tajiri's apps, such as "Kikitori".
 
 TRADEMARKS.md says how you may refer to them.
 
@@ -20,8 +18,8 @@ TRADEMARKS.md says how you may refer to them.
 2. Everything else: MIT License
 
 Everything not listed in part 1 is licensed under the MIT License below. That
-includes the tokens, the UI elements in ui/ui.css, the brand-ui skill, the
-scripts and the documentation text.
+includes the tokens, the rules in rules/, the code in tools/ apart from
+the logo drawings, and the documentation text.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

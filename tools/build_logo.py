@@ -1,6 +1,10 @@
-"""Build every logo SVG and app icon in this kit from the shapes below.
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["skia-pathops", "resvg-py", "pillow"]
+# ///
+"""Build every logo SVG and app icon in the brand from the shapes below.
 
-Run from the repo root:  pip install skia-pathops resvg-py pillow && python tools/build_logo.py
+Run from the repo root:  uv run tools/build_logo.py
 
 Every logo is a kamon (家紋): the same four-lobed 木瓜 frame, drawn as a band with a thin line inside
 it, and the app's own motif in the middle, an animal or an object reduced to a few simple shapes.
@@ -94,7 +98,7 @@ def boxes(small):
     return rounded(pathops.simplify(nested, fix_winding=True), convex=3), None
 
 
-MOTIFS = {"yusai-tajiri": fox, "kikitori": plover, "explorer": boxes}
+MOTIFS = {"brand": fox, "kikitori": plover, "explorer": boxes}
 
 
 def fit(path, room, gap):
@@ -177,7 +181,7 @@ def build_app(app: str) -> None:
     store = svg(f"{info['name']} store icon", transformed(full, matrix(70, 70, 0, 0.74, 70, 70)), light, ground)
     png(store, 1024).convert("RGB").save(icon_dir / "app-icon-1024.png")
 
-    if app == "yusai-tajiri":
+    if app == "brand":
         # The brand's own site icons are the brand logo.
         icons = ROOT / "icons"
         png(icon, 32).save(icons / "favicon-32.png")

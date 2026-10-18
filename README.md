@@ -1,11 +1,11 @@
-# Yusai Tajiri
+# The kamon brand
 
 The personal brand for every app Yusai Tajiri makes: a calm, warm-gray interface and a family of logos. Every logo is a kamon (家紋), a Japanese family crest: the same four-lobed 木瓜 frame in every app, with a different motif inside for each one, an animal or an object that says what the app is for. Each app's logo is in its own color, so a row of them reads as one family and each one is easy to find.
 
 That is the idea of the brand: the apps are ordinary, well-made tools that share one frame, and each one shows its own face.
 
 <p>
-  <img src="logo/yusai-tajiri.svg" height="96" alt="Brand logo: a fox's head inside a four-lobed crest frame, in moss">
+  <img src="logo/brand.svg" height="96" alt="Brand logo: a fox's head inside a four-lobed crest frame, in moss">
   &nbsp;&nbsp;
   <img src="logo/kikitori.svg" height="96" alt="Kikitori logo: a plover inside the same frame, in vermilion">
   &nbsp;&nbsp;
@@ -53,7 +53,7 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 - **Zen Kaku Gothic New** for everything in the UI, Japanese and English. It is warm, slightly rounded and has no trendy serif signal. Weights 400 and 500 only.
 - **IBM Plex Mono** for numbers that should line up, versions and code.
 - Body text is 16px with a 27px line height. Do not tighten it — the air is part of the brand.
-- Each type style is a token: on the web `font: var(--text-body)` (also `display`, `title`, `heading`, `body-small`, `label`, `caption`, `mono`), in React Native `brand.type.body` from `tokens.ts`.
+- Each type style is a token: `display`, `title`, `heading`, `body`, `body-small`, `label`, `caption` and `mono`. Each kit exposes them in its platform's form, such as `font: var(--text-body)` on the web.
 - Sentence case everywhere. Japanese-first apps write Japanese UI; English labels are not mixed in for style.
 
 ## Space and shape
@@ -61,7 +61,7 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 - 4px base: `space-1` (4) through `space-16` (64). Phone gutters are `space-4`; card padding `space-6`; sections `space-8`. When unsure, add space.
 - Corners: `radius-md` (8px) for controls, `radius-lg` (12px) for cards, `radius-sm` (6px) for chips and tags. `radius-full` only for avatars.
 - No shadows except `shadow-float` on menus and dialogs that float over content. Borders are 1px `border`, except the frame and the rule below.
-- **The kamon in the UI.** A crest marks one thing, so the kamon reaches into the interface only as its double line, the 木瓜 frame's double outline, in three forms. The primary button, the one action per view, has a thin line just inside its edge. A 子持ち罫 rule, a thick line over a thin one, goes under the app bar. And a container you are working in, an editor, an edit panel or a dialog, can take a frame in the logo's proportions: a band, a gap and a thin line. The rule and the frame are neutral border colors, so the accent still marks only what you can act on. The recommended density is one of each per view: one rule, one frame, one primary, with no frame on views of equal parts such as lists, boards and settings. It's a default, not a law. Lighter is fine, but rules on every section or frames on several cards turn the line into texture, and a view never shows two frames: when a dialog or panel opens, the frame and the primary move to it. Every other element stays plain, and empty states may show the app's logo above their sentence. `docs/direction-double-line.md` has the studies behind this.
+- **The kamon in the UI.** A crest marks one thing, so the kamon reaches into the interface only as its double line, the 木瓜 frame's double outline, in three forms. The primary button, the one action per view, has a thin line just inside its edge. A 子持ち罫 rule, a thick line over a thin one, goes under the app bar. And a container you are working in, an editor, an edit panel or a dialog, can take a frame in the logo's proportions: a band, a gap and a thin line. The rule and the frame are neutral border colors, so the accent still marks only what you can act on. The recommended density is one of each per view: one rule, one frame, one primary, with no frame on views of equal parts such as lists, boards and settings. It's a default, not a law. Lighter is fine, but rules on every section or frames on several cards turn the line into texture, and a view never shows two frames: when a dialog or panel opens, the frame and the primary move to it. Every other element stays plain, and empty states may show the app's logo above their sentence. `docs/direction-kamon.md` has the reasoning behind this.
 - Motion is short (150–200ms) and functional: things fade or slide because they changed. No looping or decorative animation.
 
 ## The logos (app icons)
@@ -70,7 +70,7 @@ Every app has a logo drawn in one flat color, built like a kamon (家紋): a sim
 
 | App | Motif | Color | Files |
 | --- | --- | --- | --- |
-| The brand itself | 狐 — a fox's head, for the brand's own pages and anything without an app of its own | 苔 moss | `logo/yusai-tajiri*.svg`, `icons/yusai-tajiri/` |
+| The brand itself | 狐 — a fox's head, for the brand's own pages and anything without an app of its own | 苔 moss | `logo/brand*.svg`, `icons/brand/` |
 | Kikitori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `logo/kikitori*.svg`, `icons/kikitori/` |
 | File manager (working name *Explorer*) | 入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `logo/explorer*.svg`, `icons/explorer/` |
 
@@ -92,12 +92,12 @@ Every app is named after the motif in its logo, with a plain descriptor that say
 | Descriptor | A plain noun for the app's job, in the language of the UI | 文字起こし / Transcription, ファイル / Files |
 
 - **Spelling the name.** Hepburn without macrons, one word, capital first letter: Chidori, not Chidōri or chidori. Japanese text writes it the way the crest is written (千鳥), with the reading in hiragana where it's hard to read.
-- **The app id** is the name in lowercase (`chidori`). It's the `data-app` value, the folder name in `logo/` and `icons/`, the id in `tokens/tokens.json` → `apps`, and the repository name.
+- **The app id** is the name in lowercase (`chidori`). It picks the app's accent in each kit (`data-app` on the web), and it's the folder name in `logo/` and `icons/`, the id in `tokens/tokens.json` → `apps`, and the repository name.
 - **The descriptor** is the word people would search for, one or two words in each language. Never a coined word, a slogan or the brand's name.
 - **Where each appears.** The name alone wherever space is tight or the app is already open: the window title, taskbar and dock, icon label, app bar, tray tooltip and notifications. The name with its descriptor wherever someone meets the app for the first time: the store listing, the About screen, the README title, the website and the first run. Where a store has a subtitle field, the descriptor goes there. Elsewhere they're joined with a spaced em dash: "Chidori — Transcription", 「千鳥 — 文字起こし」.
 - **Choosing the motif and its name.** The motif is a traditional crest subject, or an object from the app's own work, that 3–5 simple shapes can draw. Its name is short: two or three syllables, four at most. It's easy to say in English, and has no unfortunate meaning in English or Japanese. A link between the name and the job is welcome but not required.
 - **Check before adopting.** Crest names are ordinary words, so search the app stores in the app's category, the web and trademark records. Chidori, for example, is well known from Naruto, and Kitsune is used widely. A clash in another category is acceptable when the descriptor sets the app apart. A clash in the same category is not.
-- **The brand itself** is Yusai Tajiri. The fox is the brand's mark, not an app name.
+- **The brand itself has no name.** Where it needs a label, it's the kamon brand, after its logos. The fox is its mark, not a name, and its logo files are `logo/brand*.svg`. Don't give it a name, a wordmark or a tagline.
 - **Apps from before this convention.** Kikitori will be renamed, probably to Chidori — 文字起こし. Explorer is a working name. Both keep their current names in the kit until they're renamed.
 
 `docs/direction-naming.md` has the reasoning behind this.
@@ -109,11 +109,25 @@ Plain, calm and brief, like a considerate friend. Say what happened and what to 
 - Good: 「まだ記録がありません。最初の一行を書いてみましょう。」 / "No entries yet. Write your first line."
 - Avoid: "Oops!! Nothing here 😢 Let's get started!!!"
 
-The brand-ui skill (`skills/brand-ui/SKILL.md`) has more examples, for saving, errors, going offline and confirming a delete.
+The rules for agents (`rules/brand.md`) have more examples, for saving, errors, going offline and confirming a delete.
 
 ## Using this on each platform
 
-The brand lives in the accent color, the logo, type, empty states and words. Native controls stay native: on iOS use system navigation and sheets tinted with the app's `accent`; on Windows use standard window chrome; on the web build with these tokens directly. Never fight the platform to look "on brand".
+The brand lives in the accent color, the logo, type, empty states and words. Native controls stay native: on iOS use system navigation and sheets tinted with the app's `accent`, on Windows standard window chrome, in Flutter Material or Cupertino widgets tinted the same way. Never fight the platform to look "on brand".
+
+No app uses this repository directly. Each platform has a kit that turns the brand into something an app can install:
+
+| Kit | For | What an app gets |
+| --- | --- | --- |
+| `kamon-react` (`@yusai/kamon-react`) | React on the web, Tauri included | The tokens as CSS and TypeScript, `ui.css`, React components with the double line built in, the logos and icons, and the `brand-ui` skill |
+| `kamon-flutter` | Flutter, later | The tokens as Dart, a theme, widgets, the logos and icons, and the skill |
+
+```
+kamon-brand  ──tag vX.Y.Z──►  kamon-react    ──tag──►  Tauri and web apps
+            ──tag vX.Y.Z──►  kamon-flutter  ──tag──►  Flutter apps
+```
+
+A kit pins a tagged version of this repository and copies `tokens/tokens.json`, `logo/`, `icons/` and `rules/brand.md` from it. It generates its own token files from the JSON, and its `brand-ui` skill is `rules/brand.md` with a part for its platform added. Each kit has its own versions and changelog and records which base version it was built from. An app pins one kit and never this repository. `docs/direction-platform-kits.md` has the reasoning.
 
 ## Colors at a glance
 
@@ -129,7 +143,7 @@ The brand lives in the accent color, the logo, type, empty states and words. Nat
 | `sage` | `#C3CFBF` | `#4C5C4A` |
 | `blush` | `#E3B7A6` | `#C99A8A` |
 
-The full list, with a usage note for every token, is in `tokens/tokens.json`.
+Every token, with its usage note, is in `tokens/tokens.md`, generated from `tokens/tokens.json`.
 
 ## Fonts
 
@@ -138,60 +152,30 @@ Both are free (SIL Open Font License) on Google Fonts:
 - [Zen Kaku Gothic New](https://fonts.google.com/specimen/Zen+Kaku+Gothic+New) — weights 400, 500
 - [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) — weight 400
 
-`tokens/tokens.css` already imports them. In native apps, bundle the font files from Google Fonts.
+The web kit loads them from Google Fonts. Native apps bundle the font files.
 
-## Files in this kit
+## Files
 
-| Folder | What's inside |
+| File or folder | What's inside |
 | --- | --- |
+| `tokens/tokens.json` | The source of truth for every color, type style, space, radius and shadow, with a usage note on each, and the list of apps with their colors. The kits generate their token files from it. |
+| `tokens/tokens.md` | The same tokens as tables to read, generated by `tools/build_tokens_doc.py`. |
+| `rules/brand.md` | The rules from this guide, condensed for coding agents, with more voice examples and a check to run before finishing UI work. Each kit's `brand-ui` skill starts with it. |
 | `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the brand logo for the brand's own pages. |
-| `ui/` | UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state), with the kamon's double line: the primary button's inner line, the frame and the rule. `elements.html` shows every element, `sample.html` a sample phone screen and `dashboard.html` a project board like GitHub Projects (board and table views); `screens/` has them in light and dark. |
-| `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_logo.py`). |
-| `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
-| `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
-| `tokens/tokens.json` | The source of truth, with a usage note on every token. |
-| `skills/brand-ui/` | The `brand-ui` skill: the rules from this guide, condensed for coding agents, with more voice examples and a check to run before finishing UI work. |
-| `scripts/brand-sync.mjs` | Copies the skill into an app's `.claude/skills/` each time the app installs the kit. |
-| `package.json`, `CHANGELOG.md` | The package apps install, and what changed in each version. |
+| `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py`: `uv run tools/build_logo.py`. `build_tokens_doc.py` writes `tokens/tokens.md`. |
+| `docs/` | `direction-*.md` say why the brand is the way it is: the kamon and its double line, how apps are named, and the split into a base and platform kits. |
+| `CHANGELOG.md` | What changed in each version, and what a kit has to do to take it. |
 | `LICENSE`, `TRADEMARKS.md` | MIT for the style and tools; the logos, icons and names are reserved. |
-| `AGENTS.md` | Instructions for agents working on the kit itself: versions, releases and rebuilding the logos. |
+| `AGENTS.md` | Instructions for agents working on the base: versions, releases and rebuilding. |
 
-## Using it in a project
+## Changing the brand
 
-Apps install the kit as a package pinned to a version tag. The kit can then move on without changing any app until you upgrade that app. Nothing from the kit is committed into the app: it lives in `node_modules`, and the version is recorded in `package.json` and the lockfile.
+`AGENTS.md` has the steps for versions and releases. A change is released here first, as a new tag, then each kit syncs to that tag and releases, and each app takes it when it upgrades its kit. Two habits keep the rules working:
 
-1. **Install it, pinned.** In the app's `package.json`:
-
-   ```json
-   "devDependencies": { "@yusai/brand": "git+https://github.com/yusaitajiri/my-brand.git#v1.0.1" },
-   "scripts": { "postinstall": "brand-sync" }
-   ```
-
-   Then run a plain `npm install` or `pnpm install`. Installing with a package name (`npm install @yusai/brand`) skips the app's own `postinstall`, so run the plain install once after adding the line. The repository is public, so installing needs no login, in CI too.
-
-   It's a dev dependency because nothing from it runs in the shipped app: the bundler inlines the tokens and CSS the app imports, and the icons are copied into the app. A build still installs it whenever the app imports kit files, which is the usual case. A build that skips dev dependencies (`--omit=dev`) works only for an app that doesn't import from the kit, and then the script has to be `"postinstall": "brand-sync || exit 0"` so the missing command doesn't fail the install.
-2. **`brand-sync` runs after every install.** It copies the `brand-ui` skill into `.claude/skills/brand-ui/` and adds that folder to `.gitignore`. Claude Code doesn't look for skills inside `node_modules`, so this copy is what makes the skill visible. Redoing it on every install keeps it on the pinned version.
-3. **Point Claude Code at the skill.** Add this line to the app's `CLAUDE.md` (or `AGENTS.md`):
-
-   ```text
-   For any UI work, use the brand-ui skill: it has the Yusai Tajiri brand rules for this app.
-   ```
-
-   The skill's description already says when it applies, and the line makes sure it gets used. Other coding agents don't read Claude Code skills, so point them at `.claude/skills/brand-ui/SKILL.md` in their own instruction file.
-4. **Use the files from the package.**
-   - **Web:** `@import "@yusai/brand/tokens/tokens.css";` (and `@yusai/brand/ui/ui.css` for the elements). Put the app's id on the root element (`<html data-app="kikitori">`) and build with `var(--accent)`, `var(--space-6)` and so on. The brand's own pages need no `data-app`; their accent is moss.
-   - **React Native / Expo:** `import { appColors } from "@yusai/brand/tokens/tokens";` and use `appColors("kikitori", "light")` (or `"dark"`, from the system color scheme). It returns every color with `accent` set to the app's own.
-   - **App icon:** take the app's set from `node_modules/@yusai/brand/icons/<app>/`. For Tauri, point `tauri icon` at `icon-1024.png` there, then replace the `.ico` it writes with the kit's `icon.ico`, which draws the small sizes properly. Icons generated into the app are part of its build, so commit those like any other icon.
-5. **Upgrade on purpose.** Change the tag (`#v1.1.0`) and install again. `CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/brand from v1.0.0 to v1.1.0, following its CHANGELOG."
-
-## Changing the kit
-
-`AGENTS.md` has the steps for versions and releases. Two habits keep the rules working:
-
-- **Write each rule twice:** in this README for people and in `skills/brand-ui/SKILL.md` for agents. Also add an entry to `CHANGELOG.md`.
-- **Name the stock styles you see.** When an agent's output shows a stock style that isn't in the skill's *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns get followed.
+- **Write each rule twice:** in this README for people and in `rules/brand.md` for agents. Also add an entry to `CHANGELOG.md`.
+- **Name the stock styles you see.** When an agent's output shows a stock style that isn't in the rules' *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns get followed.
 
 ## License
 
-The style is open and the identity is reserved. The tokens, `ui.css`, the brand-ui skill, the scripts and the text of these docs are under the MIT License. The logos, the app icons and the names Yusai Tajiri, Kikitori and the other apps' names are all rights reserved. `LICENSE` has the terms. `TRADEMARKS.md` says how to refer to the names and logos, and what a fork of one of the apps should change.
+The style is open and the identity is reserved. The tokens, the rules, the tools and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Kikitori, are all rights reserved. `LICENSE` has the terms. `TRADEMARKS.md` says how to refer to the names and logos, and what a fork of one of the apps should change.
