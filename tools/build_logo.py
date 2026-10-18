@@ -98,7 +98,7 @@ def boxes(small):
     return rounded(pathops.simplify(nested, fix_winding=True), convex=3), None
 
 
-MOTIFS = {"brand": fox, "kikitori": plover, "explorer": boxes}
+MOTIFS = {"brand": fox, "chidori": plover, "explorer": boxes}
 
 
 def fit(path, room, gap):

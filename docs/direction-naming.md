@@ -1,6 +1,6 @@
 # Direction: how apps are named
 
-Status: adopted 2026-10-18. Every app is named after its logo motif, with a plain descriptor as a subtitle. The rules are in `README.md` (*Naming apps*) and the brand-ui skill (*Naming*). This page is the record of how that was decided. No app has been renamed yet.
+Status: adopted 2026-10-18. Every app is named after its logo motif, with a plain descriptor as a subtitle. The rules are in `README.md` (*Naming apps*) and the brand-ui skill (*Naming*). This page is the record of how that was decided. Kikitori was the first app renamed under it, to Chidori — 文字起こし.
 
 ## Where the names stood
 
@@ -27,11 +27,10 @@ The first kind already sounded like a family, but nothing tied any of them to th
 
 ## Choosing a descriptor
 
-The descriptor is the word people search for, not the cleverest one. For Kikitori, which writes meetings, lectures and videos down live, 文字起こし / Transcription fits best. Audio memo (音声メモ) sounds like recording yourself, 会議メモ leaves out lectures and videos, and 議事録 sounds business-only.
+The descriptor is the word people search for, not the cleverest one. For Chidori, which writes meetings, lectures and videos down live, 文字起こし / Transcription fits best. Audio memo (音声メモ) sounds like recording yourself, 会議メモ leaves out lectures and videos, and 議事録 sounds business-only.
 
 ## Open
 
-- **Kikitori's rename** is planned, probably to Chidori — 文字起こし, the plover already in its logo. Until then the kit keeps the name Kikitori.
 - **Explorer** is still a working name. Under this convention it would be named after its motif, 入れ子枡. Masu is the short form, but ます is also the polite verb ending in Japanese, so check how it reads before adopting it.
 - **Name checks.** Crest names are ordinary words: Chidori is well known from Naruto, and Kitsune is used widely. Check each name in its own store category before adopting it.
 - **A `descriptor` field** in `tokens/tokens.json` → `apps` would give agents one place to read it from. For now it lives in each app's README.

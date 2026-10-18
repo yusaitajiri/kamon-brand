@@ -1,5 +1,6 @@
 import { Button, Card, Checkbox, EmptyState, Field, Input, List, ListRow, Logo, Rule, Select, Switch, Tag } from "@yusai/kamon-react";
 import { createRoot } from "react-dom/client";
+import "../tokens/fonts.css";
 import "../tokens/tokens.css";
 import "../ui/ui.css";
 import "./sample.css";
@@ -9,8 +10,8 @@ function Sample() {
     <main>
       <div className="bar">
         <span className="brand">
-          <Logo app="kikitori" />
-          Kikitori
+          <Logo app="chidori" />
+          Chidori
         </span>
         <Button variant="quiet">設定</Button>
       </div>
@@ -53,7 +54,7 @@ function Sample() {
 
       <h2>アーカイブ</h2>
       <Card>
-        <EmptyState app="kikitori">まだ記録がありません。最初の一行を書いてみましょう。</EmptyState>
+        <EmptyState app="chidori">まだ記録がありません。最初の一行を書いてみましょう。</EmptyState>
       </Card>
     </main>
   );

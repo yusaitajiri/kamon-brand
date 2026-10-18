@@ -116,9 +116,9 @@ export declare const brand: {
             readonly color: "moss";
             readonly logo: "logo/brand.svg";
         };
-        readonly kikitori: {
+        readonly chidori: {
             readonly color: "shu";
-            readonly logo: "logo/kikitori.svg";
+            readonly logo: "logo/chidori.svg";
         };
         readonly explorer: {
             readonly color: "ai";

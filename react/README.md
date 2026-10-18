@@ -5,7 +5,7 @@ The kamon brand for React apps on the web and in Tauri: the tokens as CSS and Ty
 This kit lives in the `react/` folder of the kamon-brand repository. The brand itself, its tokens, logos and rules, is at the repository's root, and its `README.md` explains the ideas behind it. The kit generates its files from those, and apps install the kit.
 
 <p>
-  <img src="ui/screens/sample-light.png" width="260" alt="A Kikitori screen built from the kit's components in light mode">
+  <img src="ui/screens/sample-light.png" width="260" alt="A Chidori screen built from the kit's components in light mode">
   &nbsp;
   <img src="ui/screens/sample-dark.png" width="260" alt="The same screen in dark mode">
 </p>
@@ -17,7 +17,7 @@ Apps install the kit pinned to a version tag, so the kit can move on without cha
 1. **Install it, pinned.** In the app's `package.json`:
 
    ```json
-   "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v1.0.0" },
+   "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v2.0.0" },
    "scripts": { "postinstall": "brand-sync" }
    ```
 
@@ -33,12 +33,15 @@ Apps install the kit pinned to a version tag, so the kit can move on without cha
 4. **Set up the page once.** Import the styles at the app's entry, and put the app's id on `<html>`:
 
    ```tsx
+   import "@yusai/kamon-react/tokens/fonts.css";
    import "@yusai/kamon-react/tokens/tokens.css";
    import "@yusai/kamon-react/ui/ui.css";
    ```
 
+   `fonts.css` loads the two fonts from Google Fonts. An app that must not reach the network, such as a Tauri app, leaves it out and bundles Zen Kaku Gothic New (400, 500) and IBM Plex Mono (400) itself, for example from the `@fontsource` packages.
+
    ```html
-   <html lang="ja" data-app="kikitori">
+   <html lang="ja" data-app="chidori">
      <body class="ui">
    ```
 
@@ -58,7 +61,7 @@ Apps install the kit pinned to a version tag, so the kit can move on without cha
    ```
 
 6. **App icon.** For Tauri, point `tauri icon` at `node_modules/@yusai/kamon-react/icons/<app>/icon-1024.png`, then replace the `.ico` it writes with the kit's `icon.ico`, which draws the small sizes properly. Icons generated into the app are part of its build, so commit those.
-7. **Upgrade on purpose.** Change the tag (`#react-v1.1.0`) and install again. `react/CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/kamon-react from react-v1.0.0 to react-v1.1.0, following its react/CHANGELOG.md."
+7. **Upgrade on purpose.** Change the tag (`#react-v2.1.0`) and install again. `react/CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/kamon-react from react-v2.0.0 to react-v2.1.0, following its react/CHANGELOG.md."
 
 ## The components
 
@@ -76,7 +79,7 @@ Each component renders the matching element of `ui.css`, so a page built from th
 | `Rule` | 子持ち罫, the thick-over-thin line, once under the app bar. |
 | `Logo` | The app's logo from `logo/`, in its color and its dark-mode color, with the small drawing below 32px. |
 
-Values for code, such as a canvas or a chart, come from `@yusai/kamon-react/tokens`: `brand` holds every value and `appColors("kikitori", "dark")` returns the colors with `accent` set to the app's own.
+Values for code, such as a canvas or a chart, come from `@yusai/kamon-react/tokens`: `brand` holds every value and `appColors("chidori", "dark")` returns the colors with `accent` set to the app's own.
 
 The demo pages show every component and two sample screens: in the repository, `npm install`, then `npm run demo` and open the address it prints. `react/ui/screens/` has them in light and dark.
 
@@ -89,6 +92,7 @@ Paths are from the repository's root. The React package's manifest, `package.jso
 | `react/src/` | The components, and `tokens.ts` and `logos.ts`, which are generated. |
 | `react/dist/` | The components built for apps, committed so a git install needs no build. |
 | `react/tokens/tokens.css` | CSS custom properties generated from `tokens/tokens.json`. Light by default, dark through the system setting or `data-theme="dark"`, and `data-app` picks the accent. Apps import it as `@yusai/kamon-react/tokens/tokens.css`. |
+| `react/tokens/fonts.css` | The Google Fonts import for the two fonts, generated. Web apps import it as `@yusai/kamon-react/tokens/fonts.css`; offline apps bundle the fonts instead. |
 | `react/ui/ui.css` | The UI elements built on the tokens, with the kamon's double line: the primary button's inner line, `.frame` and `.rule`. Apps import it as `@yusai/kamon-react/ui/ui.css`. `react/ui/screens/` has the demo pages in light and dark. |
 | `react/skill/react.md` | How to apply the rules in React. |
 | `react/skills/brand-ui/SKILL.md` | The skill apps get: `rules/brand.md` followed by `react/skill/react.md`, generated. |
@@ -103,4 +107,4 @@ The repository's `AGENTS.md` has the steps. A change to the brand itself, a colo
 
 ## License
 
-The style is open and the identity is reserved. The tokens, `ui.css`, the components, the skill, the scripts and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Kikitori, are all rights reserved. The repository's `LICENSE` has the terms, and `TRADEMARKS.md` says how to refer to the names and logos.
+The style is open and the identity is reserved. The tokens, `ui.css`, the components, the skill, the scripts and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Chidori, are all rights reserved. The repository's `LICENSE` has the terms, and `TRADEMARKS.md` says how to refer to the names and logos.

@@ -26,7 +26,7 @@ Generated from `tokens.json` by `tools/build_tokens_doc.py`. Don't edit this fil
 | `accent-deep` | → `moss-deep` | → `moss-deep` | Accent as text on accent-tint, and small accent text that needs extra contrast. |
 | `accent-tint` | → `moss-tint` | → `moss-tint` | Selected rows, tags, the active nav item. |
 | `on-accent` | → `on-moss` | → `on-moss` | Text and icons on an accent fill. |
-| `shu` | `#B0501F` | `#EBA57E` | 朱 Shu, a muted vermilion. Kikitori's color. Use it through accent, never alongside another app color. |
+| `shu` | `#B0501F` | `#EBA57E` | 朱 Shu, a muted vermilion. Chidori's color. Use it through accent, never alongside another app color. |
 | `shu-hover` | `#9A451A` | `#F0B796` | Hover and pressed state of shu fills. |
 | `shu-deep` | `#7F3A16` | `#F4C9AF` | Shu as text on shu-tint. |
 | `shu-tint` | `#F5E0D3` | `#3B2A20` | Quiet shu backgrounds: selected rows, tags, active nav. |
@@ -61,7 +61,7 @@ Each app brings one color from the palette and its own motif inside the shared �
 | App id | Name | Color | Motif |
 | --- | --- | --- | --- |
 | `brand` | Brand | `moss` | 狐: a fox's head. The brand's own logo, for its pages and anything without an app of its own. |
-| `kikitori` | Kikitori | `shu` | 千鳥: the plover of 波に千鳥. |
+| `chidori` | Chidori | `shu` | 千鳥: the plover of 波に千鳥. |
 | `explorer` | Explorer (working name) | `ai` | 入れ子枡: boxes inside boxes, as folders inside folders. |
 
 Free for the next app: `budo`, `tetsu`.

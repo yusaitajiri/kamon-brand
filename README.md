@@ -7,25 +7,25 @@ That is the idea of the brand: the apps are ordinary, well-made tools that share
 <p>
   <img src="logo/brand.svg" height="96" alt="Brand logo: a fox's head inside a four-lobed crest frame, in moss">
   &nbsp;&nbsp;
-  <img src="logo/kikitori.svg" height="96" alt="Kikitori logo: a plover inside the same frame, in vermilion">
+  <img src="logo/chidori.svg" height="96" alt="Chidori logo: a plover inside the same frame, in vermilion">
   &nbsp;&nbsp;
   <img src="logo/explorer.svg" height="96" alt="File manager logo: nested measuring boxes inside the same frame, in indigo">
 </p>
 
 ## Set up an app
 
-Apps install a platform kit from this repository, pinned to a tag, and never use the files at the root directly. Every app needs its app id, from the list in `tokens/tokens.json` → `apps`, such as `kikitori`. A new app first gets its name, motif and color here (see *Naming apps* below).
+Apps install a platform kit from this repository, pinned to a tag, and never use the files at the root directly. Every app needs its app id, from the list in `tokens/tokens.json` → `apps`, such as `chidori`. A new app first gets its name, motif and color here (see *Naming apps* below).
 
 - **React or Tauri:** follow *Using it in an app* in [`react/README.md`](react/README.md). It starts with this dependency and install hook in the app's `package.json`:
 
   ```json
-  "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v1.0.0" },
+  "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v2.0.0" },
   "scripts": { "postinstall": "brand-sync" }
   ```
 
 - **Flutter:** the kit in `flutter/` doesn't exist yet.
 
-To have a coding agent do it, give it this repository's link, the platform and the app id: "Set up the kamon brand in this app from https://github.com/yusaitajiri/kamon-brand. It's a Tauri app; its app id is kikitori."
+To have a coding agent do it, give it this repository's link, the platform and the app id: "Set up the kamon brand in this app from https://github.com/yusaitajiri/kamon-brand. It's a Tauri app; its app id is chidori."
 
 ## Principles
 
@@ -54,7 +54,7 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 | Color | Light | Dark | App |
 | --- | --- | --- | --- |
 | 苔 `moss` | `#4E6B4F` | `#8FB08F` | The brand itself |
-| 朱 `shu` | `#B0501F` | `#EBA57E` | Kikitori |
+| 朱 `shu` | `#B0501F` | `#EBA57E` | Chidori |
 | 藍 `ai` | `#3B5878` | `#93AACB` | The file manager (working name *Explorer*) |
 | 葡萄 `budo` | `#6E4C6E` | `#C29FC2` | Free for the next app |
 | 鉄 `tetsu` | `#2F6265` | `#86B7B5` | Free for the next app |
@@ -86,7 +86,7 @@ Every app has a logo drawn in one flat color, built like a kamon (家紋): a sim
 | App | Motif | Color | Files |
 | --- | --- | --- | --- |
 | The brand itself | 狐 — a fox's head, for the brand's own pages and anything without an app of its own | 苔 moss | `logo/brand*.svg`, `icons/brand/` |
-| Kikitori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `logo/kikitori*.svg`, `icons/kikitori/` |
+| Chidori | 千鳥 — the plover of 波に千鳥 | 朱 shu | `logo/chidori*.svg`, `icons/chidori/` |
 | File manager (working name *Explorer*) | 入れ子枡 — measuring boxes inside each other, as folders inside folders | 藍 ai | `logo/explorer*.svg`, `icons/explorer/` |
 
 - **Files.** `logo/<app>.svg` is the logo in the app's color, `-on-dark` in its dark-mode color and `-ink` in ink for print and one-color uses. Each is one filled path and its cut-outs are transparent. Below 32px use the `-small` files: the same logo with one heavier band instead of the band and inner line, a wider gap and the motif without the cut-outs too fine to see.
@@ -113,7 +113,7 @@ Every app is named after the motif in its logo, with a plain descriptor that say
 - **Choosing the motif and its name.** The motif is a traditional crest subject, or an object from the app's own work, that 3–5 simple shapes can draw. Its name is short: two or three syllables, four at most. It's easy to say in English, and has no unfortunate meaning in English or Japanese. A link between the name and the job is welcome but not required.
 - **Check before adopting.** Crest names are ordinary words, so search the app stores in the app's category, the web and trademark records. Chidori, for example, is well known from Naruto, and Kitsune is used widely. A clash in another category is acceptable when the descriptor sets the app apart. A clash in the same category is not.
 - **The brand itself has no name.** Where it needs a label, it's the kamon brand, after its logos. The fox is its mark, not a name, and its logo files are `logo/brand*.svg`. Don't give it a name, a wordmark or a tagline.
-- **Apps from before this convention.** Kikitori will be renamed, probably to Chidori — 文字起こし. Explorer is a working name. Both keep their current names in the kit until they're renamed.
+- **Apps from before this convention.** Chidori was called Kikitori before this convention; it is now Chidori — 文字起こし. Explorer is a working name and keeps it in the kit until it is renamed.
 
 `docs/direction-naming.md` has the reasoning behind this.
 
@@ -167,7 +167,7 @@ Both are free (SIL Open Font License) on Google Fonts:
 - [Zen Kaku Gothic New](https://fonts.google.com/specimen/Zen+Kaku+Gothic+New) — weights 400, 500
 - [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) — weight 400
 
-The web kit loads them from Google Fonts. Native apps bundle the font files.
+The React kit's `fonts.css` loads them from Google Fonts for web pages. Native apps, and web apps that must stay offline such as Tauri apps, bundle the font files.
 
 ## Files
 
@@ -194,4 +194,4 @@ The web kit loads them from Google Fonts. Native apps bundle the font files.
 
 ## License
 
-The style is open and the identity is reserved. The tokens, the rules, the tools and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Kikitori, are all rights reserved. `LICENSE` has the terms. `TRADEMARKS.md` says how to refer to the names and logos, and what a fork of one of the apps should change.
+The style is open and the identity is reserved. The tokens, the rules, the tools and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Chidori, are all rights reserved. `LICENSE` has the terms. `TRADEMARKS.md` says how to refer to the names and logos, and what a fork of one of the apps should change.

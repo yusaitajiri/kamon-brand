@@ -6,7 +6,19 @@ Versions follow semver. A major version changes how an app that follows the rule
 
 ## Unreleased
 
-- **Docs:** the repository's `README.md` starts with how to set up an app, and the upgrade example in `react/README.md` uses the `react-v…` tags. Nothing for an app to do.
+## 2.0.0 — 2026-10-18
+
+Kikitori is renamed Chidori, and the fonts move out of `tokens.css`.
+
+- **App id:** `kikitori` is now `chidori`: `data-app="chidori"`, `<Logo app="chidori">`, `<EmptyState app="chidori">`, `appColors("chidori", …)`, `logo/chidori*.svg` and `icons/chidori/`. The drawings and the color, 朱 shu, are unchanged.
+- **Fonts:** `tokens.css` no longer imports Google Fonts. The import is in `@yusai/kamon-react/tokens/fonts.css`, so an app that must stay offline can bundle the fonts instead.
+- **Docs:** the repository's `README.md` starts with how to set up an app, and the upgrade example in `react/README.md` uses the `react-v…` tags.
+
+### Upgrading from 1.0.0
+
+1. Change the tag to `#react-v2.0.0` and run a plain install.
+2. Web apps: import `@yusai/kamon-react/tokens/fonts.css` before `tokens.css`. Apps that must not reach the network, such as Tauri apps, bundle Zen Kaku Gothic New (400, 500) and IBM Plex Mono (400) instead, for example from `@fontsource/zen-kaku-gothic-new` and `@fontsource/ibm-plex-mono`.
+3. Kikitori only: replace `kikitori` with `chidori` in `data-app`, the `app` prop of `Logo` and `EmptyState`, `appColors` and any path into `logo/` or `icons/`, and regenerate the app icons from `icons/chidori/`.
 
 ## 1.0.0 — 2026-10-18
 

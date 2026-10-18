@@ -1,5 +1,6 @@
 import { Button, Card, Checkbox, EmptyState, Field, Input, List, ListRow, Logo, Rule, Select, Switch, Tag } from "@yusai/kamon-react";
 import { createRoot } from "react-dom/client";
+import "../tokens/fonts.css";
 import "../tokens/tokens.css";
 import "../ui/ui.css";
 import "./elements.css";

@@ -119,9 +119,9 @@ export const brand = {
       "color": "moss",
       "logo": "logo/brand.svg"
     },
-    "kikitori": {
+    "chidori": {
       "color": "shu",
-      "logo": "logo/kikitori.svg"
+      "logo": "logo/chidori.svg"
     },
     "explorer": {
       "color": "ai",

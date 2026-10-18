@@ -1,12 +1,13 @@
 import { Card, List, Logo, Rule } from "@yusai/kamon-react";
 import { createRoot } from "react-dom/client";
+import "../tokens/fonts.css";
 import "../tokens/tokens.css";
 import "../ui/ui.css";
 import "./index.css";
 
 const pages = [
   ["elements.html", "UI elements", "Every component in each of its states."],
-  ["sample.html", "Sample screen", "A phone-width screen in Kikitori's color."],
+  ["sample.html", "Sample screen", "A phone-width screen in Chidori's color."],
   ["dashboard.html", "Project board", "A board and a table view on the brand's own page."],
 ];
 

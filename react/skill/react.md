@@ -4,8 +4,8 @@ This app applies the rules above with `@yusai/kamon-react`, the kit for React on
 
 ### Setup, once per app
 
-- Import `@yusai/kamon-react/tokens/tokens.css` and then `@yusai/kamon-react/ui/ui.css` once, at the app's entry.
-- Put the app's id on the root element, `<html data-app="kikitori">`, and `class="ui"` on `<body>`. The brand's own pages leave `data-app` out; their accent is moss.
+- Import `@yusai/kamon-react/tokens/fonts.css`, `@yusai/kamon-react/tokens/tokens.css` and then `@yusai/kamon-react/ui/ui.css` once, at the app's entry. An app that must stay offline, such as a Tauri app, leaves out `fonts.css` and bundles Zen Kaku Gothic New (400, 500) and IBM Plex Mono (400), for example from `@fontsource/zen-kaku-gothic-new` and `@fontsource/ibm-plex-mono`.
+- Put the app's id on the root element, `<html data-app="chidori">`, and `class="ui"` on `<body>`. The brand's own pages leave `data-app` out; their accent is moss.
 - Dark mode follows the system. `data-theme="light"` or `"dark"` on `<html>` overrides it, for an app with its own theme setting.
 
 ### Use the components

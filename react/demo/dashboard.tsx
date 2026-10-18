@@ -1,6 +1,7 @@
 import { Button, Card, EmptyState, Input, Logo, Rule, Tag } from "@yusai/kamon-react";
 import { useState, type KeyboardEvent } from "react";
 import { createRoot } from "react-dom/client";
+import "../tokens/fonts.css";
 import "../tokens/tokens.css";
 import "../ui/ui.css";
 import "./dashboard.css";
@@ -17,7 +18,7 @@ const columns: { name: string; items: Item[] }[] = [
     items: [
       { ref: "kamon-brand #14", title: "Pick a motif for the next app", labels: [{ text: "logo" }], who: "YT" },
       { ref: "kamon-brand #15", title: "Add tetsu and budo to the sample screens", labels: [{ text: "ui" }, { text: "color" }] },
-      { ref: "kikitori #8", title: "Bundle the fonts in the iOS build", labels: [{ text: "ios" }], who: "YT" },
+      { ref: "chidori #8", title: "Bundle the fonts in the iOS build", labels: [{ text: "ios" }], who: "YT" },
     ],
   },
   {
@@ -25,7 +26,7 @@ const columns: { name: string; items: Item[] }[] = [
     items: [
       { ref: "kamon-brand #12", title: "Project board sample page", labels: [{ text: "ui" }], who: "YT" },
       { ref: "explorer #21", title: "Tray icon on light Windows taskbars", labels: [{ text: "windows" }], who: "MO" },
-      { ref: "kikitori #9", title: "Offline message for sync", labels: [{ text: "Blocked: waiting on copy", warning: true }] },
+      { ref: "chidori #9", title: "Offline message for sync", labels: [{ text: "Blocked: waiting on copy", warning: true }] },
     ],
   },
   { name: "In review", items: [] },
@@ -43,10 +44,10 @@ const columns: { name: string; items: Item[] }[] = [
 const rows: [string, string, string, Item["who"], string][] = [
   ["kamon-brand #12", "Project board sample page", "In progress", "YT", "10:42"],
   ["explorer #21", "Tray icon on light Windows taskbars", "In progress", "MO", "09:15"],
-  ["kikitori #9", "Offline message for sync", "Blocked", undefined, "Oct 15"],
+  ["chidori #9", "Offline message for sync", "Blocked", undefined, "Oct 15"],
   ["kamon-brand #14", "Pick a motif for the next app", "Todo", "YT", "Oct 14"],
   ["kamon-brand #15", "Add tetsu and budo to the sample screens", "Todo", undefined, "Oct 14"],
-  ["kikitori #8", "Bundle the fonts in the iOS build", "Todo", "YT", "Oct 12"],
+  ["chidori #8", "Bundle the fonts in the iOS build", "Todo", "YT", "Oct 12"],
   ["kamon-brand #6", "Double line on the primary button", "Done", "YT", "Oct 17"],
   ["kamon-brand #5", "Migrate every logo to the 木瓜 frame", "Done", "YT", "Oct 16"],
   ["kamon-brand #4", "Dark-mode values for every app color", "Done", undefined, "Oct 10"],

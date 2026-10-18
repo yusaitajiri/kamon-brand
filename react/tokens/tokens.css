@@ -1,7 +1,6 @@
 /* Kamon brand tokens, generated from tokens/tokens.json by react/scripts/generate.mjs. Don't edit.
    Light is default; dark follows the system or [data-theme="dark"]. Build with --accent; an app brings its
-   own color with data-app on <html> (the brand's own pages stay moss). */
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap');
+   own color with data-app on <html> (the brand's own pages stay moss). The fonts are in fonts.css. */
 
 :root {
   --surface: #F3F1EC;
@@ -166,7 +165,7 @@
   color-scheme: dark;
 }
 
-[data-app="kikitori"] {
+[data-app="chidori"] {
   --accent: var(--shu);
   --accent-hover: var(--shu-hover);
   --accent-deep: var(--shu-deep);
