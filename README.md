@@ -79,8 +79,28 @@ Every app has a logo drawn in one flat color, built like a kamon (家紋): a sim
 - **Tray and menu bar.** Use `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones.
 - **One color, flat.** Never two colors, gradients, outlines, shadows or texture. Don't rotate, mirror or stretch a logo, and don't redraw the frame for one app or put it in a circle (丸に木瓜): every app shares it as it is. On iOS and Android the system masks the icon to a rounded square or circle; the store icon already sits the frame inside that on the warm ground.
 - **Black-and-white test.** Every logo must be recognisable in solid black at 16px and must not be confused with any other app's logo. Check this before adding one.
-- **A new app's logo** is a new motif in the same frame: an animal or an object, from a traditional crest or the app's own idea, as 3–5 simple filled shapes with rounded corners and cut-outs instead of thin lines. No letters. Add it to `MOTIFS` in `tools/build_logo.py`, which sizes it to fill the frame, run it, and add the app to `tokens/tokens.json` → `apps`.
+- **A new app's logo** is a new motif in the same frame, and the motif also names the app (see *Naming apps* below): an animal or an object, from a traditional crest or the app's own idea, as 3–5 simple filled shapes with rounded corners and cut-outs instead of thin lines. No letters. Add it to `MOTIFS` in `tools/build_logo.py`, which sizes it to fill the frame, run it, and add the app to `tokens/tokens.json` → `apps`.
 - `tools/build_logo.py` draws every logo file and icon, taking the colors from `tokens/tokens.json`. Change shapes there and colors in the tokens, then rebuild; never edit the outputs by hand.
+
+## Naming apps
+
+Every app is named after the motif in its logo, with a plain descriptor that says what it does. The name is the app's identity and the descriptor explains it, so choosing the motif and naming the app are one decision.
+
+| Part | What it is | Example |
+| --- | --- | --- |
+| Name | The motif's crest name, in its shortest form | 千鳥 Chidori, 枡 Masu |
+| Descriptor | A plain noun for the app's job, in the language of the UI | 文字起こし / Transcription, ファイル / Files |
+
+- **Spelling the name.** Hepburn without macrons, one word, capital first letter: Chidori, not Chidōri or chidori. Japanese text writes it the way the crest is written (千鳥), with the reading in hiragana where it's hard to read.
+- **The app id** is the name in lowercase (`chidori`). It's the `data-app` value, the folder name in `logo/` and `icons/`, the id in `tokens/tokens.json` → `apps`, and the repository name.
+- **The descriptor** is the word people would search for, one or two words in each language. Never a coined word, a slogan or the brand's name.
+- **Where each appears.** The name alone wherever space is tight or the app is already open: the window title, taskbar and dock, icon label, app bar, tray tooltip and notifications. The name with its descriptor wherever someone meets the app for the first time: the store listing, the About screen, the README title, the website and the first run. Where a store has a subtitle field, the descriptor goes there. Elsewhere they're joined with a spaced em dash: "Chidori — Transcription", 「千鳥 — 文字起こし」.
+- **Choosing the motif and its name.** The motif is a traditional crest subject, or an object from the app's own work, that 3–5 simple shapes can draw. Its name is short: two or three syllables, four at most. It's easy to say in English, and has no unfortunate meaning in English or Japanese. A link between the name and the job is welcome but not required.
+- **Check before adopting.** Crest names are ordinary words, so search the app stores in the app's category, the web and trademark records. Chidori, for example, is well known from Naruto, and Kitsune is used widely. A clash in another category is acceptable when the descriptor sets the app apart. A clash in the same category is not.
+- **The brand itself** is Yusai Tajiri. The fox is the brand's mark, not an app name.
+- **Apps from before this convention.** Kikitori will be renamed, probably to Chidori — 文字起こし. Explorer is a working name. Both keep their current names in the kit until they're renamed.
+
+`docs/direction-naming.md` has the reasoning behind this.
 
 ## Voice
 
@@ -140,4 +160,4 @@ Copy this folder into a repo as `brand/`. Then:
 - **Web:** `@import "brand/tokens/tokens.css";`, put the app's id on the root element (`<html data-app="kikitori">`) and build with `var(--accent)`, `var(--space-6)` and so on. The brand's own pages need no `data-app`; their accent is moss.
 - **React Native / Expo:** `import { appColors } from "./brand/tokens/tokens";` and use `appColors("kikitori", "light")` (or `"dark"`, from the system color scheme). It returns every color with `accent` set to the app's own.
 - **App icon:** take `icons/<app>/` as the app's icon set; for Tauri, point `tauri icon` at `icons/<app>/icon-1024.png` and replace the `.ico` it writes with `icons/<app>/icon.ico`, which draws the small sizes properly.
-- **Coding agents:** put the line `@brand/AGENTS.md` in the app's root `CLAUDE.md` so Claude Code loads the rules at the start of every session. Asking an agent in words to read a file only works if it decides to open it, and a file inside `brand/` is never loaded on its own. For other agents, add "Before touching UI, read `brand/AGENTS.md`." to their instruction file. If you change a rule, change it in both this README and `AGENTS.md`.
+- **Coding agents:** put the line `@brand/AGENTS.md` in the app's root `CLAUDE.md` so Claude Code loads the rules at the start of every session. Asking an agent in words to read a file only works if it decides to open it, and a file inside `brand/` is never loaded on its own. For other agents, add "Before touching UI, read `brand/AGENTS.md`." to their instruction file. If you change a rule, change it in both this README and `AGENTS.md`. When an agent's output shows a stock style that isn't in `AGENTS.md` → *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns are followed.
