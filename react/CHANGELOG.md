@@ -6,6 +6,8 @@ Versions follow semver. A major version changes how an app that follows the rule
 
 ## Unreleased
 
+- **Docs:** the repository's `README.md` starts with how to set up an app, and the upgrade example in `react/README.md` uses the `react-v…` tags. Nothing for an app to do.
+
 ## 1.0.0 — 2026-10-18
 
 The first version of the React kit, tagged `react-v1.0.0`. It takes over the web side of `@yusai/brand` 1.0.1, which is retired, and adds React components. Nothing an app shows changes: `tokens.css` and `ui.css` have the same values and rules, and the demo pages match the old sample pages pixel for pixel.

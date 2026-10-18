@@ -12,6 +12,21 @@ That is the idea of the brand: the apps are ordinary, well-made tools that share
   <img src="logo/explorer.svg" height="96" alt="File manager logo: nested measuring boxes inside the same frame, in indigo">
 </p>
 
+## Set up an app
+
+Apps install a platform kit from this repository, pinned to a tag, and never use the files at the root directly. Every app needs its app id, from the list in `tokens/tokens.json` → `apps`, such as `kikitori`. A new app first gets its name, motif and color here (see *Naming apps* below).
+
+- **React or Tauri:** follow *Using it in an app* in [`react/README.md`](react/README.md). It starts with this dependency and install hook in the app's `package.json`:
+
+  ```json
+  "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v1.0.0" },
+  "scripts": { "postinstall": "brand-sync" }
+  ```
+
+- **Flutter:** the kit in `flutter/` doesn't exist yet.
+
+To have a coding agent do it, give it this repository's link, the platform and the app id: "Set up the kamon brand in this app from https://github.com/yusaitajiri/kamon-brand. It's a Tauri app; its app id is kikitori."
+
 ## Principles
 
 1. **Calm first.** Generous spacing, a warm gray ground, plain words. Nothing in the UI competes for attention.

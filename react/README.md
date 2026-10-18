@@ -58,7 +58,7 @@ Apps install the kit pinned to a version tag, so the kit can move on without cha
    ```
 
 6. **App icon.** For Tauri, point `tauri icon` at `node_modules/@yusai/kamon-react/icons/<app>/icon-1024.png`, then replace the `.ico` it writes with the kit's `icon.ico`, which draws the small sizes properly. Icons generated into the app are part of its build, so commit those.
-7. **Upgrade on purpose.** Change the tag (`#react-v1.1.0`) and install again. `react/CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/kamon-react from v1.0.0 to v1.1.0, following its CHANGELOG."
+7. **Upgrade on purpose.** Change the tag (`#react-v1.1.0`) and install again. `react/CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/kamon-react from react-v1.0.0 to react-v1.1.0, following its react/CHANGELOG.md."
 
 ## The components
 
