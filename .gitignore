@@ -1,0 +1,10 @@
+node_modules/
+demo/dist/
+
+# Downloaded kit archives
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

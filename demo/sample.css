@@ -1,0 +1,17 @@
+/* Sample layout only: one phone-width screen in Kikitori's color. The kamon is the logo, the empty
+   state's mark and its double line: the rule under the app bar, the frame on the card you write in and
+   the inner line of the one primary button. Everything else is plain. */
+body { margin: 0; }
+main { max-width: 360px; margin: 0 auto; padding: var(--space-4); }
+.bar { display: flex; align-items: center; justify-content: space-between; }
+.rule { margin-top: var(--space-3); }
+.brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+img { display: block; }
+h1 { margin: var(--space-6) 0 var(--space-4); font: var(--text-title); }
+h2 { margin: var(--space-8) 0 var(--space-3); font: var(--text-heading); }
+.tags { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+.card { padding: var(--space-4); }
+.list-row { padding: var(--space-2); }
+.form { display: flex; flex-direction: column; gap: var(--space-4); }
+.actions { display: flex; gap: var(--space-3); }
+.card .empty { padding: var(--space-8) var(--space-4); }

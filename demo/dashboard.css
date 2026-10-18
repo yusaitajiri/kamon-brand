@@ -1,0 +1,60 @@
+/* Sample layout only: a project board like GitHub Projects, on the brand's own page, so accent is moss.
+   The kamon is the logo, the empty column's mark and its double line: the rule under the app bar and the inner line of
+   the one primary button (New item). The board's columns are equal, so no container is framed. */
+body { margin: 0; }
+img { display: block; }
+main { max-width: 1200px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-16); }
+
+.bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+.brand-repo { font: var(--text-mono); color: var(--ink-subtle); }
+.rule { margin-top: var(--space-3); }
+
+.head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-8); }
+h1 { margin: 0; font: var(--text-title); }
+.summary { margin: var(--space-1) 0 0; color: var(--ink-muted); }
+.summary .num { font: var(--text-mono); color: var(--ink); }
+
+.views { display: flex; gap: var(--space-1); margin: var(--space-6) 0 0; padding: 0 0 var(--space-2); border-bottom: 1px solid var(--border); list-style: none; }
+.view { padding: var(--space-1) var(--space-3); border-radius: var(--radius-md); color: var(--ink-muted); font: var(--text-label); cursor: pointer; transition: background-color 150ms; }
+.view:hover { background: var(--surface-sunken); }
+.view[aria-selected="true"] { background: var(--accent-tint); color: var(--accent-deep); }
+.view:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+.tools .input { flex: 1 1 240px; width: auto; }
+.tools .tags { display: flex; gap: var(--space-2); }
+.tools .tag { cursor: pointer; }
+
+/* Board: columns wrap below each other on narrow screens instead of scrolling the page sideways. */
+.board { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-6); margin-top: var(--space-8); }
+.column-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-3); }
+h2 { margin: 0; font: var(--text-heading); }
+.count { font: var(--text-mono); color: var(--ink-subtle); }
+.items { display: flex; flex-direction: column; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+
+.item { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); cursor: pointer; transition: background-color 150ms, border-color 150ms; }
+.item:hover { border-color: var(--border-strong); }
+.item[aria-selected="true"] { border-color: var(--accent-tint); background: var(--accent-tint); color: var(--accent-deep); }
+.item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.item-ref { font: var(--text-mono); color: var(--ink-subtle); }
+.item[aria-selected="true"] .item-ref { color: var(--accent-deep); }
+.item-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.labels { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.labels .tag { padding: 0 var(--space-2); font: var(--text-caption); }
+.tag-warning { border-color: var(--warning-tint); background: var(--warning-tint); color: var(--warning); }
+
+.avatar { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--surface-sunken); color: var(--ink-muted); font: var(--text-caption); font-weight: 500; }
+
+.column .card.empty { padding: var(--space-12) var(--space-6); }
+
+/* Table view. */
+.table-wrap { margin-top: var(--space-8); padding: 0; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); color: var(--ink-muted); font: var(--text-label); text-align: left; white-space: nowrap; }
+td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+td.mono { font: var(--text-mono); color: var(--ink-subtle); white-space: nowrap; }
+.who { display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+
+[hidden] { display: none !important; }

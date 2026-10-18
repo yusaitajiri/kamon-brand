@@ -1,0 +1,62 @@
+{
+  "name": "@yusai/kamon-react",
+  "version": "1.0.0",
+  "description": "The kamon brand kit for React on the web and Tauri: tokens, ui.css, components, logos, app icons and the brand-ui skill for coding agents.",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./tokens/tokens.css": "./tokens/tokens.css",
+    "./tokens/tokens.json": "./tokens/tokens.json",
+    "./ui/ui.css": "./ui/ui.css",
+    "./logo/*": "./logo/*",
+    "./icons/*": "./icons/*",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "brand-sync": "scripts/brand-sync.mjs"
+  },
+  "files": [
+    "dist/",
+    "tokens/",
+    "ui/ui.css",
+    "logo/",
+    "icons/",
+    "skills/",
+    "scripts/brand-sync.mjs",
+    "base.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "TRADEMARKS.md"
+  ],
+  "scripts": {
+    "sync-base": "node scripts/sync-base.mjs",
+    "generate": "node scripts/generate.mjs",
+    "build": "tsc -p tsconfig.json",
+    "demo": "vite demo",
+    "check": "npm run generate && npm run build && git diff --exit-code -- tokens src dist skills"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.4"
+  }
+}

@@ -1,0 +1,19 @@
+/* Specimen layout only. .is-focus shows the focus state without a keyboard. */
+body { margin: 0; }
+main { max-width: 960px; margin: 0 auto; padding: var(--space-12) var(--space-4); }
+h1 { margin: 0; font: var(--text-title); }
+h2 { margin: 0; font: var(--text-heading); }
+p { margin: var(--space-2) 0 0; max-width: 640px; color: var(--ink-muted); }
+.card.section { margin-top: var(--space-8); }
+.variant { margin-top: var(--space-6); }
+.variant-name { font: var(--text-caption); color: var(--ink-subtle); }
+.row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-4); margin-top: var(--space-2); }
+.row .field { width: 220px; }
+.button.is-focus, .check.is-focus input { outline: 2px solid var(--accent); outline-offset: 2px; }
+.enlarged { align-items: center; gap: var(--space-16); }
+.zoom { zoom: 4; }
+.input.is-focus { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 0; }
+.appbar-demo { max-width: 640px; margin-top: var(--space-2); }
+.bar-row { justify-content: space-between; margin: 0 0 var(--space-3); font: var(--text-label); }
+.frames .card { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); width: 300px; }
+.frames .field { width: 100%; }
