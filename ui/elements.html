@@ -22,13 +22,18 @@
   .enlarged { align-items: center; gap: var(--space-16); }
   .zoom { zoom: 4; }
   .input.is-focus { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 0; }
+  .appbar-demo { max-width: 640px; margin-top: var(--space-2); }
+  .bar-row { justify-content: space-between; margin: 0 0 var(--space-3); font: var(--text-label); }
+  .frames .card { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); width: 300px; }
+  .frames .field { width: 100%; }
 </style>
 </head>
 <body class="ui">
 <main>
 <h1>UI elements</h1>
-<p>Every element is plain except the primary button, the one action per view, which carries the kamon: corners
-notched like the 木瓜 frame, where two lobes meet, and a thin inner line like the frame's own.</p>
+<p>Every element is plain except where the kamon's double line comes in: the primary button, the one action
+per view, has a thin line inside its edge like the 木瓜 frame's own, and a view may have one framed container
+and one 子持ち罫 rule under its app bar.</p>
 
 <section class="card">
   <h2>Button</h2>
@@ -43,7 +48,7 @@ notched like the 木瓜 frame, where two lobes meet, and a thin inner line like 
     </div>
   </div>
   <div class="variant">
-    <div class="variant-name">The primary button's corner, enlarged four times, beside the logo it comes from</div>
+    <div class="variant-name">The primary button enlarged four times, beside the logo its inner line comes from</div>
     <div class="row enlarged">
       <div class="zoom"><button class="button button-primary">Save</button></div>
       <picture><source srcset="../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/yusai-tajiri.svg" width="140" height="140" alt="The brand logo"></picture>
@@ -106,6 +111,28 @@ notched like the 木瓜 frame, where two lobes meet, and a thin inner line like 
       <li class="list-row"><span>Interview, part two</span><span class="list-meta">09:15</span></li>
     </ul>
     <div class="empty">No entries yet. Write your first line.</div>
+  </div>
+</section>
+<section class="card">
+  <h2>Frame and rule</h2>
+  <div class="variant">
+    <div class="variant-name">The rule under an app bar, once per view</div>
+    <div class="appbar-demo">
+      <div class="row bar-row"><span>App name</span><span class="variant-name">Settings</span></div>
+      <hr class="rule">
+    </div>
+  </div>
+  <div class="variant">
+    <div class="variant-name">The frame on the one container you are working in, beside a plain card</div>
+    <div class="row frames">
+      <div class="card frame">
+        <label class="field"><span class="field-label">Title</span><input class="input" value="Weekly notes"></label>
+        <button class="button button-primary">Save</button>
+      </div>
+      <div class="card">
+        <label class="field"><span class="field-label">Kind</span><span class="select-wrap"><select class="select"><option>Memo</option></select></span></label>
+      </div>
+    </div>
   </div>
 </section>
 </main>

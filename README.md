@@ -16,7 +16,7 @@ That is the idea of the brand: the apps are ordinary, well-made tools that share
 
 1. **Calm first.** Generous spacing, a warm gray ground, plain words. Nothing in the UI competes for attention.
 2. **One color per app, used with intent.** Moss is the brand's own color. Each app brings one color of its own and uses it the way the brand uses moss: to mark what you can act on and what is selected — not decoration. Everything else is shared.
-3. **Personality lives at the edges.** The working UI stays normal and native. The logo is the app icon and belongs on the about page and the brand's own pages — never in the middle of a task.
+3. **Personality lives at the edges.** The working UI stays normal and native. The logo is the app icon and belongs on the about page and the brand's own pages — never in the middle of a task. Inside the working UI the kamon is only its double line, a few neutral lines, never the crest itself.
 4. **Made, not copied.** No imitation paper, wood, glass or metal. Surfaces are flat; depth comes from borders and spacing.
 
 What this brand is **not**: neon or glow, neumorphic soft-3D, "light show" effects (animated gradients, blur, sparkle), brutalism (raw borders, clashing color, shouting type), or skeuomorphic objects. It also skips the stock web defaults: italic accent words in headlines, numbered "01 / 02 / 03" section labels, monospace eyebrow labels and pill-shaped buttons. If a choice leans toward any of these, pick the quieter option.
@@ -60,8 +60,8 @@ Each app takes one color from this palette. The colors are traditional Japanese 
 
 - 4px base: `space-1` (4) through `space-16` (64). Phone gutters are `space-4`; card padding `space-6`; sections `space-8`. When unsure, add space.
 - Corners: `radius-md` (8px) for controls, `radius-lg` (12px) for cards, `radius-sm` (6px) for chips and tags. `radius-full` only for avatars.
-- No shadows except `shadow-float` on menus that float over content. Borders are 1px `border`.
-- **The kamon in the UI.** A crest marks one thing, so the kamon reaches into the interface in one place: the primary button, the one action per view. Its corners have the 木瓜 notch, two outward quarter circles meeting at an inward point where two lobes would meet, and a thin line runs just inside its edge like the frame's inner line, so it sits on the page like a seal. Every other element stays plain, and empty states may show the app's logo above their sentence. `docs/direction-kamon-ui.md` has the study behind this.
+- No shadows except `shadow-float` on menus and dialogs that float over content. Borders are 1px `border`, except the frame and the rule below.
+- **The kamon in the UI.** A crest marks one thing, so the kamon reaches into the interface only as its double line, the 木瓜 frame's double outline, in three forms. The primary button, the one action per view, has a thin line just inside its edge. A 子持ち罫 rule, a thick line over a thin one, goes under the app bar. And a container you are working in, an editor, an edit panel or a dialog, can take a frame in the logo's proportions: a band, a gap and a thin line. The rule and the frame are neutral border colors, so the accent still marks only what you can act on. The recommended density is one of each per view: one rule, one frame, one primary, with no frame on views of equal parts such as lists, boards and settings. It's a default, not a law. Lighter is fine, but rules on every section or frames on several cards turn the line into texture, and a view never shows two frames: when a dialog or panel opens, the frame and the primary move to it. Every other element stays plain, and empty states may show the app's logo above their sentence. `docs/direction-double-line.md` has the studies behind this.
 - Motion is short (150–200ms) and functional: things fade or slide because they changed. No looping or decorative animation.
 
 ## The logos (app icons)
@@ -126,7 +126,7 @@ Both are free (SIL Open Font License) on Google Fonts:
 | --- | --- |
 | `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the brand logo for the brand's own pages. |
-| `ui/` | UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state), with the kamon primary button. `elements.html` shows every element, `sample.html` a sample phone screen and `dashboard.html` a project board like GitHub Projects (board and table views); `screens/` has them in light and dark. |
+| `ui/` | UI elements built on the tokens: `ui.css` (button, text box, select, checkbox, switch, card, list, tag, empty state), with the kamon's double line: the primary button's inner line, the frame and the rule. `elements.html` shows every element, `sample.html` a sample phone screen and `dashboard.html` a project board like GitHub Projects (board and table views); `screens/` has them in light and dark. |
 | `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py` (`pip install skia-pathops resvg-py pillow`, then `python tools/build_logo.py`). |
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |

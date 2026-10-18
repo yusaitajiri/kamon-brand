@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja" data-app="kikitori">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double line study</title>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../ui/ui.css">
+<style>
+  /* Study layout only. One sample screen in Kikitori's color, five times. The first column is the
+     adopted button with the 木瓜 notch; the others drop the notch and carry the frame's double line
+     instead, each in a different place. Every second line is 1px, 3px inside (or outside) the first. */
+  body { margin: 0; }
+  main { padding: var(--space-12) var(--space-8); }
+  .intro { max-width: 720px; }
+  .intro h1 { margin: 0; font: var(--text-title); }
+  .intro p { margin: var(--space-2) 0 0; color: var(--ink-muted); }
+  .columns { display: grid; grid-template-columns: repeat(5, 320px); gap: var(--space-8); margin-top: var(--space-8); }
+  .head h2 { margin: 0; font: var(--text-heading); }
+  .head p { margin: var(--space-2) 0 0; min-height: 66px; font: var(--text-body-small); color: var(--ink-muted); }
+  .screen { margin-top: var(--space-4); padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+
+  /* The sample screen, as in ui/sample.html. */
+  .bar { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+  img { display: block; }
+  .screen h1 { margin: var(--space-6) 0 var(--space-4); font: var(--text-title); }
+  .screen h3 { margin: var(--space-8) 0 var(--space-3); font: var(--text-heading); }
+  .tags { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+  .screen .card { padding: var(--space-4); }
+  .list-row { padding: var(--space-2); }
+  .form { display: flex; flex-direction: column; gap: var(--space-4); }
+  .actions { display: flex; gap: var(--space-3); }
+  .screen .card .empty { padding: var(--space-8) var(--space-4); }
+
+  /* ---- The double-line primary: the plain rounded button with the inner line, no notch. */
+  .dl .button-primary::before { clip-path: none; border-radius: var(--radius-md); }
+  .dl .button-primary::after {
+    inset: 2px; /* the layer starts 1px outside the box, so the line sits 3px in from the outer edge */
+    clip-path: none;
+    background: none;
+    border: 1px solid var(--on-accent);
+    border-radius: calc(var(--radius-md) - 3px);
+  }
+
+  /* ---- States: the second line marks what is active. Neutral lines stay single. */
+  .states .input.is-focus { border-color: var(--accent); outline: 1px solid var(--accent); outline-offset: 2px; }
+  .states .list-row[aria-selected="true"] { outline: 1px solid var(--accent); outline-offset: -3px; }
+  .states .tag[aria-pressed="true"] { outline: 1px solid var(--accent-deep); outline-offset: -3px; }
+
+  /* ---- Containers: every card is a frame, its border and a hairline 3px inside it. */
+  .frames .card { outline: 1px solid var(--border); outline-offset: -5px; }
+
+  /* ---- Rules: the double line as a horizontal rule, under the app bar and beside section titles. */
+  .rules .bar { position: relative; padding-bottom: var(--space-3); }
+  .rules .bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+  .rules h3 { display: flex; align-items: center; gap: var(--space-3); }
+  .rules h3::after { content: ""; flex: 1; height: 4px; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+
+  /* Detail row: the primary enlarged four times in each version. */
+  .details { display: grid; grid-template-columns: repeat(5, 320px); gap: var(--space-8); margin-top: var(--space-8); }
+  .detail { display: flex; flex-direction: column; gap: var(--space-2); }
+  .detail-name { font: var(--text-caption); color: var(--ink-subtle); }
+  .zoom { zoom: 3; }
+</style>
+</head>
+<body class="ui">
+<main>
+  <div class="intro">
+    <h1>Double line study</h1>
+    <p>One sample screen in Kikitori's color, five times. The first is the adopted primary button with the
+    木瓜 notch. The other four drop the notch and keep only the frame's double line: a 1px second line,
+    3px from the first. What changes is where else that line appears.</p>
+  </div>
+
+  <div class="columns" id="columns"></div>
+  <div class="details" id="details"></div>
+</main>
+
+<template id="screen">
+  <div class="bar">
+    <span class="brand"><picture><source srcset="../../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/kikitori.svg" width="32" height="32" alt=""></picture>Kikitori</span>
+    <button class="button button-quiet">設定</button>
+  </div>
+  <h1>記録</h1>
+  <input class="input" placeholder="記録を検索" aria-label="記録を検索">
+  <div class="tags">
+    <span class="tag" aria-pressed="true">すべて</span>
+    <span class="tag">仕事</span>
+    <span class="tag">メモ</span>
+  </div>
+
+  <h3>最近の記録</h3>
+  <div class="card">
+    <ul class="list">
+      <li class="list-row" aria-selected="true"><span>週次ミーティング</span><span class="list-meta">10:42</span></li>
+      <li class="list-row"><span>インタビュー 後半</span><span class="list-meta">09:15</span></li>
+      <li class="list-row"><span>読書メモ</span><span class="list-meta">昨日</span></li>
+    </ul>
+  </div>
+
+  <h3>新しい記録</h3>
+  <div class="card form">
+    <label class="field"><span class="field-label">タイトル</span><input class="input is-focus" value="週次ミーティング"></label>
+    <label class="field"><span class="field-label">種類</span><span class="select-wrap"><select class="select"><option>メモ</option></select></span></label>
+    <label class="switch">リマインダー<input type="checkbox" role="switch" checked></label>
+    <label class="check"><input type="checkbox">下書きとして保存</label>
+    <div class="actions">
+      <button class="button button-primary">保存</button>
+      <button class="button">キャンセル</button>
+    </div>
+  </div>
+
+  <h3>アーカイブ</h3>
+  <div class="card">
+    <div class="empty">
+      <picture><source srcset="../../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/kikitori.svg" width="48" height="48" alt=""></picture>
+      まだ記録がありません。最初の一行を書いてみましょう。
+    </div>
+  </div>
+</template>
+
+<script>
+  const variants = [
+    ["", "A. Notch (adopted)", "The 木瓜 notch and the inner line on the one primary button. Focus is the plain ring."],
+    ["dl", "B. Double line, primary only", "The primary is a plain rounded button with the inner line. Nothing else changes."],
+    ["dl states", "C. Double line marks the active", "The primary, the focused field, the selected row and the selected tag each get a second line in the accent."],
+    ["dl frames", "D. Double line frames the cards", "Every card has a hairline 3px inside its border, like the frame around the motif."],
+    ["dl rules", "E. Double line as a rule", "A double rule under the app bar and after each section title, as in a ledger. Cards stay single."],
+  ];
+  const tpl = document.getElementById("screen");
+  const cols = document.getElementById("columns");
+  const details = document.getElementById("details");
+  for (const [cls, name, note] of variants) {
+    const col = document.createElement("div");
+    col.className = cls;
+    col.innerHTML = `<div class="head"><h2>${name}</h2><p>${note}</p></div>`;
+    const screen = document.createElement("div");
+    screen.className = "screen";
+    screen.append(tpl.content.cloneNode(true));
+    col.append(screen);
+    cols.append(col);
+
+    const d = document.createElement("div");
+    d.className = `detail ${cls}`;
+    d.innerHTML = `<span class="detail-name">${name}, enlarged three times</span><div class="zoom"><button class="button button-primary">保存</button></div>`;
+    details.append(d);
+  }
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Direction: how much of the kamon goes into UI elements
 
-Status: adopted 2026-10-17, at the edges. The kamon reaches into the UI only through the primary button, the one action per view, plus the logo and the empty state's mark. `ui/ui.css` draws it; the rules are in `AGENTS.md` and `README.md`. This page is the record of how that was decided.
+Status: superseded 2026-10-18 by `direction-double-line.md`. The notch is retired: the primary button is now the plain button with its inner line, and the kamon's double line also comes in as one frame and one rule per view. This page is the record of the notch and of the first density study, which still holds: a crest is a seal, one per view.
 
 ## The two details
 
@@ -34,7 +34,7 @@ The adopted button draws that outline with `clip-path: shape()`, which follows t
 
 The inner line runs parallel to the outline, 3px inside it and 1px wide. Its lobes share the outline's centres with a smaller radius, and at each notch it curves around the notch's point in a small arc, so the strip outside it and the line itself keep one width all the way round. (A first version copied the outline at a smaller size instead: same radius, shifted centres, and a strip that pinched at the corners.) The fill and the inner line are two layers behind the label, so the focus ring is untouched and no shadow is involved. `shape()` works in current Chrome, Edge and Safari; a browser without it shows the plain primary button.
 
-![The primary button's corner enlarged beside the logo](../ui/screens/elements-light.png)
+![The notched primary button enlarged beside the logo](kamon-ui/notch-elements-light.png)
 
 ## Where it does not apply
 

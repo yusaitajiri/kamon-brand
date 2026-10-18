@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double line on desktop</title>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../ui/ui.css">
+<style>
+  /* Study layout only. Density 2 from docs/direction-double-line.md on wide screens: E4 (子持ち罫) once,
+     under the app bar, and D3 (the weighted frame) on at most one container, the one the view is about.
+     Each screen sets its own app with data-app. Cards marked data-focus carry the frame. */
+  body { margin: 0; }
+  main { padding: var(--space-12) var(--space-8); }
+  .intro { max-width: 760px; }
+  .intro h1 { margin: 0; font: var(--text-title); }
+  .intro p { margin: var(--space-2) 0 0; color: var(--ink-muted); }
+  .case { margin-top: var(--space-12); }
+  .case > h2 { margin: 0; font: var(--text-heading); }
+  .case > p { margin: var(--space-1) 0 0; max-width: 760px; font: var(--text-body-small); color: var(--ink-muted); }
+  img { display: block; }
+
+  .desk { position: relative; overflow: hidden; width: 1200px; height: 720px; margin-top: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); color: var(--ink); }
+  .appbar { position: relative; display: flex; align-items: center; justify-content: space-between; margin: 0 var(--space-6); padding: var(--space-4) 0 var(--space-3); }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+  .brand-sub { font: var(--text-mono); color: var(--ink-subtle); }
+  .page { padding: var(--space-6); }
+  .button { white-space: nowrap; }
+  .mono { font: var(--text-mono); color: var(--ink-subtle); }
+  .muted { color: var(--ink-muted); }
+  .avatar { display: inline-grid; flex: none; place-items: center; width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--surface-sunken); color: var(--ink-muted); font: var(--text-caption); font-weight: 500; }
+  .textarea { resize: none; }
+  .field-row { display: flex; gap: var(--space-4); }
+  .field-row .field { flex: 1; }
+  .actions { display: flex; gap: var(--space-3); }
+
+  /* The plain primary with its inner line. */
+  .button-primary::before { clip-path: none; border-radius: var(--radius-md); }
+  .button-primary::after { inset: 2px; clip-path: none; background: none; border: 1px solid var(--on-accent); border-radius: calc(var(--radius-md) - 3px); }
+
+  /* E4 under the app bar, the content's width. */
+  .appbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; border-top: 2px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+  /* D3 on the one container the view is about. */
+  [data-focus] { border: 2px solid var(--border-strong); outline: 1px solid var(--border-strong); outline-offset: -6px; }
+
+  /* ---- Board */
+  .head { display: flex; align-items: flex-end; justify-content: space-between; }
+  .head h3 { margin: 0; font: var(--text-title); }
+  .head p { margin: var(--space-1) 0 0; color: var(--ink-muted); }
+  .views { display: flex; gap: var(--space-1); margin: var(--space-4) 0 0; padding: 0 0 var(--space-2); border-bottom: 1px solid var(--border); }
+  .view { padding: var(--space-1) var(--space-3); border-radius: var(--radius-md); color: var(--ink-muted); font: var(--text-label); }
+  .view[aria-selected="true"] { background: var(--accent-tint); color: var(--accent-deep); }
+  .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); margin-top: var(--space-6); }
+  .with-panel .board { grid-template-columns: repeat(3, 1fr); }
+  .column-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-3); }
+  .column-head h4 { margin: 0; font: var(--text-heading); }
+  .items { display: flex; flex-direction: column; gap: var(--space-3); }
+  .item { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); }
+  .item[aria-selected="true"] { border-color: var(--accent-tint); background: var(--accent-tint); color: var(--accent-deep); }
+  .item[aria-selected="true"] .mono { color: var(--accent-deep); }
+  .item-foot { display: flex; align-items: center; justify-content: space-between; }
+  .board .tag { padding: 0 var(--space-2); font: var(--text-caption); }
+  .board .empty { padding: var(--space-8) var(--space-4); }
+  .with-panel .page { margin-right: 400px; }
+  /* The app bar ends 73px down; the panel starts space-6 below its rule, level with the page title. */
+  .panel { position: absolute; top: calc(73px + var(--space-6)); right: var(--space-6); bottom: var(--space-6); width: 376px; display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-6); }
+  .panel h4 { margin: 0; font: var(--text-heading); }
+  .panel .actions { margin-top: auto; }
+
+  /* ---- Two-pane writer */
+  .split { display: grid; grid-template-columns: 300px 1fr; gap: var(--space-6); height: calc(720px - 66px); padding: var(--space-6); }
+  .side { display: flex; flex-direction: column; gap: var(--space-3); }
+  .side h4 { margin: var(--space-2) 0 0; font: var(--text-label); color: var(--ink-muted); }
+  .editor { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-6); }
+  .editor .title-input { font: var(--text-heading); }
+  .editor .textarea { flex: 1; }
+  .meta { display: flex; gap: var(--space-4); font: var(--text-body-small); color: var(--ink-muted); }
+  .editor .actions { justify-content: flex-end; }
+
+  /* ---- Explorer */
+  .three { display: grid; grid-template-columns: 220px 1fr 300px; gap: var(--space-6); height: calc(720px - 66px); padding: var(--space-6); }
+  .crumbs { display: flex; gap: var(--space-2); margin-bottom: var(--space-3); font: var(--text-label); color: var(--ink-muted); }
+  .files { padding: 0; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border); color: var(--ink-muted); font: var(--text-label); text-align: left; }
+  td { padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: 0; }
+  tr[aria-selected="true"] td { background: var(--accent-tint); color: var(--accent-deep); }
+  tr[aria-selected="true"] .mono { color: var(--accent-deep); }
+  .preview { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-6); }
+  .preview h4 { margin: 0; font: var(--text-heading); }
+  .thumb { height: 140px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-sunken); }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: var(--space-1) var(--space-4); margin: 0; font: var(--text-body-small); }
+  .kv dt { color: var(--ink-muted); }
+  .kv dd { margin: 0; }
+  .preview .actions { margin-top: auto; }
+
+  /* ---- Settings */
+  .settings { display: grid; grid-template-columns: 240px 640px; gap: var(--space-8); padding: var(--space-6); }
+  .settings h3 { margin: 0 0 var(--space-2); font: var(--text-title); }
+  .settings h4 { margin: var(--space-6) 0 var(--space-3); font: var(--text-heading); }
+  .settings h4:first-of-type { margin-top: var(--space-4); }
+  .setting { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-2) 0; }
+  .setting-meta { display: block; font: var(--text-body-small); color: var(--ink-muted); }
+
+  /* ---- Dialog */
+  .scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--ink) 35%, transparent); }
+  .dialog { position: absolute; top: 180px; left: 50%; width: 440px; margin-left: -220px; display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-6); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-raised); box-shadow: var(--shadow-float); }
+  .dialog h4 { margin: 0; font: var(--text-heading); }
+  .dialog p { margin: 0; color: var(--ink-muted); }
+  .dialog .actions { justify-content: flex-end; }
+</style>
+</head>
+<body class="ui">
+<main>
+  <div class="intro">
+    <h1>Double line on desktop</h1>
+    <p>Density 2 on wide screens: the 子持ち罫 rule once, under the app bar, and the weighted frame on at
+    most one container, the one the view is about. Six layouts test where that container is, and whether
+    there is one.</p>
+  </div>
+
+  <!-- 1. Board, nothing open -->
+  <section class="case">
+    <h2>1. Board</h2>
+    <p>Many equal cards. Nothing is the focus, so only the rule. The rule sits above the tabs' own 1px line.</p>
+    <div class="desk">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/yusai-tajiri.svg" width="32" height="32" alt=""></picture>Yusai Tajiri <span class="brand-sub">/ my-brand</span></span>
+        <button class="button button-quiet">Settings</button>
+      </div>
+      <div class="page">
+        <div class="head">
+          <div><h3>Brand kit</h3><p><span class="mono">4</span> of <span class="mono">10</span> items done, last updated today.</p></div>
+          <button class="button button-primary">New item</button>
+        </div>
+        <div class="views"><span class="view" aria-selected="true">Board</span><span class="view">Table</span></div>
+        <div class="board">
+          <div><div class="column-head"><h4>Todo</h4><span class="mono">3</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #14</span><span>Pick a motif for the next app</span><span class="item-foot"><span class="tag">logo</span><span class="avatar">YT</span></span></div>
+            <div class="card item"><span class="mono">my-brand #15</span><span>Add tetsu and budo to the samples</span><span class="item-foot"><span class="tag">ui</span></span></div>
+          </div></div>
+          <div><div class="column-head"><h4>In progress</h4><span class="mono">3</span></div><div class="items">
+            <div class="card item" aria-selected="true"><span class="mono">my-brand #12</span><span>Project board sample page</span><span class="item-foot"><span class="tag">ui</span><span class="avatar">YT</span></span></div>
+            <div class="card item"><span class="mono">explorer #21</span><span>Tray icon on light taskbars</span><span class="item-foot"><span class="tag">windows</span><span class="avatar">MO</span></span></div>
+          </div></div>
+          <div><div class="column-head"><h4>In review</h4><span class="mono">0</span></div>
+            <div class="card empty"><picture><source srcset="../../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/yusai-tajiri.svg" width="48" height="48" alt=""></picture>Nothing waiting for review.</div>
+          </div>
+          <div><div class="column-head"><h4>Done</h4><span class="mono">4</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #6</span><span>Kamon notch on the primary button</span><span class="item-foot"><span class="tag">ui</span><span class="avatar">YT</span></span></div>
+            <div class="card item"><span class="mono">my-brand #5</span><span>Migrate every logo to the 木瓜 frame</span><span class="item-foot"><span class="tag">logo</span><span class="avatar">YT</span></span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Board with an item open in a side panel -->
+  <section class="case">
+    <h2>2. Board with an item open</h2>
+    <p>Opening an item makes the side panel the focus: it takes the frame and the primary, and New item steps
+    down to a secondary button while the panel is open.</p>
+    <div class="desk with-panel">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/yusai-tajiri.svg" width="32" height="32" alt=""></picture>Yusai Tajiri <span class="brand-sub">/ my-brand</span></span>
+        <button class="button button-quiet">Settings</button>
+      </div>
+      <div class="page">
+        <div class="head">
+          <div><h3>Brand kit</h3><p><span class="mono">4</span> of <span class="mono">10</span> items done, last updated today.</p></div>
+          <button class="button">New item</button>
+        </div>
+        <div class="views"><span class="view" aria-selected="true">Board</span><span class="view">Table</span></div>
+        <div class="board">
+          <div><div class="column-head"><h4>Todo</h4><span class="mono">3</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #14</span><span>Pick a motif for the next app</span><span class="item-foot"><span class="tag">logo</span><span class="avatar">YT</span></span></div>
+            <div class="card item"><span class="mono">my-brand #15</span><span>Add tetsu and budo to the samples</span><span class="item-foot"><span class="tag">ui</span></span></div>
+          </div></div>
+          <div><div class="column-head"><h4>In progress</h4><span class="mono">3</span></div><div class="items">
+            <div class="card item" aria-selected="true"><span class="mono">my-brand #12</span><span>Project board sample page</span><span class="item-foot"><span class="tag">ui</span><span class="avatar">YT</span></span></div>
+            <div class="card item"><span class="mono">explorer #21</span><span>Tray icon on light taskbars</span><span class="item-foot"><span class="tag">windows</span><span class="avatar">MO</span></span></div>
+          </div></div>
+          <div><div class="column-head"><h4>Done</h4><span class="mono">4</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #6</span><span>Kamon notch on the primary button</span><span class="item-foot"><span class="tag">ui</span><span class="avatar">YT</span></span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="card panel" data-focus>
+        <span class="mono">my-brand #12</span>
+        <label class="field"><span class="field-label">Title</span><input class="input" value="Project board sample page"></label>
+        <div class="field-row">
+          <label class="field"><span class="field-label">Status</span><span class="select-wrap"><select class="select"><option>In progress</option></select></span></label>
+          <label class="field"><span class="field-label">Assignee</span><span class="select-wrap"><select class="select"><option>Yusai</option></select></span></label>
+        </div>
+        <label class="field"><span class="field-label">Notes</span><textarea class="input textarea" rows="4">A board like GitHub Projects, built only on the tokens.</textarea></label>
+        <div class="actions"><button class="button button-primary">Save</button><button class="button">Close</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Two-pane writer -->
+  <section class="case" data-app="kikitori">
+    <h2>3. Two panes: list and editor</h2>
+    <p>Kikitori on desktop. The editor is what the view is about, so the whole pane takes the frame. The list
+    beside it stays plain.</p>
+    <div class="desk">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/kikitori.svg" width="32" height="32" alt=""></picture>Kikitori</span>
+        <button class="button button-quiet">設定</button>
+      </div>
+      <div class="split">
+        <div class="side">
+          <input class="input" placeholder="記録を検索" aria-label="記録を検索">
+          <h4>今日</h4>
+          <ul class="list">
+            <li class="list-row" aria-selected="true"><span>週次ミーティング</span><span class="list-meta">10:42</span></li>
+            <li class="list-row"><span>インタビュー 後半</span><span class="list-meta">09:15</span></li>
+          </ul>
+          <h4>今週</h4>
+          <ul class="list">
+            <li class="list-row"><span>読書メモ</span><span class="list-meta">火</span></li>
+            <li class="list-row"><span>企画のたたき台</span><span class="list-meta">月</span></li>
+          </ul>
+        </div>
+        <div class="card editor" data-focus>
+          <input class="input title-input" value="週次ミーティング" aria-label="タイトル">
+          <div class="meta"><span>メモ</span><span class="mono">10:42</span><span>リマインダーあり</span></div>
+          <textarea class="input textarea" aria-label="本文">進捗の確認と、来週の予定。
+
+・ロゴの書き出しを終える
+・サンプル画面を更新する</textarea>
+          <div class="actions"><button class="button">削除</button><button class="button button-primary">保存</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 and 5. Explorer, three panes, with and without a frame on the preview -->
+  <section class="case" data-app="explorer">
+    <h2>4. Three panes, no frame</h2>
+    <p>A file browser: a tree, the files and a preview. Browsing is spread over all three, so nothing is the focus.</p>
+    <div class="desk">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/explorer-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/explorer.svg" width="32" height="32" alt=""></picture>Explorer</span>
+        <button class="button button-quiet">設定</button>
+      </div>
+      <div class="three">
+        <ul class="list">
+          <li class="list-row"><span>ホーム</span></li>
+          <li class="list-row" aria-selected="true"><span>ドキュメント</span></li>
+          <li class="list-row"><span>写真</span></li>
+          <li class="list-row"><span>ダウンロード</span></li>
+        </ul>
+        <div>
+          <div class="crumbs"><span>ホーム</span><span>/</span><span>ドキュメント</span></div>
+          <div class="card files"><table>
+            <thead><tr><th>名前</th><th>更新</th><th>サイズ</th></tr></thead>
+            <tbody>
+              <tr aria-selected="true"><td>企画書.pdf</td><td class="mono">10:42</td><td class="mono">1.2 MB</td></tr>
+              <tr><td>議事録</td><td class="mono">09:15</td><td class="mono">—</td></tr>
+              <tr><td>見積もり.xlsx</td><td class="mono">10/14</td><td class="mono">84 KB</td></tr>
+              <tr><td>写真の選定</td><td class="mono">10/12</td><td class="mono">—</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card preview">
+          <div class="thumb"></div>
+          <h4>企画書.pdf</h4>
+          <dl class="kv"><dt>種類</dt><dd>PDF</dd><dt>サイズ</dt><dd class="mono">1.2 MB</dd><dt>更新</dt><dd class="mono">10/18 10:42</dd></dl>
+          <div class="actions"><button class="button button-primary">開く</button><button class="button">共有</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case" data-app="explorer">
+    <h2>5. Three panes, frame on the preview</h2>
+    <p>The same screen with the preview framed, since it holds the primary. Compare with 4.</p>
+    <div class="desk">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/explorer-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/explorer.svg" width="32" height="32" alt=""></picture>Explorer</span>
+        <button class="button button-quiet">設定</button>
+      </div>
+      <div class="three">
+        <ul class="list">
+          <li class="list-row"><span>ホーム</span></li>
+          <li class="list-row" aria-selected="true"><span>ドキュメント</span></li>
+          <li class="list-row"><span>写真</span></li>
+          <li class="list-row"><span>ダウンロード</span></li>
+        </ul>
+        <div>
+          <div class="crumbs"><span>ホーム</span><span>/</span><span>ドキュメント</span></div>
+          <div class="card files"><table>
+            <thead><tr><th>名前</th><th>更新</th><th>サイズ</th></tr></thead>
+            <tbody>
+              <tr aria-selected="true"><td>企画書.pdf</td><td class="mono">10:42</td><td class="mono">1.2 MB</td></tr>
+              <tr><td>議事録</td><td class="mono">09:15</td><td class="mono">—</td></tr>
+              <tr><td>見積もり.xlsx</td><td class="mono">10/14</td><td class="mono">84 KB</td></tr>
+              <tr><td>写真の選定</td><td class="mono">10/12</td><td class="mono">—</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card preview" data-focus>
+          <div class="thumb"></div>
+          <h4>企画書.pdf</h4>
+          <dl class="kv"><dt>種類</dt><dd>PDF</dd><dt>サイズ</dt><dd class="mono">1.2 MB</dd><dt>更新</dt><dd class="mono">10/18 10:42</dd></dl>
+          <div class="actions"><button class="button button-primary">開く</button><button class="button">共有</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Settings with a side nav -->
+  <section class="case" data-app="kikitori">
+    <h2>6. Settings</h2>
+    <p>Equal sections beside a side nav. Nothing is the focus, so only the rule.</p>
+    <div class="desk">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/kikitori.svg" width="32" height="32" alt=""></picture>Kikitori</span>
+        <button class="button button-quiet">戻る</button>
+      </div>
+      <div class="settings">
+        <ul class="list">
+          <li class="list-row" aria-selected="true"><span>一般</span></li>
+          <li class="list-row"><span>通知</span></li>
+          <li class="list-row"><span>アカウント</span></li>
+          <li class="list-row"><span>データ</span></li>
+        </ul>
+        <div>
+          <h3>一般</h3>
+          <h4>表示</h4>
+          <div class="card">
+            <div class="setting"><span>テーマ<span class="setting-meta">システムの設定に合わせます。</span></span><span class="select-wrap" style="width: 160px"><select class="select"><option>自動</option></select></span></div>
+            <label class="setting switch">一覧に本文を表示<input type="checkbox" role="switch" checked></label>
+          </div>
+          <h4>記録</h4>
+          <div class="card">
+            <label class="setting switch">新しい記録にリマインダーを付ける<input type="checkbox" role="switch"></label>
+            <div class="setting"><span>既定の種類</span><span class="select-wrap" style="width: 160px"><select class="select"><option>メモ</option></select></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Dialog over the board -->
+  <section class="case">
+    <h2>7. Dialog</h2>
+    <p>A dialog over the board. The dialog is the focus and takes the frame with its float shadow.</p>
+    <div class="desk">
+      <div class="appbar">
+        <span class="brand"><picture><source srcset="../../logo/yusai-tajiri-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/yusai-tajiri.svg" width="32" height="32" alt=""></picture>Yusai Tajiri <span class="brand-sub">/ my-brand</span></span>
+        <button class="button button-quiet">Settings</button>
+      </div>
+      <div class="page">
+        <div class="head">
+          <div><h3>Brand kit</h3><p><span class="mono">4</span> of <span class="mono">10</span> items done, last updated today.</p></div>
+          <button class="button">New item</button>
+        </div>
+        <div class="views"><span class="view" aria-selected="true">Board</span><span class="view">Table</span></div>
+        <div class="board">
+          <div><div class="column-head"><h4>Todo</h4><span class="mono">3</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #14</span><span>Pick a motif for the next app</span><span class="item-foot"><span class="tag">logo</span><span class="avatar">YT</span></span></div>
+          </div></div>
+          <div><div class="column-head"><h4>In progress</h4><span class="mono">3</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #12</span><span>Project board sample page</span><span class="item-foot"><span class="tag">ui</span><span class="avatar">YT</span></span></div>
+          </div></div>
+          <div><div class="column-head"><h4>In review</h4><span class="mono">0</span></div><div class="items"></div></div>
+          <div><div class="column-head"><h4>Done</h4><span class="mono">4</span></div><div class="items">
+            <div class="card item"><span class="mono">my-brand #6</span><span>Kamon notch on the primary button</span><span class="item-foot"><span class="tag">ui</span><span class="avatar">YT</span></span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="scrim"></div>
+      <div class="dialog" data-focus role="dialog" aria-label="New item">
+        <h4>New item</h4>
+        <p>Add an item to the Todo column.</p>
+        <label class="field"><span class="field-label">Title</span><input class="input" placeholder="What needs doing"></label>
+        <div class="actions"><button class="button">Cancel</button><button class="button button-primary">Add item</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="ui.css">
 <style>
   /* Sample layout only: a project board like GitHub Projects, on the brand's own page, so accent is moss.
-     The kamon is the logo, the one primary button (New item) and the empty column's mark; everything else is plain. */
+     The kamon is the logo, the empty column's mark and its double line: the rule under the app bar and the inner line of
+     the one primary button (New item). The board's columns are equal, so no container is framed. */
   body { margin: 0; }
   img { display: block; }
   main { max-width: 1200px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-16); }
@@ -16,6 +17,7 @@
   .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
   .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
   .brand-repo { font: var(--text-mono); color: var(--ink-subtle); }
+  .rule { margin-top: var(--space-3); }
 
   .head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-8); }
   h1 { margin: 0; font: var(--text-title); }
@@ -76,6 +78,7 @@
     </span>
     <button class="button button-quiet">Settings</button>
   </div>
+  <hr class="rule">
 
   <div class="head">
     <div>
@@ -155,7 +158,7 @@
       <ul class="items">
         <li class="card item" tabindex="0">
           <span class="item-ref">my-brand #6</span>
-          <span>Kamon notch on the primary button</span>
+          <span>Double line on the primary button</span>
           <span class="item-foot"><span class="labels"><span class="tag">ui</span></span><span class="avatar" title="Yusai Tajiri">YT</span></span>
         </li>
         <li class="card item" tabindex="0">
@@ -187,7 +190,7 @@
         <tr><td class="mono">my-brand #14</td><td>Pick a motif for the next app</td><td>Todo</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 14</td></tr>
         <tr><td class="mono">my-brand #15</td><td>Add tetsu and budo to the sample screens</td><td>Todo</td><td></td><td class="mono">Oct 14</td></tr>
         <tr><td class="mono">kikitori #8</td><td>Bundle the fonts in the iOS build</td><td>Todo</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 12</td></tr>
-        <tr><td class="mono">my-brand #6</td><td>Kamon notch on the primary button</td><td>Done</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 17</td></tr>
+        <tr><td class="mono">my-brand #6</td><td>Double line on the primary button</td><td>Done</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 17</td></tr>
         <tr><td class="mono">my-brand #5</td><td>Migrate every logo to the 木瓜 frame</td><td>Done</td><td><span class="who"><span class="avatar">YT</span>Yusai Tajiri</span></td><td class="mono">Oct 16</td></tr>
         <tr><td class="mono">my-brand #4</td><td>Dark-mode values for every app color</td><td>Done</td><td></td><td class="mono">Oct 10</td></tr>
         <tr><td class="mono">my-brand #2</td><td>Type tokens for web and React Native</td><td>Done</td><td><span class="who"><span class="avatar">MO</span>Mika Ono</span></td><td class="mono">Oct 3</td></tr>

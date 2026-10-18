@@ -2,7 +2,7 @@
 
 Follow these rules for any UI in an app that carries the Yusai Tajiri brand. Paths are relative to this folder, which apps keep at `brand/`. Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth (with a usage note on each token), `tokens/tokens.css` is for the web and `tokens/tokens.ts` for React and React Native. `README.md` is the guide for people, with the background behind these rules.
 
-The brand is calm and warm gray. Each app has one accent color of its own and a logo: a kamon (家紋), the same four-lobed 木瓜 frame in every app with the app's own motif inside, an animal or an object. The brand's own color is moss and its own logo is the frame with a fox's head. Its personality lives at the edges of an app and never in the middle of a task.
+The brand is calm and warm gray. Each app has one accent color of its own and a logo: a kamon (家紋), the same four-lobed 木瓜 frame in every app with the app's own motif inside, an animal or an object. The brand's own color is moss and its own logo is the frame with a fox's head. Its personality lives at the edges of an app and never in the middle of a task; inside the working UI the kamon is only its double line, a few neutral lines that mark the top of the screen, the container being worked in and the primary action.
 
 ## Color
 
@@ -28,8 +28,14 @@ The brand is calm and warm gray. Each app has one accent color of its own and a 
 
 - Spacing uses the `space-*` tokens (4px base): phone gutter `space-4`, card padding `space-6`, between sections `space-8`, around empty states `space-12`. When unsure, take the larger step.
 - Corners: `radius-md` for buttons and inputs, `radius-lg` for cards and dialogs, `radius-sm` for chips and tags. `radius-full` is only for avatars.
-- No shadows except `shadow-float` on menus and popovers that float over content. Depth comes from borders and spacing.
-- The kamon reaches into the UI in one place: the primary button, the one `accent`-filled control per view, has the 木瓜 notch at its corners (two outward quarter circles meeting at an inward point, never a scooped corner) and a thin inner line. On the web it comes with `.button-primary` in `ui/ui.css`. Nothing else takes it: secondary buttons, inputs, cards, tags, checkboxes and switches stay plain. Empty states may show the app's logo at 48px above their one sentence.
+- No shadows except `shadow-float` on menus, popovers and dialogs that float over content. Depth comes from borders and spacing.
+- The kamon reaches into the UI only as its double line, the 木瓜 frame's double outline, in three forms. A view here is everything in front of the user at once, an open dialog or panel included.
+  - **The primary button**, the one `accent`-filled control, has a 1px `on-accent` line 3px inside its edge. On the web it comes with `.button-primary` in `ui/ui.css`. No notch, no other shape.
+  - **The rule** (子持ち罫, a 2px line over a 1px line, `<hr class="rule">`) goes only under the app bar. Never after section titles or between content; a divider inside content stays a plain 1px `border`.
+  - **The frame** (`.frame`, a 2px band, a 3px gap and a 1px line) goes only on a container you are working in, where you write, edit or confirm: an editor, an edit panel, a dialog or a sheet. A preview, an inspector or a details pane stays plain even when it holds the primary. Never on list rows, repeated items, nested cards or small elements.
+  - The rule and the frame are `border-strong`, never `accent`. Leave a heading or at least `space-6` between them. A dialog keeps `shadow-float` with its frame. Secondary buttons, inputs, tags, checkboxes and switches stay plain. Empty states may show the app's logo at 48px above their one sentence.
+- Recommended density, a default rather than a rule: one rule, one frame, one primary per view. Put the rule under the app bar, frame the one container being worked in, and leave views of equal sections (home, boards, lists, settings, file browsers) without a frame. Going lighter is fine. Going denser is what to avoid: rules after every section title or frames on several cards turn the line into texture, and nothing stands out.
+- When a dialog or edit panel opens, the frame and the primary move to it: the page under it drops its frame, and its primary becomes a secondary button, while it is open. A view never shows two frames.
 - Motion is 150–200ms, a fade or slide because something changed. No looping or decorative animation.
 
 ## Generic defaults to avoid
@@ -52,7 +58,7 @@ Use the plain, token-based choice from the sections above instead.
 
 ## Platforms
 
-Native controls stay native: iOS system navigation and sheets tinted with the app's `accent`, standard Windows window chrome, and on the web plain HTML built on `tokens/tokens.css` and the elements in `ui/ui.css`. A native primary button is the platform's own, tinted with `accent`; the kamon button is for the web and the brand's own desktop UI. In React Native or Expo, use `appColors(app, "light" | "dark")` from `tokens/tokens.ts` to match the system color scheme.
+Native controls stay native: iOS system navigation and sheets tinted with the app's `accent`, standard Windows window chrome, and on the web plain HTML built on `tokens/tokens.css` and the elements in `ui/ui.css`. A native primary button is the platform's own, tinted with `accent`, and native containers keep their own look; the inner line, the frame and the rule are for the web and the brand's own desktop UI. In React Native or Expo, use `appColors(app, "light" | "dark")` from `tokens/tokens.ts` to match the system color scheme.
 
 ## Voice
 
@@ -72,7 +78,7 @@ Avoid: "Oops!! Nothing here 😢 Let's get started!!!" and "Successfully saved!"
 Check each item and say in your report what you checked:
 
 1. Search the files you changed for color literals (`#` hex values, `rgb(`, `hsl(`). Every color should come from a token; only `tokens/` holds raw values.
-2. Colors come through `accent`, not a palette color by name, and each view has at most one `accent`-filled control, which is the only element with the kamon notch and inner line.
+2. Colors come through `accent`, not a palette color by name, and each view has at most one `accent`-filled control, the primary with its inner line. The rule is only under the app bar and the frame only on a container being worked in, both in `border-strong`, with at most one frame per view. Say in your report how close each view is to the recommended density (one rule, one frame, one primary) and why it differs.
 3. Spacing, corner radii and font sizes come from tokens, and body text is 16px / 27px.
 4. Nothing from "Generic defaults to avoid" slipped in.
 5. Any logo is the file from `logo/` or `icons/`, unchanged: the app's own, in its own color, `-small` below 32px.
