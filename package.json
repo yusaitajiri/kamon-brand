@@ -10,42 +10,42 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./react/dist/index.d.ts",
+      "default": "./react/dist/index.js"
     },
     "./tokens": {
-      "types": "./dist/tokens.d.ts",
-      "default": "./dist/tokens.js"
+      "types": "./react/dist/tokens.d.ts",
+      "default": "./react/dist/tokens.js"
     },
-    "./tokens/tokens.css": "./tokens/tokens.css",
+    "./tokens/tokens.css": "./react/tokens/tokens.css",
     "./tokens/tokens.json": "./tokens/tokens.json",
-    "./ui/ui.css": "./ui/ui.css",
+    "./ui/ui.css": "./react/ui/ui.css",
     "./logo/*": "./logo/*",
     "./icons/*": "./icons/*",
     "./package.json": "./package.json"
   },
   "bin": {
-    "brand-sync": "scripts/brand-sync.mjs"
+    "brand-sync": "react/scripts/brand-sync.mjs"
   },
   "files": [
-    "dist/",
-    "tokens/",
-    "ui/ui.css",
+    "react/dist/",
+    "react/tokens/",
+    "react/ui/ui.css",
+    "react/skills/",
+    "react/scripts/brand-sync.mjs",
+    "react/README.md",
+    "react/CHANGELOG.md",
+    "tokens/tokens.json",
     "logo/",
     "icons/",
-    "skills/",
-    "scripts/brand-sync.mjs",
-    "base.json",
-    "CHANGELOG.md",
     "LICENSE",
     "TRADEMARKS.md"
   ],
   "scripts": {
-    "sync-base": "node scripts/sync-base.mjs",
-    "generate": "node scripts/generate.mjs",
-    "build": "tsc -p tsconfig.json",
-    "demo": "vite demo",
-    "check": "npm run generate && npm run build && git diff --exit-code -- tokens src dist skills"
+    "generate": "node react/scripts/generate.mjs",
+    "build": "tsc -p react/tsconfig.json",
+    "demo": "vite react/demo",
+    "check": "npm run generate && npm run build && git diff --exit-code -- react/tokens react/src react/dist react/skills"
   },
   "peerDependencies": {
     "react": ">=18"

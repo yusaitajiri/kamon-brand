@@ -1,6 +1,6 @@
 ## In React: @yusai/kamon-react
 
-This app applies the rules above with `@yusai/kamon-react`, the kit for React on the web and in Tauri. The kit is installed at `node_modules/@yusai/kamon-react/`, so `tokens/tokens.json` above means `node_modules/@yusai/kamon-react/tokens/tokens.json`, and the same for `logo/` and `icons/`. The app pins a version of the kit, and this skill matches that version, so follow it even if the kit has moved on.
+This app applies the rules above with `@yusai/kamon-react`, the kit for React on the web and in Tauri. The kit is installed at `node_modules/@yusai/kamon-react/`, so `tokens/tokens.json` above means `node_modules/@yusai/kamon-react/tokens/tokens.json`, and the same for `logo/` and `icons/`. Its own files are in the package's `react/` folder: before writing UI, read `node_modules/@yusai/kamon-react/react/tokens/tokens.css` and `node_modules/@yusai/kamon-react/react/ui/ui.css`. The app pins a version of the kit, and this skill matches that version, so follow it even if the kit has moved on.
 
 ### Setup, once per app
 
@@ -10,7 +10,7 @@ This app applies the rules above with `@yusai/kamon-react`, the kit for React on
 
 ### Use the components
 
-Build with the kit's components before writing markup of your own. Each renders the matching class in `ui/ui.css`:
+Build with the kit's components before writing markup of your own. Each renders the matching class in `ui.css`:
 
 | Component | Renders | Notes |
 | --- | --- | --- |

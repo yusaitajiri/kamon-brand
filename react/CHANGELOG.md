@@ -1,6 +1,6 @@
 # Changelog
 
-Apps install the kit pinned to a version tag (see *Using it in an app* in `README.md`), so a change here reaches an app only when the app upgrades. Each version says what changed, which `kamon-brand` version it's built from, and what an app has to do to upgrade.
+Apps install the kit pinned to a `react-vX.Y.Z` tag of the kamon-brand repository (see *Using it in an app* in `react/README.md`), so a change here reaches an app only when the app upgrades. Each version says what changed, including changes to the brand itself, and what an app has to do to upgrade.
 
 Versions follow semver. A major version changes how an app that follows the rules looks or behaves, or renames or removes something an app uses. A minor version adds something. A patch fixes something without changing how a correct app looks.
 
@@ -8,18 +8,18 @@ Versions follow semver. A major version changes how an app that follows the rule
 
 ## 1.0.0 — 2026-10-18
 
-The first version of the React kit, built from `kamon-brand` 2.0.0. It takes over the web side of `@yusai/brand` 1.0.1, which is retired, and adds React components. Nothing an app shows changes: `tokens.css` and `ui.css` have the same values and rules, and the demo pages match the old sample pages pixel for pixel.
+The first version of the React kit, tagged `react-v1.0.0`. It takes over the web side of `@yusai/brand` 1.0.1, which is retired, and adds React components. Nothing an app shows changes: `tokens.css` and `ui.css` have the same values and rules, and the demo pages match the old sample pages pixel for pixel.
 
-- **Tokens:** `tokens/tokens.css` and `@yusai/kamon-react/tokens` (formerly `tokens/tokens.ts`), now generated from `tokens/tokens.json`.
-- **UI elements:** `ui/ui.css`, unchanged apart from a `.logo` rule for the `Logo` component.
+- **Tokens:** `@yusai/kamon-react/tokens/tokens.css` and `@yusai/kamon-react/tokens` (formerly `tokens/tokens.ts`), now generated from the brand's `tokens/tokens.json`.
+- **UI elements:** `@yusai/kamon-react/ui/ui.css`, unchanged apart from a `.logo` rule for the `Logo` component.
 - **Components:** `Button`, `Field`, `Input`, `Select`, `Checkbox`, `Switch`, `Card`, `List`, `ListRow`, `Tag`, `EmptyState`, `Rule` and `Logo`.
-- **Logos and icons:** `logo/` and `icons/`, from `kamon-brand`. The brand's own logo is now `brand` (`logo/brand.svg`, `icons/brand/`, `<Logo app="brand">`), formerly `yusai-tajiri`.
-- **The brand-ui skill:** the base's rules followed by how to apply them in React. `brand-sync` copies it into the app as before.
-- **Demo pages:** `demo/`, the old `elements.html`, `sample.html` and `dashboard.html` rebuilt from the components (`npm run demo`).
+- **Logos and icons:** `logo/` and `icons/`, the brand's own, shipped from the repository root. The brand's own logo is now `brand` (`logo/brand.svg`, `icons/brand/`, `<Logo app="brand">`), formerly `yusai-tajiri`.
+- **The brand-ui skill:** the brand's rules followed by how to apply them in React. `brand-sync` copies it into the app as before.
+- **Demo pages:** `react/demo/`, the old `elements.html`, `sample.html` and `dashboard.html` rebuilt from the components (`npm run demo`).
 
 ### Upgrading from `@yusai/brand` 1.0.x
 
-1. Replace the dependency: remove `"@yusai/brand"` and add `"@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-react.git#v1.0.0"` under `dependencies`. Keep `"postinstall": "brand-sync"` and run a plain install.
+1. Replace the dependency: remove `"@yusai/brand"` and add `"@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v1.0.0"` under `dependencies`. Keep `"postinstall": "brand-sync"` and run a plain install.
 2. Point imports at the new package:
    - `@yusai/brand/tokens/tokens.css` → `@yusai/kamon-react/tokens/tokens.css`
    - `@yusai/brand/ui/ui.css` → `@yusai/kamon-react/ui/ui.css`

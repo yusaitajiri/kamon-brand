@@ -1,8 +1,8 @@
 # Kamon brand rules
 
-Follow these rules for any UI in an app that carries the kamon brand, on any platform. They name things by their token names in `tokens/tokens.json` (`surface`, `accent`, `space-6`, `radius-md`, `body`) and by the files in `logo/` and `icons/`. Each platform kit (`kamon-react`, later `kamon-flutter`) copies these rules into its `brand-ui` skill at a pinned version of the base, and adds how to apply them on its platform: what to import, the components to use and how to check the result. Where the kit's part is more specific, follow it.
+Follow these rules for any UI in an app that carries the kamon brand, on any platform. They name things by their token names in `tokens/tokens.json` (`surface`, `accent`, `space-6`, `radius-md`, `body`) and by the files in `logo/` and `icons/`. Each platform's kit in this repository (`react/`, later `flutter/`) builds its `brand-ui` skill from these rules and adds how to apply them on its platform: what to import, the components to use and how to check the result. Where the kit's part is more specific, follow it.
 
-Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth, with a usage note on each token, and each kit exposes the same tokens in its platform's form. The base's `README.md` is the guide for people, with the background behind these rules.
+Take every value from the tokens instead of copying numbers: `tokens/tokens.json` is the source of truth, with a usage note on each token, and each kit exposes the same tokens in its platform's form. The repository's `README.md` is the guide for people, with the background behind these rules.
 
 Before you write UI, read the kit's tokens and elements and look at the screens the app already has. Reuse the components and patterns you find there rather than writing new ones, so every app stays one family.
 
@@ -60,7 +60,7 @@ Use the plain, token-based choice from the sections above instead.
 
 ## Logos
 
-- Logo: the app's icon and its symbol, in `logo/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a logo to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the frame for one app or put it in a circle. The brand's own pages use `logo/brand.svg`. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. The base's `tools/build_logo.py` makes all of these from the shapes in it and the colors in `tokens/tokens.json`; never edit the outputs.
+- Logo: the app's icon and its symbol, in `logo/<app>.svg` (`-on-dark` on dark grounds, `-ink` for one-color use). Below 32px use the `-small` files. Never recolor a logo to another app's color, add a second color, outline, shadow or texture, rotate, mirror or stretch it, or redraw the frame for one app or put it in a circle. The brand's own pages use `logo/brand.svg`. App icons, `.ico` included, are ready-made in `icons/<app>/`; tray icons are `logo/<app>-small-ink.svg` on light taskbars and `-small-on-dark.svg` on dark ones. `tools/build_logo.py` makes all of these from the shapes in it and the colors in `tokens/tokens.json`; never edit the outputs.
 
 ## Naming
 

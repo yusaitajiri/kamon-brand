@@ -115,19 +115,19 @@ The rules for agents (`rules/brand.md`) have more examples, for saving, errors, 
 
 The brand lives in the accent color, the logo, type, empty states and words. Native controls stay native: on iOS use system navigation and sheets tinted with the app's `accent`, on Windows standard window chrome, in Flutter Material or Cupertino widgets tinted the same way. Never fight the platform to look "on brand".
 
-No app uses this repository directly. Each platform has a kit that turns the brand into something an app can install:
+The brand at the root of this repository is the same on every platform. Next to it, each platform has a kit in its own folder that turns the brand into something an app can install:
 
-| Kit | For | What an app gets |
-| --- | --- | --- |
-| `kamon-react` (`@yusai/kamon-react`) | React on the web, Tauri included | The tokens as CSS and TypeScript, `ui.css`, React components with the double line built in, the logos and icons, and the `brand-ui` skill |
-| `kamon-flutter` | Flutter, later | The tokens as Dart, a theme, widgets, the logos and icons, and the skill |
+| Kit | Folder | For | What an app gets |
+| --- | --- | --- | --- |
+| `@yusai/kamon-react` | `react/` | React on the web, Tauri included | The tokens as CSS and TypeScript, `ui.css`, React components with the double line built in, the logos and icons, and the `brand-ui` skill. `react/README.md` says how to use it. |
+| Flutter kit | `flutter/`, later | Flutter | The tokens as Dart, a theme, widgets, the logos and icons, and the skill |
 
 ```
-kamon-brand  ──tag vX.Y.Z──►  kamon-react    ──tag──►  Tauri and web apps
-            ──tag vX.Y.Z──►  kamon-flutter  ──tag──►  Flutter apps
+tokens/ logo/ icons/ rules/  ──generate──►  react/    ──tag react-vX.Y.Z──►    Tauri and web apps
+                             ──generate──►  flutter/  ──tag flutter-vX.Y.Z──►  Flutter apps
 ```
 
-A kit pins a tagged version of this repository and copies `tokens/tokens.json`, `logo/`, `icons/` and `rules/brand.md` from it. It generates its own token files from the JSON, and its `brand-ui` skill is `rules/brand.md` with a part for its platform added. Each kit has its own versions and changelog and records which base version it was built from. An app pins one kit and never this repository. `docs/direction-platform-kits.md` has the reasoning.
+Each kit generates its token files from `tokens/tokens.json` and builds its `brand-ui` skill from `rules/brand.md` with a part for its platform. A kit is released on its own, with its own version, changelog and tags. An app pins one kit's tag. `docs/direction-platform-kits.md` has the reasoning.
 
 ## Colors at a glance
 
@@ -164,16 +164,17 @@ The web kit loads them from Google Fonts. Native apps bundle the font files.
 | `logo/` | Each app's logo as SVG: in its color, `-on-dark` and `-ink`, each also as `-small` for 24px and down. Each is one filled path; cut-outs are transparent. |
 | `icons/` | One folder per app with its app icon: SVG, PNGs from 16 to 1024px, a Windows `.ico` and a store icon. At the top, `favicon-32.png`, `favicon-192.png`, `apple-touch-icon-180.png` and `app-icon-1024.png` are the brand logo for the brand's own pages. |
 | `tools/` | `build_logo.py` draws every file in `logo/` and `icons/` from one set of shapes, with the geometry in `logokit.py`: `uv run tools/build_logo.py`. `build_tokens_doc.py` writes `tokens/tokens.md`. |
-| `docs/` | `direction-*.md` say why the brand is the way it is: the kamon and its double line, how apps are named, and the split into a base and platform kits. |
-| `CHANGELOG.md` | What changed in each version, and what a kit has to do to take it. |
+| `docs/` | `direction-*.md` say why the brand is the way it is: the kamon and its double line, how apps are named, and and one repository with a kit per platform. |
+| `react/` | The React kit: its components, `ui.css`, demo pages and its own `README.md` and `CHANGELOG.md`. The React package's manifest, `package.json`, sits at the root because apps install it from git. |
+| `CHANGELOG.md` | Points to each kit's changelog, and keeps the history of `@yusai/brand`, the package this repository used to be. |
 | `LICENSE`, `TRADEMARKS.md` | MIT for the style and tools; the logos, icons and names are reserved. |
-| `AGENTS.md` | Instructions for agents working on the base: versions, releases and rebuilding. |
+| `AGENTS.md` | Instructions for agents working here: changing the brand, the kits, releases and rebuilding. |
 
 ## Changing the brand
 
-`AGENTS.md` has the steps for versions and releases. A change is released here first, as a new tag, then each kit syncs to that tag and releases, and each app takes it when it upgrades its kit. Two habits keep the rules working:
+`AGENTS.md` has the steps. A change to the brand regenerates every kit in the same commit, then each kit is released with a new tag, and each app takes it when it upgrades its kit. Two habits keep the rules working:
 
-- **Write each rule twice:** in this README for people and in `rules/brand.md` for agents. Also add an entry to `CHANGELOG.md`.
+- **Write each rule twice:** in this README for people and in `rules/brand.md` for agents. Also add an entry to each kit's changelog.
 - **Name the stock styles you see.** When an agent's output shows a stock style that isn't in the rules' *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns get followed.
 
 ## License

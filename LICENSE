@@ -8,8 +8,10 @@ This repository holds two kinds of material under different terms.
 The following are not licensed for reuse:
 
 - the files in logo/ and icons/;
-- the logo drawings in tools/ (the 木瓜 frame and every motif drawn inside it);
-- those logos and icons wherever else they appear;
+- the logo drawings in tools/ and react/src/logos.ts (the 木瓜 frame and
+  every motif drawn inside it);
+- those logos and icons wherever else they appear, including the images
+  in react/ui/screens/;
 - the names of Yusai Tajiri's apps, such as "Kikitori".
 
 TRADEMARKS.md says how you may refer to them.
@@ -19,7 +21,8 @@ TRADEMARKS.md says how you may refer to them.
 
 Everything not listed in part 1 is licensed under the MIT License below. That
 includes the tokens, the rules in rules/, the code in tools/ apart from
-the logo drawings, and the documentation text.
+the logo drawings, the kits (such as the UI elements and components in
+react/), the brand-ui skill and the documentation text.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

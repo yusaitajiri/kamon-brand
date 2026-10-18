@@ -1,27 +1,29 @@
-# Direction: a platform-neutral base and one kit per platform
+# Direction: one repository, a kit per platform
 
-Status: adopted 2026-10-18, in base 2.0.0 and `kamon-react` 1.0.0. Before this the repository was `my-brand`, one package (`@yusai/brand`) that apps installed directly and that held the tokens as CSS and TypeScript, `ui.css`, the logos and the skill.
+Status: adopted 2026-10-18, with `@yusai/kamon-react` 1.0.0. Before this the repository was `my-brand`, one package (`@yusai/brand`) that held the tokens as CSS and TypeScript, `ui.css`, the logos and the skill, and that apps installed directly.
 
 ## The problem
 
-`@yusai/brand` was a web package with a brand inside it. `tokens.css` and `ui.css` were the brand's web form, `tokens.ts` its React form, and the rules pointed at both. A Flutter app could use none of it, and a React component library built on it would have made apps import two packages that had to agree on a version.
+`@yusai/brand` was a web package with a brand inside it. `tokens.css` and `ui.css` were the brand's web form, `tokens.ts` its React form, and the rules pointed at both. A Flutter app could use none of it, and React components built on it would have needed a package of their own.
 
-## The split
-
-- **kamon-brand** (this repository) is the brand itself and is never installed by an app: `tokens/tokens.json` as the source of truth, `tokens/tokens.md` generated from it for people, the logos and icons with the tool that draws them, the rules for every platform (`rules/brand.md`), `README.md` and these records.
-- **A platform kit** per platform is what apps install: `kamon-react` for React on the web, Tauri included, and later `kamon-flutter`. A kit pins a tagged version of the base, copies `tokens.json`, the logos, the icons and `rules/brand.md` from it, and generates its own token files. Its `brand-ui` skill is the base rules plus a part for its platform. Each kit has its own semver and changelog, and records the base version it was built from.
-- **An app** pins one kit and never the base.
+## The layout
 
 ```
-kamon-brand  ──tag vX.Y.Z──►  kamon-react    ──tag──►  Tauri and web apps
-            ──tag vX.Y.Z──►  kamon-flutter  ──tag──►  Flutter apps
+kamon-brand/
+├── tokens/  logo/  icons/  rules/  tools/  docs/   the brand, the same on every platform
+├── react/                                          the React kit
+├── flutter/                                        the Flutter kit, later
+└── package.json                                    the React kit's manifest
 ```
 
-A change to the brand is released in the base first, then picked up by each kit when it syncs, and reaches an app when the app upgrades its kit. The kits don't have to move together.
+- **The root holds the brand:** `tokens/tokens.json` as the source of truth, `tokens/tokens.md` generated from it for people, the logos and icons with the tool that draws them, the rules for every platform (`rules/brand.md`), `README.md` and these records. None of it is for one platform.
+- **Each kit has a folder** and is what apps install. It generates its token files from `tokens/tokens.json` and builds its `brand-ui` skill from `rules/brand.md` with a part for its platform. A brand change regenerates every kit in the same commit.
+- **Each kit is released on its own**, with its own version, changelog and prefixed tags (`react-v1.0.0`, `flutter-v1.0.0`). An app pins one kit's tag.
 
 ## Choices along the way
 
-- **The tokens stay JSON, not markdown.** Markdown is easier to read but would have to be copied into each platform by hand, and the platforms would drift. JSON is already free of any one platform, carries a usage note on every token and is read by `build_logo.py`. `tokens.md` is generated from it for reading.
-- **Separate repositories, not a monorepo.** Apps install from git tags, and npm can't install a package from a subfolder of a git repository, so a monorepo would need a package registry and its logins. The toolchains differ too: Python for the base, Node and TypeScript for React, the Flutter SDK later. The release paces differ as well, since components change more often than the brand.
-- **The kits copy files from the base instead of depending on it.** A Dart package can't depend on an npm package and the other way round. A copied file with the base version recorded next to it works the same way for every platform, and an app's dependency tree holds one brand package.
-- **The base's history continues here.** It was `my-brand`, which is why its tags start at v1.0.0. Those tags were releases of `@yusai/brand` and still check out the old web package. The original GitHub repository is retired.
+- **The tokens stay JSON, not markdown.** Markdown is easier to read but would have to be copied into each platform by hand, and the platforms would drift. JSON is free of any one platform, carries a usage note on every token and is read by `build_logo.py` and the generators. `tokens.md` is generated from it for reading.
+- **One repository instead of a base repository and a repository per kit.** With separate repositories each kit copied the brand files from a tagged base and recorded the version, so every brand change took a base release, a sync and a kit release. In one repository the kits read the brand files directly, the logos exist once, and a brand change is one commit. The same person maintains both sides, so the separation bought nothing.
+- **The React manifest sits at the root.** Apps install from git tags without a package registry, and npm installs a git dependency only from the repository's root. So `package.json` is at the root and its `files` list ships `react/` with the root's `tokens/tokens.json`, `logo/` and `icons/`. Pub can install from a subfolder of a git repository, so the Flutter kit keeps its `pubspec.yaml` in `flutter/`.
+- **Built files are committed.** `react/dist/` and the generated token files are in the repository, so installing from git builds nothing. `npm run check` keeps them up to date.
+- **The history continues here.** The tags `v1.0.0` and `v1.0.1` are releases of `@yusai/brand` and still check out the old web package. The original GitHub repository, `my-brand`, is retired.

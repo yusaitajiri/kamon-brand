@@ -1,6 +1,6 @@
 # Names and logos
 
-The style in this repository is open: the tokens, the rules and the tools are MIT-licensed, as are the platform kits built from them, and you're welcome to build on them. What stays reserved is what identifies Yusai Tajiri's apps:
+The style in this repository is open: the tokens, the rules, the tools and the platform kits (`ui.css`, the React components and the brand-ui skill) are MIT-licensed, and you're welcome to build on them. What stays reserved is what identifies Yusai Tajiri's apps:
 
 - the names of the apps, such as Kikitori;
 - the logos: the 木瓜 frame with a motif inside, in `logo/` and `icons/` and wherever they appear.

@@ -1,8 +1,8 @@
-# kamon-react
+# @yusai/kamon-react
 
 The kamon brand for React apps on the web and in Tauri: the tokens as CSS and TypeScript, the UI elements in `ui/ui.css`, React components built on them, the logos and app icons, and the `brand-ui` skill that teaches coding agents the brand's rules.
 
-The brand itself, its tokens, logos and rules, lives in `kamon-brand`, which explains the ideas behind it. This kit is built from a pinned version of that base (recorded in `base.json`), and apps install this kit, never the base.
+This kit lives in the `react/` folder of the kamon-brand repository. The brand itself, its tokens, logos and rules, is at the repository's root, and its `README.md` explains the ideas behind it. The kit generates its files from those, and apps install the kit.
 
 <p>
   <img src="ui/screens/sample-light.png" width="260" alt="A Kikitori screen built from the kit's components in light mode">
@@ -17,7 +17,7 @@ Apps install the kit pinned to a version tag, so the kit can move on without cha
 1. **Install it, pinned.** In the app's `package.json`:
 
    ```json
-   "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-react.git#v1.0.0" },
+   "dependencies": { "@yusai/kamon-react": "git+https://github.com/yusaitajiri/kamon-brand.git#react-v1.0.0" },
    "scripts": { "postinstall": "brand-sync" }
    ```
 
@@ -58,11 +58,11 @@ Apps install the kit pinned to a version tag, so the kit can move on without cha
    ```
 
 6. **App icon.** For Tauri, point `tauri icon` at `node_modules/@yusai/kamon-react/icons/<app>/icon-1024.png`, then replace the `.ico` it writes with the kit's `icon.ico`, which draws the small sizes properly. Icons generated into the app are part of its build, so commit those.
-7. **Upgrade on purpose.** Change the tag (`#v1.1.0`) and install again. `CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/kamon-react from v1.0.0 to v1.1.0, following its CHANGELOG."
+7. **Upgrade on purpose.** Change the tag (`#react-v1.1.0`) and install again. `react/CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/kamon-react from v1.0.0 to v1.1.0, following its CHANGELOG."
 
 ## The components
 
-Each component renders the matching element of `ui/ui.css`, so a page built from them looks exactly like one written with the classes, and the classes stay available for anything the components don't cover.
+Each component renders the matching element of `ui.css`, so a page built from them looks exactly like one written with the classes, and the classes stay available for anything the components don't cover.
 
 | Component | What it is |
 | --- | --- |
@@ -78,32 +78,29 @@ Each component renders the matching element of `ui/ui.css`, so a page built from
 
 Values for code, such as a canvas or a chart, come from `@yusai/kamon-react/tokens`: `brand` holds every value and `appColors("kikitori", "dark")` returns the colors with `accent` set to the app's own.
 
-The demo pages show every component and two sample screens: `npm install`, then `npm run demo` and open the address it prints. `ui/screens/` has them in light and dark.
+The demo pages show every component and two sample screens: in the repository, `npm install`, then `npm run demo` and open the address it prints. `react/ui/screens/` has them in light and dark.
 
 ## Files in this kit
 
+Paths are from the repository's root. The React package's manifest, `package.json`, is at the root because npm installs git dependencies only from there.
+
 | File or folder | What's inside |
 | --- | --- |
-| `src/` | The components, and `tokens.ts` and `logos.ts`, which are generated. |
-| `dist/` | The components built for apps, committed so a git install needs no build. |
-| `tokens/tokens.json` | Copied from `kamon-brand`: the source of truth, with a usage note on every token. |
-| `tokens/tokens.css` | CSS custom properties generated from `tokens.json`. Light by default, dark through the system setting or `data-theme="dark"`, and `data-app` picks the accent. |
-| `ui/ui.css` | The UI elements built on the tokens, with the kamon's double line: the primary button's inner line, `.frame` and `.rule`. `ui/screens/` has the demo pages in light and dark. |
-| `logo/`, `icons/` | Copied from `kamon-brand`: every app's logo and its app icons. |
-| `rules/brand.md` | Copied from `kamon-brand`: the brand's rules for every platform. |
-| `skill/react.md` | How to apply the rules in React. |
-| `skills/brand-ui/SKILL.md` | The skill apps get: `rules/brand.md` followed by `skill/react.md`, generated. |
-| `base.json` | The `kamon-brand` version this kit was built from. |
-| `scripts/` | `sync-base.mjs` copies from `kamon-brand` and runs `generate.mjs`, which writes the generated files. `brand-sync.mjs` copies the skill into an app. |
-| `demo/` | The demo pages, built from the components with Vite. |
-| `CHANGELOG.md` | What changed in each version and what an app has to do to upgrade. |
-| `LICENSE`, `TRADEMARKS.md` | MIT for the style and code; the logos, icons and names are reserved. |
-| `AGENTS.md` | Instructions for agents working on the kit: syncing, building and releasing. |
+| `react/src/` | The components, and `tokens.ts` and `logos.ts`, which are generated. |
+| `react/dist/` | The components built for apps, committed so a git install needs no build. |
+| `react/tokens/tokens.css` | CSS custom properties generated from `tokens/tokens.json`. Light by default, dark through the system setting or `data-theme="dark"`, and `data-app` picks the accent. Apps import it as `@yusai/kamon-react/tokens/tokens.css`. |
+| `react/ui/ui.css` | The UI elements built on the tokens, with the kamon's double line: the primary button's inner line, `.frame` and `.rule`. Apps import it as `@yusai/kamon-react/ui/ui.css`. `react/ui/screens/` has the demo pages in light and dark. |
+| `react/skill/react.md` | How to apply the rules in React. |
+| `react/skills/brand-ui/SKILL.md` | The skill apps get: `rules/brand.md` followed by `react/skill/react.md`, generated. |
+| `react/scripts/` | `generate.mjs` writes the generated files from the brand at the root. `brand-sync.mjs` copies the skill into an app. |
+| `react/demo/` | The demo pages, built from the components with Vite. |
+| `react/CHANGELOG.md` | What changed in each version and what an app has to do to upgrade. |
+| `tokens/tokens.json`, `logo/`, `icons/` | The brand's tokens, logos and app icons, shipped with the package from the root. |
 
 ## Changing the kit
 
-`AGENTS.md` has the steps. Changes to the brand itself, a color, a logo or a rule, are made in `kamon-brand` and released there first; this kit then syncs to the new tag and releases. Changes to how React applies the brand, the components, `ui.css` or `skill/react.md`, are made here.
+The repository's `AGENTS.md` has the steps. A change to the brand itself, a color, a logo or a rule, is made at the root, and the kit is regenerated in the same commit with `npm run generate` and `npm run build`. Changes to how React applies the brand, the components, `ui.css` or `skill/react.md`, are made in `react/`. Releases are tagged `react-vX.Y.Z`.
 
 ## License
 
-The style is open and the identity is reserved. The tokens, `ui.css`, the components, the skill, the scripts and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Kikitori, are all rights reserved. `LICENSE` has the terms, and `TRADEMARKS.md` says how to refer to the names and logos.
+The style is open and the identity is reserved. The tokens, `ui.css`, the components, the skill, the scripts and the text of these docs are under the MIT License. The logos, the app icons and the apps' names, such as Kikitori, are all rights reserved. The repository's `LICENSE` has the terms, and `TRADEMARKS.md` says how to refer to the names and logos.

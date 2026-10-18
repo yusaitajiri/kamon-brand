@@ -7,7 +7,8 @@ import { appendFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync } f
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+// The package root is the repository root; this script is in react/scripts/.
+const kit = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const app = process.cwd();
 const { name, version } = JSON.parse(readFileSync(join(kit, "package.json"), "utf8"));
 
@@ -17,7 +18,7 @@ if (resolve(app) === kit) {
 }
 
 const relative = ".claude/skills/brand-ui";
-const source = join(kit, "skills", "brand-ui");
+const source = join(kit, "react", "skills", "brand-ui");
 const target = join(app, relative);
 
 rmSync(target, { recursive: true, force: true });

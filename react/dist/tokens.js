@@ -1,5 +1,5 @@
-// Kamon brand tokens as plain values, generated from tokens.json (kamon-brand v2.0.0) by
-// scripts/generate.mjs. Don't edit. Numbers are px. On the web prefer the CSS custom properties in
+// Kamon brand tokens as plain values, generated from tokens/tokens.json by
+// react/scripts/generate.mjs. Don't edit. Numbers are px. On the web prefer the CSS custom properties in
 // tokens/tokens.css; use these where a value is needed in code, such as a canvas or a chart.
 export const brand = {
     "color": {

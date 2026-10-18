@@ -1,4 +1,4 @@
-// Path data of every logo in logo/, generated from those files (kamon-brand v2.0.0) by scripts/generate.mjs.
+// Path data of every logo in logo/, generated from those files by react/scripts/generate.mjs.
 // Don't edit. `full` is logo/<app>.svg and `small` logo/<app>-small.svg, both on a 140 x 140 grid.
 export const logos = {
     "brand": {

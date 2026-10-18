@@ -1,10 +1,14 @@
-# Downloaded kit archives
+# Node
+node_modules/
+react/demo/dist/
+
+# Python
+__pycache__/
+
+# Downloaded archives
 *.zip
 
 # OS files
 .DS_Store
 Thumbs.db
 desktop.ini
-
-# Python
-__pycache__/
