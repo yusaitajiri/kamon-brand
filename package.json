@@ -1,0 +1,23 @@
+{
+  "name": "@yusai/brand",
+  "version": "1.0.0",
+  "description": "Yusai Tajiri brand kit: tokens, UI elements, logos, app icons and the brand-ui skill for coding agents.",
+  "private": true,
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusaitajiri/my-brand.git"
+  },
+  "bin": {
+    "brand-sync": "scripts/brand-sync.mjs"
+  },
+  "files": [
+    "tokens/",
+    "ui/ui.css",
+    "logo/",
+    "icons/",
+    "skills/",
+    "scripts/brand-sync.mjs",
+    "CHANGELOG.md"
+  ]
+}

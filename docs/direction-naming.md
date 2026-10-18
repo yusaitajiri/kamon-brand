@@ -1,6 +1,6 @@
 # Direction: how apps are named
 
-Status: adopted 2026-10-18. Every app is named after its logo motif, with a plain descriptor as a subtitle. The rules are in `README.md` (*Naming apps*) and `AGENTS.md` (*Naming*). This page is the record of how that was decided. No app has been renamed yet.
+Status: adopted 2026-10-18. Every app is named after its logo motif, with a plain descriptor as a subtitle. The rules are in `README.md` (*Naming apps*) and the brand-ui skill (*Naming*). This page is the record of how that was decided. No app has been renamed yet.
 
 ## Where the names stood
 

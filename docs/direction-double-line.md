@@ -1,6 +1,6 @@
 # Direction: the double line instead of the notch
 
-Status: adopted 2026-10-18, with density 2 (one rule, one frame and one primary per view) as the recommended default rather than a hard rule. `ui/ui.css` draws the three forms (`.button-primary`, `.frame`, `.rule`), and the rules are in `AGENTS.md` and `README.md`. This page records the studies behind them. The notch from `direction-kamon-ui.md` is retired.
+Status: adopted 2026-10-18, with density 2 (one rule, one frame and one primary per view) as the recommended default rather than a hard rule. `ui/ui.css` draws the three forms (`.button-primary`, `.frame`, `.rule`), and the rules are in the brand-ui skill (`skills/brand-ui/SKILL.md`) and `README.md`. This page records the studies behind them. The notch from `direction-kamon-ui.md` is retired.
 
 ## The idea
 
