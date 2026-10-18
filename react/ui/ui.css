@@ -1,0 +1,372 @@
+/* Kamon brand UI elements, built only on tokens/tokens.css.
+   Import after the tokens:  @import "../tokens/tokens.css"; @import "ui.css";
+   The kamon reaches the UI only as its double line, at the end of this file: the primary button, the
+   frame and the rule (see docs/direction-double-line.md). Everything else is plain. */
+
+/* ---------------------------------------------------------------- base */
+
+.ui {
+  font: var(--text-body);
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.ui *,
+.ui *::before,
+.ui *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------- button */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--ink);
+  font: var(--text-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+
+.button:hover {
+  background: var(--surface-sunken);
+}
+
+/* The one primary action in a view. */
+.button-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button-primary:hover {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+/* Actions that should stay out of the way: in toolbars, beside a primary, inside rows. */
+.button-quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent-deep);
+}
+
+.button-quiet:hover {
+  background: var(--accent-tint);
+}
+
+.button:focus-visible,
+.input:focus-visible,
+.select:focus-visible,
+.check input:focus-visible,
+.switch input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.button:disabled,
+.input:disabled,
+.select:disabled,
+.check input:disabled,
+.switch input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background: var(--surface-raised);
+}
+
+.button-primary:disabled:hover {
+  background: var(--accent);
+}
+
+/* ---------------------------------------------------------------- text box */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.field-label {
+  font: var(--text-label);
+  color: var(--ink);
+}
+
+.field-help {
+  font: var(--text-body-small);
+  color: var(--ink-muted);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--ink);
+  font: var(--text-body);
+  transition: border-color 150ms;
+}
+
+.input::placeholder {
+  color: var(--ink-subtle);
+}
+
+.input:hover,
+.select:hover {
+  border-color: var(--border-strong);
+}
+
+.input:focus-visible,
+.select:focus-visible {
+  border-color: var(--accent);
+  outline-offset: 0;
+}
+
+/* An error always says what went wrong in words, never by color alone. */
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.field-error {
+  font: var(--text-body-small);
+  color: var(--danger);
+}
+
+/* ---------------------------------------------------------------- select */
+
+.select-wrap {
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  padding-right: var(--space-8);
+  cursor: pointer;
+}
+
+.select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ink-muted);
+  border-bottom: 1.5px solid var(--ink-muted);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- checkbox */
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.check input {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+
+.check input:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.check input:checked::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 11px;
+  border-right: 2px solid var(--on-accent);
+  border-bottom: 2px solid var(--on-accent);
+  transform: rotate(45deg);
+}
+
+/* ---------------------------------------------------------------- switch */
+/* A squared track, not a pill: radius-full is only for avatars. */
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  cursor: pointer;
+}
+
+.switch input {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 24px;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  background: var(--border-strong);
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.switch input::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: var(--surface-raised);
+  transition: transform 150ms;
+}
+
+.switch input:checked {
+  background: var(--accent);
+}
+
+.switch input:checked::before {
+  transform: translateX(16px);
+}
+
+/* ---------------------------------------------------------------- card, list, tag, empty state */
+
+.card {
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.list-row[aria-selected="true"] {
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+
+.list-meta {
+  font: var(--text-mono);
+  color: var(--ink-subtle);
+}
+
+.list-row[aria-selected="true"] .list-meta {
+  color: var(--accent-deep);
+}
+
+.tag {
+  display: inline-flex;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--ink-muted);
+  font: var(--text-body-small);
+}
+
+.tag[aria-pressed="true"] {
+  border-color: var(--accent-tint);
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-6);
+  color: var(--ink-muted);
+  text-align: center;
+  /* Break Japanese between phrases, not inside them, and even out the lines. */
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+
+/* The Logo component's inline SVG sits on its own, like an image set as a block. */
+.logo {
+  display: block;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------- the double line */
+/* The 木瓜 frame is drawn as a double outline, and that line is the one part of the kamon the UI takes.
+   It comes in three forms:
+   - the primary button, the one accent-filled control, has a 1px line 3px inside its edge;
+   - .frame goes only on a container you are working in (an editor, an edit panel, a dialog), never
+     on two in one view;
+   - .rule, 子持ち罫, goes only under the app bar.
+   The recommended density is one of each per view; lighter is fine, denser is not. The frame and the
+   rule are neutral; the accent stays for what can be acted on. */
+
+.button-primary {
+  position: relative;
+}
+
+/* The inner line. The button's border is 1px, so 2px into the padding box puts it 3px from the edge. */
+.button-primary::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 1px solid var(--on-accent);
+  border-radius: calc(var(--radius-md) - 3px);
+  pointer-events: none;
+}
+
+/* The frame, in the logo frame's proportions: a 2px band, a 3px gap and a 1px line. The line is the
+   outline, so a framed container can't show a focus ring of its own; frame containers, not controls.
+   Leave space-6 or a heading between a frame and the rule. */
+.frame {
+  border: 2px solid var(--border-strong);
+  outline: 1px solid var(--border-strong);
+  outline-offset: -6px;
+}
+
+/* The rule: 子持ち罫, a 2px line over a 1px line with 3px between, thick on top. Use an <hr>. */
+.rule {
+  box-sizing: border-box;
+  height: 6px;
+  margin: 0;
+  border: 0;
+  border-top: 2px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+}
