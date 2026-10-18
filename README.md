@@ -154,6 +154,7 @@ Both are free (SIL Open Font License) on Google Fonts:
 | `skills/brand-ui/` | The `brand-ui` skill: the rules from this guide, condensed for coding agents, with more voice examples and a check to run before finishing UI work. |
 | `scripts/brand-sync.mjs` | Copies the skill into an app's `.claude/skills/` each time the app installs the kit. |
 | `package.json`, `CHANGELOG.md` | The package apps install, and what changed in each version. |
+| `LICENSE`, `TRADEMARKS.md` | MIT for the style and tools; the logos, icons and names are reserved. |
 | `AGENTS.md` | Instructions for agents working on the kit itself: versions, releases and rebuilding the logos. |
 
 ## Using it in a project
@@ -163,11 +164,13 @@ Apps install the kit as a package pinned to a version tag. The kit can then move
 1. **Install it, pinned.** In the app's `package.json`:
 
    ```json
-   "dependencies": { "@yusai/brand": "git+https://github.com/yusaitajiri/my-brand.git#v1.0.0" },
+   "devDependencies": { "@yusai/brand": "git+https://github.com/yusaitajiri/my-brand.git#v1.0.0" },
    "scripts": { "postinstall": "brand-sync" }
    ```
 
-   Then run a plain `npm install` or `pnpm install`. Installing with a package name (`npm install @yusai/brand`) skips the app's own `postinstall`, so run the plain install once after adding the line. The repository is private, but nothing is published anywhere: npm and pnpm fetch it with your own Git login, the same one you clone it with. CI and cloud builds such as GitHub Actions and EAS have no login, so they need a read-only token for this repository, set up as a Git credential.
+   Then run a plain `npm install` or `pnpm install`. Installing with a package name (`npm install @yusai/brand`) skips the app's own `postinstall`, so run the plain install once after adding the line. The repository is public, so installing needs no login, in CI too.
+
+   It's a dev dependency because nothing from it runs in the shipped app: the bundler inlines the tokens and CSS the app imports, and the icons are copied into the app. A build still installs it whenever the app imports kit files, which is the usual case. A build that skips dev dependencies (`--omit=dev`) works only for an app that doesn't import from the kit, and then the script has to be `"postinstall": "brand-sync || exit 0"` so the missing command doesn't fail the install.
 2. **`brand-sync` runs after every install.** It copies the `brand-ui` skill into `.claude/skills/brand-ui/` and adds that folder to `.gitignore`. Claude Code doesn't look for skills inside `node_modules`, so this copy is what makes the skill visible. Redoing it on every install keeps it on the pinned version.
 3. **Point Claude Code at the skill.** Add this line to the app's `CLAUDE.md` (or `AGENTS.md`):
 
@@ -188,3 +191,7 @@ Apps install the kit as a package pinned to a version tag. The kit can then move
 
 - **Write each rule twice:** in this README for people and in `skills/brand-ui/SKILL.md` for agents. Also add an entry to `CHANGELOG.md`.
 - **Name the stock styles you see.** When an agent's output shows a stock style that isn't in the skill's *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns get followed.
+
+## License
+
+The style is open and the identity is reserved. The tokens, `ui.css`, the brand-ui skill, the scripts and the text of these docs are under the MIT License. The logos, the app icons and the names Yusai Tajiri, Kikitori and the other apps' names are all rights reserved. `LICENSE` has the terms. `TRADEMARKS.md` says how to refer to the names and logos, and what a fork of one of the apps should change.
