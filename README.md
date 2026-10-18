@@ -164,7 +164,7 @@ Apps install the kit as a package pinned to a version tag. The kit can then move
 1. **Install it, pinned.** In the app's `package.json`:
 
    ```json
-   "devDependencies": { "@yusai/brand": "git+https://github.com/yusaitajiri/my-brand.git#v1.0.0" },
+   "devDependencies": { "@yusai/brand": "git+https://github.com/yusaitajiri/my-brand.git#v1.0.1" },
    "scripts": { "postinstall": "brand-sync" }
    ```
 
