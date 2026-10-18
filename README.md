@@ -109,7 +109,7 @@ Plain, calm and brief, like a considerate friend. Say what happened and what to 
 - Good: 「まだ記録がありません。最初の一行を書いてみましょう。」 / "No entries yet. Write your first line."
 - Avoid: "Oops!! Nothing here 😢 Let's get started!!!"
 
-`AGENTS.md` has more examples, for saving, errors, going offline and confirming a delete.
+The brand-ui skill (`skills/brand-ui/SKILL.md`) has more examples, for saving, errors, going offline and confirming a delete.
 
 ## Using this on each platform
 
@@ -151,13 +151,40 @@ Both are free (SIL Open Font License) on Google Fonts:
 | `tokens/tokens.css` | CSS custom properties for web projects. Light by default, dark via the system setting or `data-theme="dark"`. |
 | `tokens/tokens.ts` | The same values as a plain object for React, React Native and Expo. |
 | `tokens/tokens.json` | The source of truth, with a usage note on every token. |
-| `AGENTS.md` | The rules from this guide, condensed for coding agents, with more voice examples and a check to run before finishing UI work. |
+| `skills/brand-ui/` | The `brand-ui` skill: the rules from this guide, condensed for coding agents, with more voice examples and a check to run before finishing UI work. |
+| `scripts/brand-sync.mjs` | Copies the skill into an app's `.claude/skills/` each time the app installs the kit. |
+| `package.json`, `CHANGELOG.md` | The package apps install, and what changed in each version. |
+| `AGENTS.md` | Instructions for agents working on the kit itself: versions, releases and rebuilding the logos. |
 
 ## Using it in a project
 
-Copy this folder into a repo as `brand/`. Then:
+Apps install the kit as a package pinned to a version tag. The kit can then move on without changing any app until you upgrade that app. Nothing from the kit is committed into the app: it lives in `node_modules`, and the version is recorded in `package.json` and the lockfile.
 
-- **Web:** `@import "brand/tokens/tokens.css";`, put the app's id on the root element (`<html data-app="kikitori">`) and build with `var(--accent)`, `var(--space-6)` and so on. The brand's own pages need no `data-app`; their accent is moss.
-- **React Native / Expo:** `import { appColors } from "./brand/tokens/tokens";` and use `appColors("kikitori", "light")` (or `"dark"`, from the system color scheme). It returns every color with `accent` set to the app's own.
-- **App icon:** take `icons/<app>/` as the app's icon set; for Tauri, point `tauri icon` at `icons/<app>/icon-1024.png` and replace the `.ico` it writes with `icons/<app>/icon.ico`, which draws the small sizes properly.
-- **Coding agents:** put the line `@brand/AGENTS.md` in the app's root `CLAUDE.md` so Claude Code loads the rules at the start of every session. Asking an agent in words to read a file only works if it decides to open it, and a file inside `brand/` is never loaded on its own. For other agents, add "Before touching UI, read `brand/AGENTS.md`." to their instruction file. If you change a rule, change it in both this README and `AGENTS.md`. When an agent's output shows a stock style that isn't in `AGENTS.md` → *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns are followed.
+1. **Install it, pinned.** In the app's `package.json`:
+
+   ```json
+   "dependencies": { "@yusai/brand": "git+https://github.com/yusaitajiri/my-brand.git#v1.0.0" },
+   "scripts": { "postinstall": "brand-sync" }
+   ```
+
+   Then run a plain `npm install` or `pnpm install`. Installing with a package name (`npm install @yusai/brand`) skips the app's own `postinstall`, so run the plain install once after adding the line. The repository is private, but nothing is published anywhere: npm and pnpm fetch it with your own Git login, the same one you clone it with. CI and cloud builds such as GitHub Actions and EAS have no login, so they need a read-only token for this repository, set up as a Git credential.
+2. **`brand-sync` runs after every install.** It copies the `brand-ui` skill into `.claude/skills/brand-ui/` and adds that folder to `.gitignore`. Claude Code doesn't look for skills inside `node_modules`, so this copy is what makes the skill visible. Redoing it on every install keeps it on the pinned version.
+3. **Point Claude Code at the skill.** Add this line to the app's `CLAUDE.md` (or `AGENTS.md`):
+
+   ```text
+   For any UI work, use the brand-ui skill: it has the Yusai Tajiri brand rules for this app.
+   ```
+
+   The skill's description already says when it applies, and the line makes sure it gets used. Other coding agents don't read Claude Code skills, so point them at `.claude/skills/brand-ui/SKILL.md` in their own instruction file.
+4. **Use the files from the package.**
+   - **Web:** `@import "@yusai/brand/tokens/tokens.css";` (and `@yusai/brand/ui/ui.css` for the elements). Put the app's id on the root element (`<html data-app="kikitori">`) and build with `var(--accent)`, `var(--space-6)` and so on. The brand's own pages need no `data-app`; their accent is moss.
+   - **React Native / Expo:** `import { appColors } from "@yusai/brand/tokens/tokens";` and use `appColors("kikitori", "light")` (or `"dark"`, from the system color scheme). It returns every color with `accent` set to the app's own.
+   - **App icon:** take the app's set from `node_modules/@yusai/brand/icons/<app>/`. For Tauri, point `tauri icon` at `icon-1024.png` there, then replace the `.ico` it writes with the kit's `icon.ico`, which draws the small sizes properly. Icons generated into the app are part of its build, so commit those like any other icon.
+5. **Upgrade on purpose.** Change the tag (`#v1.1.0`) and install again. `CHANGELOG.md` says what changed between the two versions and what the app needs to do. An agent can carry it out: "Upgrade @yusai/brand from v1.0.0 to v1.1.0, following its CHANGELOG."
+
+## Changing the kit
+
+`AGENTS.md` has the steps for versions and releases. Two habits keep the rules working:
+
+- **Write each rule twice:** in this README for people and in `skills/brand-ui/SKILL.md` for agents. Also add an entry to `CHANGELOG.md`.
+- **Name the stock styles you see.** When an agent's output shows a stock style that isn't in the skill's *Generic defaults to avoid*, add it to that list by name. A general "avoid a generic look" only swaps one default for another, while named patterns get followed.
