@@ -1,7 +1,7 @@
 /* Yusai Tajiri UI elements, built only on tokens/tokens.css.
    Import after the tokens:  @import "../tokens/tokens.css"; @import "ui.css";
-   Everything is plain except the primary button, the one place an element carries the kamon
-   (see the end of this file and docs/direction-kamon-ui.md). */
+   The kamon reaches the UI only as its double line, at the end of this file: the primary button, the
+   frame and the rule (see docs/direction-double-line.md). Everything else is plain. */
 
 /* ---------------------------------------------------------------- base */
 
@@ -322,109 +322,45 @@
   text-wrap: balance;
 }
 
-/* ---------------------------------------------------------------- the kamon primary button */
-/* The one primary action in a view carries the kamon; nothing else does. Its outline is the 木瓜 frame's
-   notch: at each corner two outward quarter circles, the ends of two lobes, meet at an inward point,
-   as where a wide and a tall rounded rectangle overlap. A thin line runs parallel to that outline just
-   inside the edge, like the frame's inner line: its lobes share the outline's centres with a smaller
-   radius, and it rounds each notch with a small arc about the notch's point, so the strip outside it
-   and the line itself keep one width all the way round. Both are clip-path shapes behind the label, so
-   the focus ring is untouched. Browsers without shape() keep the plain primary button above. */
+/* ---------------------------------------------------------------- the double line */
+/* The 木瓜 frame is drawn as a double outline, and that line is the one part of the kamon the UI takes.
+   It comes in three forms:
+   - the primary button, the one accent-filled control, has a 1px line 3px inside its edge;
+   - .frame goes only on a container you are working in (an editor, an edit panel, a dialog), never
+     on two in one view;
+   - .rule, 子持ち罫, goes only under the app bar.
+   The recommended density is one of each per view; lighter is fine, denser is not. The frame and the
+   rule are neutral; the accent stays for what can be acted on. */
 
-@supports (clip-path: shape(from 0 0, line to 1px 1px)) {
-  .button-primary {
-    --notch: var(--radius-md); /* each lobe's radius; it must stay over 4px for the line inside it */
-    position: relative;
-    isolation: isolate;
-    border-color: transparent;
-    background: transparent;
-  }
+.button-primary {
+  position: relative;
+}
 
-  .button-primary:hover,
-  .button-primary:disabled:hover {
-    border-color: transparent;
-    background: transparent;
-  }
+/* The inner line. The button's border is 1px, so 2px into the padding box puts it 3px from the edge. */
+.button-primary::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 1px solid var(--on-accent);
+  border-radius: calc(var(--radius-md) - 3px);
+  pointer-events: none;
+}
 
-  /* Both layers cover the button out to its border's edge. */
-  .button-primary::before,
-  .button-primary::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    z-index: -1;
-  }
+/* The frame, in the logo frame's proportions: a 2px band, a 3px gap and a 1px line. The line is the
+   outline, so a framed container can't show a focus ring of its own; frame containers, not controls.
+   Leave space-6 or a heading between a frame and the rule. */
+.frame {
+  border: 2px solid var(--border-strong);
+  outline: 1px solid var(--border-strong);
+  outline-offset: -6px;
+}
 
-  /* The fill. */
-  .button-primary::before {
-    background: var(--accent);
-    transition: background-color 150ms;
-    clip-path: shape(
-      from calc(2 * var(--notch)) 0,
-      hline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch)) var(--notch) of var(--notch) cw,
-      arc to 100% calc(2 * var(--notch)) of var(--notch) cw,
-      vline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch)) calc(100% - var(--notch)) of var(--notch) cw,
-      arc to calc(100% - 2 * var(--notch)) 100% of var(--notch) cw,
-      hline to calc(2 * var(--notch)),
-      arc to var(--notch) calc(100% - var(--notch)) of var(--notch) cw,
-      arc to 0 calc(100% - 2 * var(--notch)) of var(--notch) cw,
-      vline to calc(2 * var(--notch)),
-      arc to var(--notch) var(--notch) of var(--notch) cw,
-      arc to calc(2 * var(--notch)) 0 of var(--notch) cw,
-      close
-    );
-  }
-
-  .button-primary:hover::before {
-    background: var(--accent-hover);
-  }
-
-  .button-primary:disabled:hover::before {
-    background: var(--accent);
-  }
-
-  /* The inner line: the outline offset 3px and 4px inward, filled between the two. */
-  .button-primary::after {
-    background: var(--on-accent);
-    clip-path: shape(evenodd
-      from calc(2 * var(--notch)) 3px,
-      hline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch) - 3px) var(--notch) of calc(var(--notch) - 3px) cw,
-      arc to calc(100% - var(--notch)) calc(var(--notch) + 3px) of 3px ccw,
-      arc to calc(100% - 3px) calc(2 * var(--notch)) of calc(var(--notch) - 3px) cw,
-      vline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch)) calc(100% - var(--notch) - 3px) of calc(var(--notch) - 3px) cw,
-      arc to calc(100% - var(--notch) - 3px) calc(100% - var(--notch)) of 3px ccw,
-      arc to calc(100% - 2 * var(--notch)) calc(100% - 3px) of calc(var(--notch) - 3px) cw,
-      hline to calc(2 * var(--notch)),
-      arc to calc(var(--notch) + 3px) calc(100% - var(--notch)) of calc(var(--notch) - 3px) cw,
-      arc to var(--notch) calc(100% - var(--notch) - 3px) of 3px ccw,
-      arc to 3px calc(100% - 2 * var(--notch)) of calc(var(--notch) - 3px) cw,
-      vline to calc(2 * var(--notch)),
-      arc to var(--notch) calc(var(--notch) + 3px) of calc(var(--notch) - 3px) cw,
-      arc to calc(var(--notch) + 3px) var(--notch) of 3px ccw,
-      arc to calc(2 * var(--notch)) 3px of calc(var(--notch) - 3px) cw,
-      close,
-      move to calc(2 * var(--notch)) 4px,
-      hline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch) - 4px) var(--notch) of calc(var(--notch) - 4px) cw,
-      arc to calc(100% - var(--notch)) calc(var(--notch) + 4px) of 4px ccw,
-      arc to calc(100% - 4px) calc(2 * var(--notch)) of calc(var(--notch) - 4px) cw,
-      vline to calc(100% - 2 * var(--notch)),
-      arc to calc(100% - var(--notch)) calc(100% - var(--notch) - 4px) of calc(var(--notch) - 4px) cw,
-      arc to calc(100% - var(--notch) - 4px) calc(100% - var(--notch)) of 4px ccw,
-      arc to calc(100% - 2 * var(--notch)) calc(100% - 4px) of calc(var(--notch) - 4px) cw,
-      hline to calc(2 * var(--notch)),
-      arc to calc(var(--notch) + 4px) calc(100% - var(--notch)) of calc(var(--notch) - 4px) cw,
-      arc to var(--notch) calc(100% - var(--notch) - 4px) of 4px ccw,
-      arc to 4px calc(100% - 2 * var(--notch)) of calc(var(--notch) - 4px) cw,
-      vline to calc(2 * var(--notch)),
-      arc to var(--notch) calc(var(--notch) + 4px) of calc(var(--notch) - 4px) cw,
-      arc to calc(var(--notch) + 4px) var(--notch) of 4px ccw,
-      arc to calc(2 * var(--notch)) 4px of calc(var(--notch) - 4px) cw,
-      close
-    );
-  }
+/* The rule: 子持ち罫, a 2px line over a 1px line with 3px between, thick on top. Use an <hr>. */
+.rule {
+  box-sizing: border-box;
+  height: 6px;
+  margin: 0;
+  border: 0;
+  border-top: 2px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
 }

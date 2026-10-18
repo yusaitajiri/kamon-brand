@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ja" data-app="kikitori">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double line variants</title>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../../ui/ui.css">
+<style>
+  /* Study layout only. The second round of docs/kamon-ui/double-line.html: more ways to draw D (the
+     double line frames the cards) and E (the double line as a rule). Every column keeps the plain
+     primary button with its inner line. The second line is 1px and 3px from the first unless a
+     variant says otherwise, and every line is a neutral border color: the accent stays for actions. */
+  body { margin: 0; }
+  main { padding: var(--space-12) var(--space-8); }
+  .intro { max-width: 720px; }
+  .intro h1 { margin: 0; font: var(--text-title); }
+  .intro p, .group > p { margin: var(--space-2) 0 0; max-width: 720px; color: var(--ink-muted); }
+  .group { margin-top: var(--space-12); }
+  .group > h2 { margin: 0; font: var(--text-heading); }
+  .columns { display: grid; grid-template-columns: repeat(6, 300px); gap: var(--space-6); margin-top: var(--space-6); }
+  .head h3 { margin: 0; font: var(--text-label); }
+  .head p { margin: var(--space-1) 0 0; min-height: 88px; font: var(--text-body-small); color: var(--ink-muted); }
+  .screen { margin-top: var(--space-3); padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+
+  /* The sample screen, as in ui/sample.html. */
+  .bar { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
+  img { display: block; }
+  .screen h4 { margin: var(--space-6) 0 var(--space-4); font: var(--text-title); }
+  .screen h5 { margin: var(--space-8) 0 var(--space-3); font: var(--text-heading); }
+  .tags { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+  .screen .card { position: relative; padding: var(--space-4); }
+  .list-row { padding: var(--space-2); }
+  .form { display: flex; flex-direction: column; gap: var(--space-4); }
+  .actions { display: flex; gap: var(--space-3); }
+  .screen .card .empty { padding: var(--space-8) var(--space-4); }
+
+  /* The plain primary with its inner line, in every column. */
+  .button-primary::before { clip-path: none; border-radius: var(--radius-md); }
+  .button-primary::after {
+    inset: 2px;
+    clip-path: none;
+    background: none;
+    border: 1px solid var(--on-accent);
+    border-radius: calc(var(--radius-md) - 3px);
+  }
+
+  /* ================================================================ D: frames */
+
+  /* D1. A hairline 3px inside the border. */
+  .d1 .card { outline: 1px solid var(--border); outline-offset: -5px; }
+
+  /* D2. The same with a 6px gap, so it reads as a mount rather than a thick border. */
+  .d2 .card { outline: 1px solid var(--border); outline-offset: -8px; }
+  .d2 .screen .card { padding: var(--space-6) var(--space-4); }
+
+  /* D3. Weighted like the logo: a 2px outer band, a 3px gap and a 1px line. */
+  .d3 .card { border: 2px solid var(--border-strong); outline: 1px solid var(--border-strong); outline-offset: -6px; }
+
+  /* D4. A mat: the 3px between the two lines is filled with the sunken surface. */
+  .d4 .card { isolation: isolate; background: var(--surface-sunken); }
+  .d4 .card::before {
+    content: ""; position: absolute; inset: 3px; z-index: -1;
+    border: 1px solid var(--border); border-radius: calc(var(--radius-lg) - 4px); background: var(--surface-raised);
+  }
+
+  /* D5. Only the top edge is doubled, a line 3px under it between the corners. */
+  .d5 .card::before {
+    content: ""; position: absolute; top: 3px; left: var(--radius-lg); right: var(--radius-lg);
+    border-top: 1px solid var(--border-strong);
+  }
+  .d5 .card { border-top-color: var(--border-strong); }
+
+  /* D6. One framed card per view, like the one primary: the card you are working in. */
+  .d6 .card.form { outline: 1px solid var(--border); outline-offset: -5px; }
+
+  /* ================================================================ E: rules */
+
+  /* A double rule: two 1px lines, 3px apart. */
+  .rule, .e1 h5::after, .e2 h5::after, .e4 h5::after, .e5 h5::after { content: ""; height: 5px; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+  .e1 .bar, .e3 .bar, .e4 .bar { position: relative; padding-bottom: var(--space-3); }
+  .e1 .bar::after, .e3 .bar::after, .e4 .bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+
+  /* E1. Under the app bar and after each section title. */
+  .e1 h5 { display: flex; align-items: center; gap: var(--space-3); }
+  .e1 h5::after { flex: 1; }
+
+  /* E2. Under each section title, the full width. The app bar stays plain. */
+  .e2 h5 { display: flex; flex-direction: column; gap: var(--space-2); }
+
+  /* E3. Under the app bar only: one rule per screen. */
+
+  /* E4. 子持ち罫, a thick and a thin line, under the app bar and after each title. */
+  .e4 .bar::after, .e4 h5::after { height: 6px; border-top-width: 2px; }
+  .e4 h5 { display: flex; align-items: center; gap: var(--space-3); }
+  .e4 h5::after { flex: 1; }
+
+  /* E5. A ledger: no cards. Each section opens with the double rule and rows are split by single lines. */
+  .e5 h5 { display: flex; align-items: center; gap: var(--space-3); }
+  .e5 h5::after { flex: 1; }
+  .e5 .screen .card { padding: 0; border: 0; border-radius: 0; background: none; }
+  .e5 .list { gap: 0; }
+  .e5 .list-row + .list-row { border-top: 1px solid var(--border); border-radius: 0; }
+  .e5 .screen .card .empty { padding: var(--space-6) var(--space-4); }
+
+  /* E6. A short double rule under each title, as long as the space between sections. */
+  .e6 h5 { display: flex; flex-direction: column; gap: var(--space-2); }
+  .e6 h5::after { content: ""; width: var(--space-8); height: 5px; border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border-strong); }
+</style>
+</head>
+<body class="ui">
+<main>
+  <div class="intro">
+    <h1>Double line variants</h1>
+    <p>The second round of the double line study, on the same Kikitori screen: six ways to frame the cards
+    (D) and six ways to draw the rule (E). Every column has the plain primary with its inner line. All the
+    added lines are neutral border colors, so the accent still marks only what can be acted on.</p>
+  </div>
+
+  <section class="group">
+    <h2>D. The double line frames the cards</h2>
+    <p>Like the frame around the motif: the card's border and a second line inside it.</p>
+    <div class="columns" data-group="d"></div>
+  </section>
+
+  <section class="group">
+    <h2>E. The double line as a rule</h2>
+    <p>The double line drawn as a horizontal rule, as in a ledger or a printed form. Cards stay single.</p>
+    <div class="columns" data-group="e"></div>
+  </section>
+</main>
+
+<template id="screen">
+  <div class="bar">
+    <span class="brand"><picture><source srcset="../../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/kikitori.svg" width="32" height="32" alt=""></picture>Kikitori</span>
+    <button class="button button-quiet">設定</button>
+  </div>
+  <h4>記録</h4>
+  <input class="input" placeholder="記録を検索" aria-label="記録を検索">
+  <div class="tags">
+    <span class="tag" aria-pressed="true">すべて</span>
+    <span class="tag">仕事</span>
+    <span class="tag">メモ</span>
+  </div>
+
+  <h5>最近の記録</h5>
+  <div class="card">
+    <ul class="list">
+      <li class="list-row" aria-selected="true"><span>週次ミーティング</span><span class="list-meta">10:42</span></li>
+      <li class="list-row"><span>インタビュー 後半</span><span class="list-meta">09:15</span></li>
+      <li class="list-row"><span>読書メモ</span><span class="list-meta">昨日</span></li>
+    </ul>
+  </div>
+
+  <h5>新しい記録</h5>
+  <div class="card form">
+    <label class="field"><span class="field-label">タイトル</span><input class="input" value="週次ミーティング"></label>
+    <label class="field"><span class="field-label">種類</span><span class="select-wrap"><select class="select"><option>メモ</option></select></span></label>
+    <label class="switch">リマインダー<input type="checkbox" role="switch" checked></label>
+    <label class="check"><input type="checkbox">下書きとして保存</label>
+    <div class="actions">
+      <button class="button button-primary">保存</button>
+      <button class="button">キャンセル</button>
+    </div>
+  </div>
+
+  <h5>アーカイブ</h5>
+  <div class="card">
+    <div class="empty">
+      <picture><source srcset="../../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/kikitori.svg" width="48" height="48" alt=""></picture>
+      まだ記録がありません。最初の一行を書いてみましょう。
+    </div>
+  </div>
+</template>
+
+<script>
+  const variants = {
+    d: [
+      ["d1", "D1. Hairline inside", "The round-one version: a 1px line 3px inside the card's border."],
+      ["d2", "D2. Wide mount", "The inner line 6px in, with a little more padding, so the gap reads as a mount around the content."],
+      ["d3", "D3. Weighted like the logo", "A 2px outer band, a 3px gap and a 1px line, the logo frame's proportions. Stronger borders throughout."],
+      ["d4", "D4. Filled mat", "The 3px between the lines takes the sunken surface, so the card sits in a tray."],
+      ["d5", "D5. Top edge only", "Only the top is doubled, a line 3px under it between the corners, like a binder's edge."],
+      ["d6", "D6. One framed card", "Only the card you are working in gets the frame, one per view like the primary button."],
+    ],
+    e: [
+      ["e1", "E1. Bar and titles", "The round-one version: a rule under the app bar and one running on after each section title."],
+      ["e2", "E2. Under titles", "A full-width rule under each section title. The app bar stays plain."],
+      ["e3", "E3. App bar only", "One rule per screen, under the app bar. The quietest version."],
+      ["e4", "E4. 子持ち罫", "A thick line over a thin one, the classic Japanese typesetting rule, under the bar and after each title."],
+      ["e5", "E5. Ledger, no cards", "The rules replace the cards. Each section opens with the double rule, rows are split by single lines."],
+      ["e6", "E6. Short rule", "A 32px double rule under each title, the length of the space between sections."],
+    ],
+  };
+  const tpl = document.getElementById("screen");
+  for (const [group, list] of Object.entries(variants)) {
+    const cols = document.querySelector(`[data-group="${group}"]`);
+    for (const [cls, name, note] of list) {
+      const col = document.createElement("div");
+      col.className = cls;
+      col.innerHTML = `<div class="head"><h3>${name}</h3><p>${note}</p></div>`;
+      const screen = document.createElement("div");
+      screen.className = "screen";
+      screen.append(tpl.content.cloneNode(true));
+      col.append(screen);
+      cols.append(col);
+    }
+  }
+</script>
+</body>
+</html>

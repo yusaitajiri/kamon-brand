@@ -7,11 +7,13 @@
 <link rel="stylesheet" href="../tokens/tokens.css">
 <link rel="stylesheet" href="ui.css">
 <style>
-  /* Sample layout only: one phone-width screen in Kikitori's color. The kamon is the logo, the one
-     primary button and the empty state's mark; everything else is plain. */
+  /* Sample layout only: one phone-width screen in Kikitori's color. The kamon is the logo, the empty
+     state's mark and its double line: the rule under the app bar, the frame on the card you write in and
+     the inner line of the one primary button. Everything else is plain. */
   body { margin: 0; }
   main { max-width: 360px; margin: 0 auto; padding: var(--space-4); }
   .bar { display: flex; align-items: center; justify-content: space-between; }
+  .rule { margin-top: var(--space-3); }
   .brand { display: flex; align-items: center; gap: var(--space-2); font: var(--text-label); }
   img { display: block; }
   h1 { margin: var(--space-6) 0 var(--space-4); font: var(--text-title); }
@@ -30,6 +32,7 @@
     <span class="brand"><picture><source srcset="../logo/kikitori-on-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/kikitori.svg" width="32" height="32" alt=""></picture>Kikitori</span>
     <button class="button button-quiet">設定</button>
   </div>
+  <hr class="rule">
   <h1>記録</h1>
   <input class="input" placeholder="記録を検索" aria-label="記録を検索">
   <div class="tags">
@@ -48,7 +51,7 @@
   </div>
 
   <h2>新しい記録</h2>
-  <div class="card form">
+  <div class="card frame form">
     <label class="field"><span class="field-label">タイトル</span><input class="input" value="週次ミーティング"></label>
     <label class="field"><span class="field-label">種類</span><span class="select-wrap"><select class="select"><option>メモ</option><option>タスク</option></select></span></label>
     <label class="switch">リマインダー<input type="checkbox" role="switch" checked></label>
