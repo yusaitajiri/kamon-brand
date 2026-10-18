@@ -6,6 +6,9 @@ Versions follow semver. A major version changes how an app that follows the rule
 
 ## Unreleased
 
+- **The kit is public.** The tokens, `ui.css`, the brand-ui skill and the scripts are under the MIT License. The logos, icons and names stay reserved (`LICENSE`, `TRADEMARKS.md`). Installing no longer needs a GitHub login or a CI token.
+- **The README installs the kit as a dev dependency.** Nothing from it runs in the shipped app. Apps already on `dependencies` can move it over with nothing else to change.
+
 ## 1.0.0 — 2026-10-18
 
 The first versioned release. It contains:
